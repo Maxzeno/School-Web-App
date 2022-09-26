@@ -1,0 +1,91 @@
+
+        <form method="POST" class="d-block ajaxForm" action="/portal/admin/exam/manage_exam/edit/{{ exam.pk }}" novalidate="novalidate">
+            {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="exam_name">Exam name <em style="font-color:#ff0000;">*</em></label>
+            <input type="text" class="form-control" id="exam_name" value="{{ exam.exam_name }}" name="exam_name" placeholder="name" required="">
+            <small id="name_help" class="form-text text-muted">Provide exam name</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="exam_session">Exam session <em style="font-color:#ff0000;">*</em></label>
+            <select name="exam_session" id="exam_session" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+                <option value="">Select session</option>
+                {% for ses in sessions %}
+                    <option value="{{ ses.session }}" {% if exam.exam_session.session == ses.session %} selected {% endif %}>{{ ses.session }}</option>
+                {% endfor %}
+            </select>
+            <small id="session_help" class="form-text text-muted">Provide exam session</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="exam_term">Exam term <em style="font-color:#ff0000;">*</em></label>
+            <select name="exam_term" id="exam_term" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+                <option value="">Select term</option>
+                <option value="FIRST" {% if exam.exam_term == 'FIRST' %} selected {% endif %}>First</option>
+                <option value="SECOND" {% if exam.exam_term == 'SECOND' %} selected {% endif %}>Second</option>
+                <option value="THIRD" {% if exam.exam_term == 'THIRD' %} selected {% endif %}>Third</option>
+                <option value="ANNUAL" {% if exam.exam_term == 'ANNUAL' %} selected {% endif %}>Annual</option>
+            </select>
+            <small id="term_help" class="form-text text-muted">Provide exam term</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="starting_date">Starting date <em style="font-color:#ff0000;">*</em></label>
+            <input type="text" class="form-control date" id="starting_date" value="{% if exam.exam_starts %} {{ exam.exam_starts }} {% else %}  {% endif %}" data-toggle="date-picker" data-single-date-picker="true" name="starting_date" placeholder="" required="">
+            <small id="name_help" class="form-text text-muted">Provide starting date</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="ending_date">Ending date <em style="font-color:#ff0000;">*</em></label>
+            <input type="text" class="form-control date" id="ending_date" data-toggle="date-picker" value="{% if exam.exam_ends %} {{ exam.exam_ends }} {% else %}  {% endif %}" data-single-date-picker="true" name="ending_date" placeholder="" required="">
+            <small id="name_help" class="form-text text-muted">Provide ending date</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="next_term_begins">Next term begins</label>
+            <input type="text" class="form-control date" id="next_term_begins" value="{% if exam.next_term_begins %} {{ exam.exam_starts }} {% else %}  {% endif %}" data-toggle="date-picker" data-single-date-picker="true" name="next_term_begins" required="">
+            <small id="next_term_begins_help" placeholder="" class="form-text text-muted">Provide next term begins</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="next_term_ends">Next term ends</label>
+            <input type="text" class="form-control date" id="next_term_ends" value="{% if exam.next_term_ends %} {{ exam.exam_starts }} {% else %}  {% endif %}" data-toggle="date-picker" data-single-date-picker="true" name="next_term_ends" required="">
+            <small id="next_term_ends_help" placeholder="" class="form-text text-muted">Provide next term ends</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="exam_comment">Comment</label>
+            <textarea class="form-control" id="exam_comment" name="exam_comment" placeholder="comment">{{ exam.comment }}</textarea>
+            <small id="comment_help" class="form-text text-muted">Provide comment</small>
+        </div>
+
+        <div class="form-group  col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Update exam</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(".ajaxForm").validate({}); // Jquery form validation initialization
+    $(".ajaxForm").submit(function(e) {
+        var form = $(this);
+        ajaxSubmit(e, form, showAllExams);
+    });
+
+
+    $(document).ready(function() {
+         $("#starting_date" ).daterangepicker();
+        $("#ending_date" ).daterangepicker();
+        $("#next_term_begins" ).daterangepicker();
+        $("#next_term_ends" ).daterangepicker();
+
+    });
+
+
+$(document).ready(function () {
+  initSelect2(['#exam_term', '#exam_session']);
+});
+
+</script>

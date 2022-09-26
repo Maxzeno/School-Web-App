@@ -1,0 +1,256 @@
+{% extends 'semiadmin/base.html' %}
+{% load static replacefilter %}
+
+{% block head %} 
+<title>Update student information | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                        <!--title-->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">
+                <i class="mdi mdi-update title_icon"></i> Student update form            </h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card pt-0">
+                                                <h4 class="text-center mx-0 py-2 mt-0 mb-3 px-0 text-white bg-primary">Update student information</h4>
+            <form method="POST" class="col-12 d-block ajaxForm" action="/portal/admin/student/student_update/{{ student_class }}/{{ student_class_room }}/{{ id }}" id = "student_update_form" enctype="multipart/form-data">
+              {% csrf_token %}
+                <!--<input type="hidden" name="class_id" value="">
+                <input type="hidden" name="section_id" value="">-->
+                <div class="col-md-12">
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="name">Name</label>
+                        <div class="col-md-9">
+                            <input type="text" id="name" name="name" class="form-control"  value="{{ student.name }}" placeholder="name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="email">Email</label>
+                        <div class="col-md-9">
+                            <input type="email" class="form-control" id="email" name="email" value="{{ student.email }}" placeholder="email">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="student_id">Student id</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="student_id" name="student_id" value="{{ student.student_id }}" placeholder="Student ID" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="password">Password</label>
+                        <div class="col-md-9">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="password">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="parent_id">Parent</label>
+                        <div class="col-md-9">
+                            <select id="parent_id" name="parent_id" class="form-control select2"  data-toggle="select2">
+                                <option value="">Select A Parent</option>
+                                  {% for parent in parents %}
+                                  <option value="{{ parent.id }}" 
+                                  {% if student.parent.id == parent.id %} selected {% endif %}>{{ parent.title }} {{ parent.name }}</option>                                                               
+                                  {% endfor %}
+                                </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="class_id">Class</label>
+                        <div class="col-md-9">
+                            <select name="class_id" id="class_id" class="form-control" required onchange="classWiseSectionOnStudentEdit(this.value)">
+                                <option value="">Select a class</option>
+
+                                {% for the_class in the_classes %}
+                                <option value="{{ the_class.the_class }}" {% if student.student_class_room.the_class.the_class == the_class.the_class %} selected {% endif %}>{{ the_class.the_class }}</option>
+                                {% endfor %}
+                            </select>
+                    </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="section_id">Section</label>
+                        <div class="col-md-9" id = "section_content">
+                            <select name="section_id" id="section_id" class="form-control">
+                                {% if not student_rooms %}
+                                    <option value="">No section found</option>
+                                {% endif %}
+                                {% for student_room in student_rooms %}
+                                <option value="{{ student_room }}" {% if student.student_class_room.the_section == student_room %} selected {% endif %}>{{ student_room }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="birthdatepicker">Birthday</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control date" id="birthdatepicker" data-toggle="date-picker" data-single-date-picker="true" name = "birthday"  value="{% if student.birthday %} {{ student.birthday }} {% endif %}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="gender">Gender</label>
+                        <div class="col-md-9">
+                            <select name="gender" id="gender" class="form-control">
+                                <option value="">Select gender</option>
+                                <option value="Male" {% if student.gender.lower == 'male' %} selected {% endif %}>Male</option>
+                                <option value="Female" {% if student.gender.lower == 'female' %} selected {% endif %}>Female</option>
+                                <option value="Others" {% if student.gender.lower == 'others' %} selected {% endif %}>Others</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="blood_group">Blood group</label>
+                        <div class="col-md-9">
+                            <select name="blood_group" id="blood_group" class="form-control select2" data-toggle = "select2">
+                                <option value="">Select a blood group</option>
+                                <option value="a+" {% if student.blood_group.lower == 'a+' %} selected {% endif %} >A+</option>
+                                <option value="a-" {% if student.blood_group.lower == 'a-' %} selected {% endif %} >A-</option>
+                                <option value="b+" {% if student.blood_group.lower == 'b+' %} selected {% endif %} >B+</option>
+                                <option value="b-" {% if student.blood_group.lower == 'b-' %} selected {% endif %} >B-</option>
+                                <option value="ab+" {% if student.blood_group.lower == 'ab+' %} selected {% endif %}>AB+</option>
+                                <option value="ab-" {% if student.blood_group.lower == 'ab-' %} selected {% endif %}>AB-</option>
+                                <option value="o+" {% if student.blood_group.lower == 'o+' %} selected {% endif %} >O+</option>
+                                <option value="o-" {% if student.blood_group.lower == 'o-' %} selected {% endif %} >O-</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="example-textarea">Address</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" id="example-textarea" rows="5" name = "address" placeholder="address">{{ student.address }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="phone">Phone</label>
+                        <div class="col-md-9">
+                            <input type="text" id="phone" name="phone" class="form-control" value="{{ student.phone }}" placeholder="phone">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label" for="example-fileinput">Student profile image</label>
+                        <div class="col-md-9 custom-file-upload">
+                            <div class="wrapper-image-preview" style="margin-left: -6px;">
+                                <div class="box" style="width: 250px;">
+                                    <div class="js--image-preview" style="background-image: url({{ student.get_photo }}); background-color: #F5F5F5;"></div>
+                                    <div class="upload-options">
+                                        <label for="student_image" class="btn"> <i class="mdi mdi-camera"></i> Upload an image </label>
+                                        <input id="student_image" style="visibility:hidden;" type="file" class="image-upload" name="student_image" accept="image/*">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-secondary col-md-4 col-sm-12 mb-4">Update student information</button>
+                        <button type="button" class="btn return btn-primary col-md-4 col-sm-12 mb-4">Return to list</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function () {
+  initSelect2(['#class_id', '#section_id', '#gender']);
+});
+
+
+var section_id = '';
+$('document').ready(function(){
+    $(document).on('click', '.return', function() {
+        var class_id = $('#class_id').val();
+        var section_id = $('#section_id').val();
+
+        if (section_id && class_id) {
+            window.location = "/portal/admin/student/return/"+ class_id + "/" + section_id;
+        }
+    });
+});
+
+var form;
+$(".ajaxForm").submit(function(e) {
+    form = $(this);
+    ajaxSubmit(e, form, refreshForm);
+});
+
+var refreshForm = function () {
+
+}
+
+function classWiseSectionOnStudentEdit(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section_modal/"+classId+"?select_text=Select a section",
+        success: function(response){
+            $('#section_id').html(response);
+            $('#section_id').val(section_id).change();
+        }
+    });
+}
+
+
+</script>
+
+<script>
+
+function classWiseSection(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section/"+classId,
+        success: function(response){
+            $('#section_id').html(response);
+            $('#section_id').val(section_id).change();
+        }
+    });
+}
+
+function filter_student(class_id, section_id){
+    if (class_id == '')
+        var class_id = $('#class_id').val();
+
+    if (section_id == '')
+        var section_id = $('#section_id').val();
+
+    if(class_id != "" && section_id!= ""){
+        showAllStudents(class_id, section_id);
+    }else{
+        toastr.error('Please select a class and section');
+    }
+}
+
+var showAllStudents = function(class_id, section_id) {
+    if (class_id == '')
+        var class_id = $('#class_id').val();
+
+    if (section_id == '')
+        var section_id = $('#section_id').val();
+
+    if(class_id != "" && section_id!= ""){
+        $.ajax({
+            url: '/portal/admin/student/filter/student_filter/'+class_id+'/'+section_id,
+            success: function(response){
+                $('.student_content').html(response);
+            }
+        });
+    }
+}
+</script>
+ {% endblock %}
+                 

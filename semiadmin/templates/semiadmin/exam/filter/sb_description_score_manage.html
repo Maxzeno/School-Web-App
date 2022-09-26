@@ -1,0 +1,141 @@
+<hr>
+<div class="row" style="text-align: center;">
+	<div class="col-sm-4"></div>
+	<div class="col-sm-4">
+		<div class="tile-stats tile-gray">
+			<div class="icon"><i class="entypo-chart-bar"></i></div>
+			
+			<h3 style="color: #696969;">{{ exam.exam_name|title }} [{{ exam.exam_term }}]</h3>
+			<h4 style="color: #696969;">
+				Class {{ class_room.the_class.the_class }} : 
+				Section {{ class_room.the_section }} 
+			</h4>
+			<h4 style="color: #696969;">
+				Skill &amp; behaviour scores			</h4>
+		</div>
+	</div>
+	<div class="col-sm-4"></div>
+</div>
+<div id="row" class="table-responsive">
+	<div id="col-sm-12">
+		<form method="POST" class="d-blockx ajaxForm domainForm" id="domain-form" action="/portal/admin/sb_description_score/set">
+			{% csrf_token %}
+			<input type="hidden" name="exam_id" value="{{ exam_id }}">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Student id</th>
+						<th>Name</th>
+						<th style="width: 3em">Honesty</th>
+						<th style="width: 3em">Neatness</th>
+						<th style="width: 3em">Punctuality</th>
+						<th style="width: 3em">Attentiveness in class</th>
+						<th style="width: 3em">Organizational ability</th>
+						<th style="width: 3em">Perseverance</th>
+						<th style="width: 3em">Self control</th>
+						<th style="width: 3em">Arts and crafts</th>
+						<th style="width: 3em">Drawing and painting</th>
+						<th style="width: 3em">Labour and Workshop</th>
+						<th style="width: 3em">Fluency</th>
+						<th style="width: 3em">Sport and gymnastics</th>
+						<th style="width: 3em">Handwriting</th>
+						<th>House master comment</th>
+						<th>Teacher comment</th>
+						<th>Principal comment</th>
+						<th>Principal subject code</th>
+					</tr>
+				</thead>
+					<tbody>
+						{% for domain_score in domain_scores %}
+						<tr>
+									
+						<td>{{ forloop.counter }}</td>
+						<td>{{ domain_score.0.pk|upper }}
+							<input type="hidden"  name="student" value="{{ domain_score.0.pk }}" title="{{ domain_score.0.name }}">
+						</td>
+						<td>{{ domain_score.0.name }}</td>
+													<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="honesty" value="{{ domain_score.2 }}" title="{{ domain_score.0.name }}">	
+							</td>
+															<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="neatness" value="{{ domain_score.3 }}" title="{{ domain_score.0.name }}">	
+							</td>
+															<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="punctuality" value="{{ domain_score.4 }}" title="{{ domain_score.0.name }}">	
+							</td>
+															<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="attentiveness_in_class" value="{{ domain_score.5 }}" title="{{ domain_score.0.name }}">	
+							</td>
+															<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="organizational_ability" value="{{ domain_score.6 }}" title="{{ domain_score.0.name }}">	
+							</td>
+															<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="perseverance" value="{{ domain_score.7 }}" title="{{ domain_score.0.name }}">	
+							</td>
+															<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="self_control" value="{{ domain_score.8 }}" title="{{ domain_score.0.name }}">	
+							</td>
+															<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="arts_and_crafts" value="{{ domain_score.9 }}" title="{{ domain_score.0.name }}">	
+							</td>
+															<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="drawing_and_painting" value="{{ domain_score.10 }}" title="{{ domain_score.0.name }}">	
+							</td>
+															<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="labour_and_workshop" value="{{ domain_score.11 }}" title="{{ domain_score.0.name }}">	
+							</td>
+															<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="fluency" value="{{ domain_score.12 }}" title="{{ domain_score.0.name }}">	
+							</td>
+															<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="sport_and_gymnastics" value="{{ domain_score.13 }}" title="{{ domain_score.0.name }}">	
+							</td>
+															<td>
+								<input style="width: 4em" type="number" min="1" max="5" class="form-control" name="handwriting" value="{{ domain_score.14 }}" title="{{ domain_score.0.name }}">	
+							</td>
+							
+							<td>
+							 <select name="housemaster_code" id="housemaster_code" class="form-control selectboxit" title="{{ domain_score.0.name }}">
+									<option value=""> --</option>
+									{% for housemaster_code in housemaster_codes %}
+									<option value="{{ housemaster_code.pk }}" {% if housemaster_code.pk == domain_score.15 %} selected {% endif %}>{{ housemaster_code.code_number }}</option>
+								{% endfor %}
+							</select>
+							</td>
+							<td>
+								<select name="teacher_code" id="teacher_code" class="form-control selectboxit" title="{{ domain_score.0.name }}">
+									<option value=""> --</option>
+									{% for teacher_code in teacher_codes %}
+									<option value="{{ teacher_code.pk }}" {% if teacher_code.pk == domain_score.16 %} selected {% endif %}>{{ teacher_code.code_number }}</option>
+								{% endfor %}
+								</select>
+							</td>
+							<td>
+								<select name="principal_code" id="principal_code" class="form-control selectboxit" title="{{ domain_score.0.name }}">
+									<option value=""> --</option>
+								{% for principal_code in principal_codes %}
+									<option value="{{ principal_code.pk }}" {% if principal_code.pk == domain_score.17 %} selected {% endif %}>{{ principal_code.code_number }}</option>
+								{% endfor %}
+								</select>
+							</td>
+							<td>
+								<select style="width: 7em" name="subject_code--{{ domain_score.0.pk }}" id="subject_code-{{ domain_score.0.pk }}" class="form-control" multiple="" title="{{ domain_score.0.name }}">
+									<option value=""> --</option>
+									{% for subject_code in subject_codes %}
+									<option value="{{ subject_code.pk }}" {% if subject_code.pk in domain_score.19 %} selected {% endif %}>{{ subject_code.subject_code }}</option>
+								{% endfor %}
+								</select> 
+						</td>
+					</tr>
+					{% endfor %}
+
+</tbody>
+</table>
+<center>
+				<button type="submit" class="btn btn-success" onclick="domainForm()" id="submit_button">
+					<i class="entypo-check"></i> Save changes				</button>
+			</center>
+</form>
+</div>
+</div>

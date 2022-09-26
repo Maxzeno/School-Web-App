@@ -1,0 +1,162 @@
+{% load replacefilter %}
+<div class="row mb-3">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 toll-free-box text-center text-white pb-2" style="background-color: #6c757d; border-radius: 10px;">
+        <h4>Manage marks</h4>
+        <span>Exam : {{ exam_year_slash }} Examination | {{ exam.exam_term }} | {{ exam.exam_session.session }}</span><br>
+        <span>Class : {{ the_class }} | Section : {{ the_section }}</span><br>
+        <span>Subject : {{ subject }}</span>
+    </div>
+</div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-responsive-sm" width="100%">
+            <thead class="thead-dark">
+                <tr>
+                    {% for thead in theads %}
+                    <th>{{ thead }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for mark_list in marks_list %}
+                    <tr>
+                        <td>{{ mark_list.0.name }}</td>
+
+                        <td><input max="10" min="0" class="form-control ca1" type="number" id="ca1-{{ mark_list.0.pk|replace_with_dash }}" name="ca1" placeholder="Score" value="{{ mark_list.1 }}" required="" onchange="get_grade_no_midterm('{{ mark_list.0.pk|replace_with_dash }}');get_total_score_no_midterm(523);get_grade_remark_no_midterm('{{ mark_list.0.pk|replace_with_dash }}');"></td>
+
+                        <td><input max="10" class="form-control ca2" type="number" id="ca2-{{ mark_list.0.pk|replace_with_dash }}" name="ca2" placeholder="Score" min="0" value="{{ mark_list.2 }}" required="" onchange="get_grade_no_midterm('{{ mark_list.0.pk|replace_with_dash }}');get_total_score_no_midterm('{{ mark_list.0.pk|replace_with_dash }}');get_grade_remark_no_midterm('{{ mark_list.0.pk|replace_with_dash }}');"></td>
+
+                        <td><input max="10" min="0" class="form-control ca3" type="number" id="ca3-{{ mark_list.0.pk|replace_with_dash }}" name="ca3" placeholder="Score" value="{{ mark_list.3 }}" required="" onchange="get_grade_no_midterm('{{ mark_list.0.pk|replace_with_dash }}');get_total_score_no_midterm('{{ mark_list.0.pk|replace_with_dash }}');get_grade_remark_no_midterm('{{ mark_list.0.pk|replace_with_dash }}');"></td>
+
+                        <td><input max="70" min="0" class="form-control exam_score" type="number" id="mark-{{ mark_list.0.pk|replace_with_dash }}" name="exam_score" placeholder="Score" value="{{ mark_list.4 }}" required="" onchange="get_grade_no_midterm('{{ mark_list.0.pk|replace_with_dash }}');get_total_score_no_midterm('{{ mark_list.0.pk|replace_with_dash }}');get_grade_remark_no_midterm('{{ mark_list.0.pk|replace_with_dash }}');"></td>
+
+                        <td><span id="total-for-mark-{{ mark_list.0.pk|replace_with_dash }}">{{ mark_list.5 }}</span></td>
+
+                        <td><span id="grade-for-mark-{{ mark_list.0.pk|replace_with_dash }}">{{ mark_list.6 }}</span></td>
+
+                        <td><input class="form-control" type="text" id="comment-{{ mark_list.0.pk|replace_with_dash }}" name="comment" placeholder="comment" value="{{ mark_list.7 }}"></td>
+
+                        <td class="text-center"><button class="btn btn-success" onclick="mark_update_no_midterm('{{ mark_list.0.pk|replace_with_dash }}')"><i class="mdi mdi-checkbox-marked-circle"></i></button></td>
+                    </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+<script>
+    function mark_update_no_midterm(student_id) {
+        var session_id = '{{ exam.exam_session.pk }}';
+        var class_id = '{{ the_class }}';
+        var section_id = '{{ the_section }}';
+        var subject_id = '{{ subject }}';
+        var exam_id = '{{ exam.pk }}';
+        var mark = $('#mark-' + student_id).val();
+        var ca1 = $('#ca1-' + student_id).val();
+        var ca2 = $('#ca2-' + student_id).val();
+        var ca3 = $('#ca3-' + student_id).val();
+        var comment = $('#comment-' + student_id).val();
+
+        if(subject_id != ""){
+            $.ajax({
+                type : 'POST',
+                url : '/portal/admin/exam/filter/mark_set',
+                data : {student_id : student_id, class_id : class_id, section_id : section_id, subject_id : subject_id, exam_id : exam_id, resumption_test10 : ca1, mid_test10 : ca2, project10 : ca3, 
+                  exam70 : mark, comment : comment,
+                    session_id : session_id, csrfmiddlewaretoken : '{{ csrf_token }}'},
+                success : function(response){
+                    toastr.success('Mark has been updated successfully');
+                }
+            });
+        }else{
+            toastr.error('Required mark field');
+        }
+    }
+
+    function get_total_score_no_midterm(id) {
+        var mark = $('#mark-' + id).val() * 1;
+        var ca1 = $('#ca1-' + id).val() * 1;
+        var ca2 = $('#ca2-' + id).val() * 1;
+        var ca3 = $('#ca3-' + id).val() * 1;
+
+        var total_mark = mark + ca1 + ca2 + ca3;
+        
+        $('#total-for-mark-'+id).text(total_mark);
+    }
+
+    function get_grade_no_midterm(id) {
+        var mark = $('#mark-' + id).val() * 1;
+        var ca1 = $('#ca1-' + id).val() * 1;
+        var ca2 = $('#ca2-' + id).val() * 1;
+        var ca3 = $('#ca3-' + id).val() * 1;
+
+        total_mark = mark + ca1 + ca2 + ca3;
+
+        $.ajax({
+            url : '/portal/admin/exam/filter/get_grade/'+total_mark,
+            success : function(response){
+                $('#grade-for-mark-'+id).text(response);
+            }
+        });
+    }
+
+    function get_grade_remark_no_midterm(id) {
+        var mark = $('#mark-' + id).val() * 1;
+        var ca1 = $('#ca1-' + id).val() * 1;
+        var ca2 = $('#ca2-' + id).val() * 1;
+        var ca3 = $('#ca3-' + id).val() * 1;
+
+        total_mark = mark + ca1 + ca2 + ca3;
+
+        $.ajax({
+            url : '/portal/admin/exam/filter/get_grade_remark/'+total_mark,
+            success : function(response){
+                $('#comment-'+id).val(response);
+            }
+        });
+    }
+</script>
+<script>
+$(function () {
+   $('body').on('keyup', '.ca1, .ca2, .ca3', function(e) {
+   var max = parseInt($(this).attr('max'));
+   var min = parseInt($(this).attr('min'));
+   if ($(this).val() > max)
+   {
+      swal($(this).val() + ' is greater than max score of ' + max);
+      $(this).val('').focus();
+      $('#total-for-mark-'+$(this).attr('id')).text('0');
+      //$(this).val(max);
+   }
+   else if ($(this).val() < min)
+   {
+      //val(min);
+      swal($(this).val() + ' is less than min score of ' + min);
+      $(this).val('').focus();
+      $('#total-for-mark-'+$(this).attr('id')).text('0');
+   }       
+ }); 
+});
+
+$(function () {
+   $('body').on('keyup', '.exam_score', function(e) {
+   var max = parseInt($(this).attr('max'));
+   var min = parseInt($(this).attr('min'));
+   if ($(this).val() > max)
+   {
+      swal($(this).val() + ' is greater than max score of ' + max);
+      $(this).val('').focus();
+      $('#total-for-mark-'+$(this).attr('id')).text('0');
+      //$(this).val(max);
+   }
+   else if ($(this).val() < min)
+   {
+      //val(min);
+      swal($(this).val() + ' is less than min score of ' + min);
+      $(this).val('').focus();
+      $('#total-for-mark-'+$(this).attr('id')).text('0');
+   }       
+ }); 
+});
+</script>

@@ -1,0 +1,29 @@
+<table id="basic-datatable" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" width="100%" role="grid" aria-describedby="basic-datatable_info" style="width: 100%; position: relative;">
+        <thead>
+            <tr style="background-color: #313a46; color: #ababab;" role="row">
+                <th>No</th>
+                <th>Title</th>
+                <th>Syllabus</th>
+                <th>Subject</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for syllabus in syllabuses %}               
+            <tr role="row">
+                <td>{{ forloop.counter }}</td>
+                <td>{{ syllabus.title }}</td>
+                <td><a href="{{ syllabus.getfile }}" onclick="check_download_file(this)" class="btn btn-info mdi mdi-download" download="">Download</a></td>
+                <td>{{ syllabus.subject.name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+<script>
+function check_download_file(download_file){
+    if(download_file.href == "javascript:void(0);"){
+        toastr.error('No syllabus to download');
+    }
+}
+</script>

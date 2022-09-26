@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <div class="card bg-secondary text-white">
+      <div class="card-body">
+        <div class="text-center">
+          <h4>Attendance report Of {{ month_name.title }}</h4>
+          <h5>Class : {{ the_class.the_class.the_class }}</h5>
+          <h5>Section : {{ the_class.the_section }}</h5>
+          <h5>
+            Last updated at : {{ last_update }} <br>
+              </h5>
+        </div>
+      </div> <!-- end card-body-->
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+<div style="overflow-x: scroll;">
+<table class="table table-bordered table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl table-sm">
+  <thead class="thead-dark">
+    <tr style="font-size: 12px;">
+      <th width="40px">Student <i class="mdi mdi-arrow-down"></i> Date <i class="mdi mdi-arrow-right"></i></th>
+          {% for i in range_month %}  
+            <th>{{ i }}</th>
+          {% endfor %}
+      </tr>
+</thead>
+<tbody>
+  {% for i in new %}  
+    <tr>
+      <td>{{ i.0.name }}</td>
+      {% for j in range_month %}
+        {% if j in i.1 %}  
+          <td class="text-center">
+            <i class="mdi mdi-circle text-danger"></i>
+          </td>
+        {% else %}
+        <td class="text-center">
+        </td>
+        {% endif %}
+      {% endfor %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>

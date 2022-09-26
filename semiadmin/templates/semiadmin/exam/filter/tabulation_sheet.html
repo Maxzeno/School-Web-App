@@ -1,0 +1,99 @@
+<div class="card-body tabulation_sheet_content"><div class="row mb-3">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 toll-free-box text-center text-white pb-2" style="background-color: #6c757d; border-radius: 10px;">
+        <h4>Tabulation sheet</h4>
+        <span>{{ session_slash }} Examination | {{ exam.exam_term }} | 2020-2021</span><br>
+        <span>Class : {{ exact_class.the_class.the_class }} | {{ exact_class.the_section }}</span><br>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-responsive-sm">
+        <thead>
+            <tr>
+                <th width="5px">S/N</th>
+                <th width="20%">NAME OF STUDENTS</th>
+
+                {% for subject in data.head_table %}
+                <th width="10px" class="th rotate">
+                    <div><span>{{ subject|upper }}</span></div>
+                </th>
+                {% endfor %}
+
+                <th width="10px" class="rotate">
+                    <div><span>GRAND TOTAL</span></div>
+                </th>
+                <th width="10px" class="rotate">
+                    <div><span>PERCENTAGE</span></div>
+                </th>
+                <th width="10px" class="rotate">
+                    <div><span>POSITION</span></div>
+                </th>
+                <th width="10px" class="rotate">
+                    <div><span>REMARKS</span></div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th></th>
+                <th>MARKS OBTAINABLE</th>
+                {% for subject in data.head_table %}
+                <th class="th" align="center">{{ marks_obtainable }}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th></th>
+                <th>CLASS HIGHEST MARK</th>
+                {% for high in data.head_data.0 %}
+                <th class="th" align="center">{{ high }}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th></th>
+                <th>CLASS LOWEST MARK</th>
+                {% for low in data.head_data.1 %}
+                <th class="th" align="center">{{ low }}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th></th>
+                <th>CLASS AVERAGE MARK</th>
+                {% for avg in data.head_data.2 %}
+                <th class="th" align="center">{{ avg }}</th>
+                {% endfor %}
+            </tr>
+
+            {% for scores in data.data %}
+            <tr>
+                <td> {{ forloop.counter }} </td>
+                {% for score in scores %}
+                    {% if forloop.counter0 == 0 %}
+                        <td>{{ score.name }}
+                            <div>({{ score.student_id|upper }})</div>
+                        </td>
+                    {% else %}
+                        <td align="center">{{ score }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+
+        </tbody>
+                 <tfoot>
+            <tr>
+                <td colspan="6">
+                    <a href="/portal/admin/exam/tabulation_sheet_print_view/{{ class_id }}/{{ section_id }}/{{ exam_id }}" class="btn btn-primary" target="_blank">
+                        Print tabulation sheet                    </a>&nbsp;&nbsp;
+
+                    <a href="https://cdssenugu.org/portal/admin/tabulation_sheet/tabulationsheet_export_excel/1/1/2" class="btn btn-warning" target="_blank">
+                        Export tabulation sheet                    </a>&nbsp;&nbsp;
+
+                    <a href="https://cdssenugu.org/portal/admin/tabulation_sheet/marksheet_bulk_print_view/1/1/2" class="btn btn-primary" target="_blank">
+                        Print bulk mark sheet                    </a>                    
+                </td>
+            </tr>
+        </tfoot>  
+    </table>
+</div>
+</div>

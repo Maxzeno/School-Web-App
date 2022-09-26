@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %} {% endblock %}
+</head>
+
+<body>
+
+  {% block before_nav %} {% endblock %}
+
+    <!--Modal -->
+                  <div class="modal fade" id="mymodalpop" role="dialog">
+            <div class="modal-dialog modal-md">
+
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title"><span></span><br><br><a class="btn btn-primary" href="admin/uploads/index.html" target="_blank">View Entrance Exam Result</a></h4>
+                </div>
+                <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+          </div>
+        </div>
+      </div>
+
+
+  <!--header-->
+    <div class="header" style="background-color:#009746;z-index: 22;">
+      <div class="header-top">
+        <div class="container">
+          <div class="detail">
+            <ul>
+              <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+2347034605940 <i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> +2348062498296</li>
+              <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i> info@cdssenugu.org </li>
+            </ul>
+          </div>
+          <div class="indicate">
+            <p><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>Abakpa Military Cantonment, P.M.B 01565, Enugu.    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a style="text-decoration: none; color: #fff;" class="btn btn-primary" href="/admin/login/" target="_blank">Admin Login</a></p>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="container">
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+        <!---Brand and toggle get grouped for better mobile display--->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>          
+              <div class="navbar-brand col-md-12">
+                <div class="col-md-2">
+                  <img id="logom" src="{% static 'images/logo.png' %}" alt="logo">
+                </div>
+                <div id="logotext" class="col-md-10">
+                  <h1><a href="index-2.html">Command Day</h1><br> <h1 id="logotext2" style="margin-top:-15px;">Secondary School Enugu</a></h1>
+                </div>
+              </div>
+            </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+               <nav class="">
+                              <div class="container-fluid">
+                                <ul class="nav navbar-nav">
+                                  <li><a href="/">Home</a></li>
+                                  <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">About Us
+                                    <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                      <li><a href="#" style="color:grey; font-weight:bolder; text-align:left;">Background Info</a></li>
+                                      <li><a href="/management/" style="color:grey; font-weight:bolder; text-align:left;">Management Team</a></li>
+                                      <li><a href="/#testimonialsm" style="color:grey; font-weight:bolder; text-align:left;">Testimonials</a></li>
+                                    </ul>
+                                  </li>
+                                  <li><a href="/gallery/">Gallery</a></li>
+                                  <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Portal Services
+                                    <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                      <li><a href="/admissions/" style="color:grey; font-weight:bolder; text-align:left;">Admission</a></li>
+                                      <li><a href="/portal/login/" target="_blank" style="color:grey; font-weight:bolder; text-align:left;">Students Portal</a></li> 
+                                      <li>
+                                                                              </li>    
+                                    </ul>
+                                  </li>
+                                  <li><a href="/contact/">Contact Us</a></li>
+                                </ul>
+                              </div>
+                            </nav>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  <!--header-->
+
+  {% block body %} {% endblock %}
+
+<!--footer-->
+      <div class="footer-w3">
+        <div class="container">
+          <div class="footer-grids">
+            <div class="col-md-4 footer-grid">
+              <h4>Portal Services</h4>
+                            <ul class="grid-part">
+                <li><a href="/portal/login/" target="_blank"><i class="glyphicon glyphicon-ok-sign"> </i>Student Portal Login</a></li>
+                                <li><a href="/portal/login/" target="_blank"><i class="glyphicon glyphicon-ok-sign"> </i>Teacher Portal Login</a></li>
+                                <li><a href="/portal/login/" target="_blank"><i class="glyphicon glyphicon-ok-sign"> </i>Admin Portal Login</a></li>
+              </ul>
+            </div>
+            <div class="col-md-4 footer-grid" >
+              <h4>Admission</h4>
+                            <ul class="grid-part">
+                                <li><a href="/admissions/"><i class="glyphicon glyphicon-ok-sign"> </i>Apply Here</a></li>
+              </ul>
+            </div>
+            <div class="col-md-4 footer-grid">
+            <h4>Contact</h4>
+              <ul>
+                <li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
+                                Command Day Secondary School Enugu, 
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Abakpa Military Cantonment,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P.M.B 01565, Enugu,
+                                Nigeria.</li>
+                <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i><a href="tel:++2347034605940">+2347034605940</a><br><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i><a href="tel:+2348062498296">+2348062498296</a></li>
+                <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:info@cdssenugu.org"> info@cdssenugu.org</a></li>
+              </ul>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+    <!--footer-->
+    <!---copy--->
+      <div class="copy-section" style="background-color:#009746;">
+        <div class="container">
+          <div class="social-icons">
+            <a href="#"><i class="icon1"></i></a>
+            <a href="#"><i class="icon2"></i></a>
+            <a href="#"><i class="icon3"></i></a>
+            <a href="#"><i class="icon4"></i></a>
+          </div>
+          <div class="copy">
+            <p>&copy; 2022. All Rights Reserved. Command Day Secondary School, Enugu | Design by <a href="index.php/visiondatatechs.html" target="_blank" title="Computer Solutions Expert">Vision Data-Techs</a></p>
+          </div>
+        </div>
+      </div>
+      <!---copy--->
+
+
+{% block script %} {% endblock %}
+
+</body>
+</html>

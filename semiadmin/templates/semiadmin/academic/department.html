@@ -1,0 +1,72 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} <title>Department | Command Day Secondary School</title> {% endblock %}
+
+
+{% block body %}
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-content-paste title_icon"></i> Department          <button type="button" class="btn btn-outline-primary btn-rounded alignToTitle" onclick="rightModal('/portal/admin/department/create', 'Create department')"> <i class="mdi mdi-plus"></i> Add department</button>
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body department_content">
+<table  id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+	<thead>
+		<tr style="background-color: #313a46; color: #ababab;" role="row">
+            <th>Srno.</th>
+			<th>Name</th>
+			<th>Options</th>
+		</tr>
+	</thead>
+	<tbody>
+			{% for department in departments %}	
+			<tr>
+                <td>{{ forloop.counter }}</td>
+				<td>{{ department.name }}</td>
+				<td>
+					<div class="dropdown text-center">
+						<button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+						<div class="dropdown-menu dropdown-menu-right">
+							<!-- item-->
+							<a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/department/edit/{{ department.pk }}','Update class room');">Edit</a>
+							<!-- item-->
+							<a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/department/delete/{{ department.pk }}', showAllDepartments)">Delete</a>
+						</div>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+	</tbody>
+</table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var showAllDepartments = function () {
+        var url = '/portal/admin/department/all';
+
+        $.ajax({
+            type : 'GET',
+            url: url,
+            success : function(response) {
+                $('.department_content').html(response);
+                initDataTable('basic-datatable');
+            }
+        });
+    }
+</script>
+{% endblock %}           
+                  

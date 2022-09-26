@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from cdssenugu.org/admin/login.php by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 04 Jul 2022 02:57:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+    <meta name="author" content="Command Day Secondary School">
+    <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+    <link href="images/logo1.png" rel="shortcut icon" media="all">
+    <title>Admin Login :: Command Day Secondary School, Enugu</title>
+
+    <!-- Bootstrap CSS -->    
+    <link href="{% static 'registration/admin/css2/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- bootstrap theme -->
+    <link href="{% static 'registration/admin/css2/bootstrap-theme.css' %}" rel="stylesheet">
+    <!--external css-->
+    <!-- font icon -->
+    <link href="{% static 'registration/admin/plugins/font-awesome-4.1.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'registration/admin/css2/elegant-icons-style.css' %}" rel="stylesheet" />
+    <link href="{% static 'registration/admin/css2/font-awesome.css' %}" rel="stylesheet" />
+    <!-- Custom styles -->
+    <link href="{% static 'registration/admin/css2/style2.css' %}" rel="stylesheet">
+    <link href="{% static 'registration/admin/css2/style-responsive.css" rel="stylesheet' %}" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+  <body class="" style="background-image: url({% static 'registration/admin/images/bg1.jpg' %}); background-repeat: no-repeat;">
+
+    <div class="container">
+
+        <div class="col-md-12">
+              <h2 style="color:#fff; font-size:40px; text-align:center;">Login</h2>
+        </div>
+
+      <form style="margin-top:0%;" class="login-form" action="." method="post">        
+        <div class="login-wrap">
+            <p class="login-img"><i class="fa fa-lock"></i></p>
+            <p style="color: red; text-align: center;">
+                {% if msg %}
+                    <span class="text-danger">{{ msg }}</span>
+                {% else %}
+                    <br>
+                {% endif %}
+            </p>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              <input type="email" class="form-control" placeholder="Username" value="" id="username" name="username" autofocus required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                <input type="password" class="form-control" placeholder="Password" name="password" value="" id="pass" required="">
+            </div>
+            <label class="checkbox">
+                <input type="checkbox" value="remember-me"> Remember me
+                <!-- <span class="pull-right"> <a href="#"> Forgot Password?</a></span> -->
+            </label>
+            <button name="login" class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+        </div>
+      </form>
+    </div><br>
+    <div class="col-md-5 center-block">
+      <a class="pull-right" href="signup.html"></a>
+    </div>
+    <div class="col-md-5 center-block">
+      <a class="btn btn-primary" href="/"><i class="fa fa-home"></i> Go Back to Home Page</a>
+    </div><br><br>
+    <div class="col-md-12 w3_agile-copyright text-center">
+        <hr><p style="text-align:center; color:#fff;">
+            &copy; <script>var y = new Date(); document.write(y.getFullYear() + " ");</script>
+            <strong>Command Day Secondary School, Enugu</strong> All rights reserved | Design by <a href="www.visiondatatechs.com" style="color: #fff;">Vision Data-Techs</a>
+        </p>
+    </div>
+
+  </body>
+
+<!-- Mirrored from cdssenugu.org/admin/login.php by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 04 Jul 2022 02:57:39 GMT -->
+</html>

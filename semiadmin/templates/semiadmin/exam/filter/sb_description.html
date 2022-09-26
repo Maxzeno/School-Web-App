@@ -1,0 +1,31 @@
+
+<table id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+    <thead>
+        <tr>
+    		<th><div>#</div></th>
+    		<th><div>Type</div></th>
+    		<th><div>Description</div></th>
+            <th><div></div></th>
+		</tr>
+    </thead>
+    <tbody>
+		{% for sb_description in sb_descriptions %}
+		<tr>
+			<td>{{ forloop.counter }}</td>
+			<td>{{ sb_description.sb_type }}</td>
+			<td>{{ sb_description.description }}</td>
+	    <td>
+        <div class="dropdown text-center">
+					<button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+					<div class="dropdown-menu dropdown-menu-right">
+						<!-- item-->
+						<a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/sb_description/edit/{{ sb_description.pk }}', 'Update domain');">Edit domain</a>
+						<!-- item-->
+						<a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/sb_description/delete/{{ sb_description.pk }}', showAllDomains)">Delete</a>
+					</div>
+				</div>
+	    </td>
+	</tr>
+    {% endfor %}
+	</tbody>
+</table>

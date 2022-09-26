@@ -1,0 +1,179 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Invoice | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}<!-- BEGIN PlACE PAGE CONTENT HERE -->
+                    <!-- start page title -->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-file-document-box title_icon"></i> Student fee manager          <button type="button" class="btn btn-outline-primary btn-rounded alignToTitle" onclick="rightModal('/portal/admin/invoice/create/single', 'Add single invoice')"> <i class="mdi mdi-plus"></i> Add single invoice</button>
+          <button type="button" class="btn btn-outline-success btn-rounded alignToTitle" style="margin-right: 10px;" onclick="rightModal('/portal/admin/invoice/create/mass', 'Add mass invoice')"> <i class="mdi mdi-plus"></i> Add mass invoice</button>
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+<!-- end page title -->
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row justify-content-md-center" style="margin-bottom: 10px;">
+          <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <div class="form-group">
+              <div id="reportrange" class="form-control text-center" data-toggle="date-picker-range" data-target-display="#selectedValue"  data-cancel-class="btn-light">
+                <i class="mdi mdi-calendar"></i>&nbsp;
+                <span id="selectedValue" style = "text-align: center;"> {{ date_range }} </span> <i class="mdi mdi-menu-down"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <div class="form-group">
+              <select name="class" onchange="classWiseSection(this.value)" id="class_id" class="form-control select2" data-toggle="select2">
+                <option value="">Select class</option>
+                {% for the_class in the_classes %}
+                <option value="{{ the_class.the_class }}">{{ the_class.the_class }}</option>
+                {% endfor %}
+                </select>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <div class="form-group">
+              <select name="section" id="section_id" class="form-control select2" data-toggle="select2">
+                <option value="">Select section</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <div class="form-group">
+              <select name="status" id="status" class="form-control select2" data-toggle="select2">
+                <option value="all">All status</option>
+                <option value="paid">Paid</option>
+                <option value="unpaid">Unpaid</option>
+              </select>
+            </div>
+          </div>
+          <!-- <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <button type="button" class="btn btn-icon btn-secondary form-control" onclick="showAllInvoices()">Filter</button>
+          </div> -->
+        </div>
+
+        <div class="row justify-content-md-center" style="margin-bottom: 10px;">
+          <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <button type="button" class="btn btn-icon btn-secondary form-control" onclick="showAllInvoices()">Filter</button>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <button type="button" class="btn btn-icon btn-primary form-control dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Export report</button>
+            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+              <a class="dropdown-item" id="export-csv" href="javascript:0" onclick="getExportUrl('csv')">CSV</a>
+              <a class="dropdown-item" id="export-pdf" href="javascript:0" onclick="getExportUrl('pdf')">PDF</a>
+              <a class="dropdown-item" id="export-print" href="javascript:0" onclick="getExportUrl('print')">Print</a>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive-sm">
+          <div class="invoice_content">
+            <div class="empty_box">
+            <img class="mb-1" width="120px" src="{% static 'portal/assets/backend/images/empty_box.png' %}" />
+            <br>
+            <span class="">No data found</span>
+            </div>
+          </div>
+        </div> <!-- end table-responsive-->
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+
+<script>
+var showAllInvoices = function () {
+  var url = '/portal/admin/invoice/filter';
+  var dateRange = $('#selectedValue').text();
+  var selectedClass = $('#class_id').val();
+  var selectedSection = $('#section_id').val();
+  var selectedStatus = $('#status').val();
+  $.ajax({
+    type : 'GET',
+    url: url,
+    data : {date : dateRange, selectedClass : selectedClass, selectedStatus : selectedStatus, selectedSection: selectedSection},
+    success : function(response) {
+      $('.invoice_content').html(response);
+      initDataTable("basic-datatable");
+    }
+  });
+}
+
+
+function classWiseSection(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section_no_left/"+classId,
+        success: function(response){
+            $('#section_id').html(response);
+        }
+    });
+
+  }
+
+
+function getExportUrl(type) {
+  var url = 'https://cdssenugu.org/portal/admin/export/url';
+  var dateRange = $('#selectedValue').text();
+  var selectedClass = $('#class_id').val();
+  var selectedStatus = $('#status').val();
+  $.ajax({
+    type : 'post',
+    url: url,
+    data : {type : type, dateRange : dateRange, selectedClass : selectedClass, selectedStatus : selectedStatus},
+    success : function(response) {
+      if (type == 'csv') {
+        window.open(response, '_self');
+      }else{
+        window.open(response, '_blank');
+      }
+    }
+  });
+}
+</script>
+
+<script>
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, showAllInvoices);
+});
+
+$(document).ready(function () {
+    initSelect2(['#class_id_on_create', '#section_id_on_create', '#status']);
+});
+
+function classWiseSectionOnCreate(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section_no/"+classId,
+        success: function(response){
+            $('#section_id_on_create').html(response);
+            studentSectionOnCreate();
+        }
+    });
+}
+
+function studentSectionOnCreate() {
+    var class_id = $("#class_id_on_create").val();
+    var section_id = $("#section_id_on_create").val();
+
+    $.ajax({
+            url: "/portal/admin/class_section_student/"+class_id+"/"+section_id,
+            success: function(response){
+                $('#student_id_on_create').html(response);
+            }
+        });
+}
+</script>
+
+{% endblock %}

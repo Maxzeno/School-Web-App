@@ -1,0 +1,44 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/event_calendar/edit/{{ event_calendar.pk }}" novalidate="novalidate">
+  {% csrf_token %}
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <label for="title">Event title</label>
+      <input type="text" class="form-control" id="title" value="{{ event_calendar.title }}" name="title" required="">
+      <small id="name_help" class="form-text text-muted">Provide title name</small>
+    </div>
+    <div class="form-group col-md-12">
+      <label for="starting_date">Event starting date</label>
+      <input type="text" value="{{ event_calendar.date_slash.0 }}" class="form-control date" id="starting_date" data-toggle="date-picker" data-single-date-picker="true" name="starting_date" data-provide="datepicker" required="">
+      <small id="name_help" class="form-text text-muted">Provide starting date</small>
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="ending_date">Event ending date</label>
+      <input type="text" value="{{ event_calendar.date_slash.1 }}" class="form-control date" id="ending_date" data-toggle="date-picker" data-single-date-picker="true"  name="ending_date" data-provide="datepicker" required="">
+      <small id="name_help" class="form-text text-muted">Provide ending date</small>
+    </div>
+
+    <div class="form-group  col-md-12">
+      <button class="btn btn-block btn-primary" type="submit">Update event</button>
+    </div>
+  </div>
+</form>
+
+
+<script>
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllEvents);
+});
+
+$(document).ready(function() {
+    $('#starting_date').daterangepicker();
+});
+
+
+$(document).ready(function() {
+    $('#ending_date').daterangepicker();
+});
+
+</script>

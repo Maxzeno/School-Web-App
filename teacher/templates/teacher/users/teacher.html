@@ -1,0 +1,67 @@
+{% extends 'teacher/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Add Teacher | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-account-circle title_icon"></i> Teachers  
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body teacher_content">
+         <table id="basic-datatable" class="table table-striped" style="width:100%">
+        <thead>
+            <tr style="background-color: #313a46; color: #ababab;">
+                <th>No.</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Designation</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tbody in tbodys %}
+            <tr>
+                <td>{{ forloop.counter }}</td>                
+                {% for tb in tbody %} 
+                        <td>{{ tb }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+function classWiseSection(classId) {
+  $.ajax({
+    url: "/portal/admin/student/other/student_section_modal/"+classId,
+    success: function(response){
+      $('#section_id').html(response);
+    }
+  });
+}
+
+</script>
+{% endblock %}

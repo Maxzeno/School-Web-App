@@ -1,0 +1,127 @@
+{% extends 'teacher/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Student list | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+       <div class="row d-print-none">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="page-title">
+                        <i class="mdi mdi-calendar-today title_icon"></i> Student
+                    </h4>
+                </div> <!-- end card body-->
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div>
+
+    <div class="row d-print-none">
+        <div class="col-12">
+            <div class="card ">
+                <div class="row mt-3">
+                    <div class="col-md-1 mb-1"></div>
+                    <div class="col-md-4 mb-1">
+                        <select name="class" id="class_id" class="form-control select2" data-toggle = "select2" required onchange="classWiseSection(this.value)">
+                            <option value="">Select a class</option>
+                             {% for the_class in the_classes %}
+                            <option value="{{ the_class.the_class }}">{{ the_class.the_class }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-1">
+                        <select name="section" id="section_id" class="form-control select2" data-toggle = "select2" required>
+                            <option value="">Select section</option>
+                            <option value="All">All</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-block btn-secondary" onclick="filter_student('','')" >Filter</button>
+                    </div>
+                </div>
+                <div class="card-body student_content">
+                    <div class="empty_box">
+                        <img class="mb-3" width="150px" src="{% static 'portal/assets/backend/images/empty_box.png' %}" />
+                        <br>
+                        <span class="">No data found</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+var class_id = "";
+var section_id = "";
+$('document').ready(function(){
+    if (class_id) {
+        $('#class_id').each(function(index, element) {
+            $(this).find('option[value="'+class_id+'"]').prop('selected', true).change();
+        });
+        classWiseSection(class_id);
+    }
+
+    if (section_id) {
+        $('#section_id option').each(function(index, element) {
+            $(this).find('option[value="'+section_id+'"]').prop('selected', true).trigger('change');
+        });
+    }
+
+    if (class_id && section_id) {
+        filter_student(class_id,section_id);
+    }
+});
+
+function classWiseSection(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section_no/"+classId,
+        success: function(response){
+            $('#section_id').html(response);
+        }
+    });
+}
+
+function filter_student(class_id, section_id){
+    if (class_id == '')
+        var class_id = $('#class_id').val();
+
+    if (section_id == '')
+        var section_id = $('#section_id').val();
+
+    if(class_id != "" && section_id!= ""){
+        $.ajax({
+            url: '/portal/teacher/student/filter/'+class_id+'/'+section_id,
+            success: function(response){
+                $('.student_content').html(response);
+            }
+        });
+    }else{
+        toastr.error('Please select a class and section');
+    }
+}
+
+var showAllStudents = function(class_id, section_id) {
+    if (class_id == '')
+        var class_id = $('#class_id').val();
+
+    if (section_id == '')
+        var section_id = $('#section_id').val();
+
+    if(class_id != "" && section_id!= ""){
+        console.log("hola hola");
+
+        $.ajax({
+            url: '/portal/teacher/student/filter/'+class_id+'/'+section_id,
+            success: function(response){
+                $('.student_content').html(response);
+            }
+        });
+    }
+}
+</script>
+
+{% endblock %}
+                    

@@ -1,0 +1,116 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} <title>Expense | Command Day Secondary School</title> {% endblock %}
+
+
+{% block body %}
+
+                    <!-- start page title -->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-database title_icon"></i> Expense          <button type="button" class="btn btn-outline-primary btn-rounded alignToTitle" onclick="rightModal('/portal/admin/expense/create', 'Add new expense')"> <i class="mdi mdi-plus"></i> Add new expense</button>
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+<!-- end page title -->
+
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row justify-content-md-center" style="margin-bottom: 10px;">
+          <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <div class="form-group">
+              <div id="reportrange" class="form-control" data-toggle="date-picker-range" data-target-display="#selectedValue"  data-cancel-class="btn-light">
+                <i class="mdi mdi-calendar"></i>&nbsp;
+                <span id="selectedValue"> {{ date_range }} </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <select class="form-control select2" data-toggle = "select2" name="expense_category_id" id="expense_category_id">
+              <option value="all">Expense category</option>
+              {% for expense_category in expense_categorys %}
+              <option value="{{ expense_category.pk }}">{{ expense_category.name }}</option>
+              {% endfor %}
+              </select>
+        </div>
+
+        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+          <button type="button" class="btn btn-icon btn-secondary form-control" onclick="showAllExpenses()">Filter</button>
+        </div>
+      </div>
+      <div class="expense_content">
+            {% if expenses %}
+    <table  id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+    <thead>
+        <tr style="background-color: #313a46; color: #ababab;" role="row">
+            <th>Srno.</th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for expense in expenses %} 
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ expense.expense_category.name }}</td>
+                <td>{{ expense.amount }}</td>
+                <td>{{ expense.the_date }}</td>
+                <td>
+                    <div class="dropdown text-center">
+                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/expense/edit/{{ expense.pk }}','Update class room');">Edit</a>
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/expense/delete/{{ expense.pk }}', showAllExpenses)">Delete</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+                          <div class="empty_box">
+      <img class="mb-1" width="120px" src="{% static 'portal/assets/backend/images/empty_box.png' %}" />
+      <br>
+      <span class="">No data found</span>
+    </div>
+    {% endif %}
+    </div> <!-- end card body-->
+  </div> <!-- end card -->
+</div><!-- end col-->
+</div>
+
+
+<script>
+$(document).ready(function() {
+  initSelect2(['#expense_category_id']);
+});
+
+function showAllExpenses () {
+  var url = '/portal/admin/expense/filter';
+  $.ajax({
+    type : 'GET',
+    url: url,
+    data : {date : $('#selectedValue').text(), expense_category_id : $('#expense_category_id').val()},
+    success : function(response) {
+      $('.expense_content').html(response);
+      initDataTable("basic-datatable");
+    }
+  });
+}
+</script>
+
+{% endblock %}

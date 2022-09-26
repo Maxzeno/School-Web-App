@@ -1,0 +1,112 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Tabulation sheet | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-format-list-numbered title_icon"></i> Manage marks        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="row mt-3">
+                <div class="col-md-1 mb-1"></div>
+               <div class="col-md-2 mb-1">
+                    <select name="session" id="session_id" class="form-control select2" data-toggle = "select2" required onchange="termWiseSection(this.value)">
+                        <option value="">Select session</option>
+                        {% for ses in sessions %}
+                            <option value="{{ ses.pk }}">{{ ses.session }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2 mb-1">
+                    <select name="exam" id="exam_id" class="form-control select2" data-toggle = "select2" required>
+                        <option value="">Select a exam</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-1">
+                    <select name="class" id="class_id" class="form-control select2" data-toggle = "select2" required onchange="classWiseSection(this.value)">
+                        <option value="">Select a class</option>
+                            {% for the_class in the_classes %}
+                            <option value="{{ the_class.the_class }}">{{ the_class.the_class }}</option>
+                            {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2 mb-1">
+                    <select name="section" id="section_id" class="form-control select2" data-toggle = "select2" required>
+                        <option value="">Select section</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button class="btn btn-block btn-secondary" onclick="filter_tabulation_sheet()" >Filter</button>
+                </div>
+            </div>
+            <div class="card-body tabulation_sheet_content">
+                <div class="empty_box">
+                    <img class="mb-3" width="150px" src="https://cdssenugu.org/portal/assets/backend/images/empty_box.png" />
+                    <br>
+                    <span class="">No data found</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$('document').ready(function(){
+    initSelect2(['#class_id', '#exam_id', '#section_id']);
+});
+
+function termWiseSection(sessionId) {
+    $.ajax({
+        url: "/portal/admin/exam/filter/exam_term/"+sessionId,
+        success: function(response){
+            $('#exam_id').html(response);
+        }
+    });
+}
+
+function classWiseSection(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section_no/"+classId,
+        success: function(response){
+            $('#section_id').html(response);
+        }
+    });
+}
+
+function filter_tabulation_sheet(){
+    
+    var session_id = $('#session_id').val();
+    var exam_id = $('#exam_id').val();
+    var class_id = $('#class_id').val();
+    var section_id = $('#section_id').val();
+    if(class_id != "" && exam_id != ""){
+        $.ajax({
+            type: 'POST',
+            url: '/portal/admin/exam/filter/tabulation_sheet',
+            data: {class_id : class_id, section_id : section_id, exam_id : exam_id, session_id : session_id, csrfmiddlewaretoken: '{{ csrf_token}}'},
+            success: function(response){
+                $('.tabulation_sheet_content').html(response);
+            }
+        });
+    }else{
+        toastr.error('Please select in all fields !');
+    }
+}
+</script>
+{% endblock %}
+                    

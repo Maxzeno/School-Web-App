@@ -1,0 +1,923 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+{% block head %} 
+
+<title>Admission | Command Day Secondary School</title>
+<!--css-->
+<link href="{% static 'main/css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'main/css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" type="text/css" href="{% static 'main/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/select2.min.html' %}" />
+<!--css-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Command Day Secondary School Enugu" />
+<meta name="description" content="Command Day Secondary School Enugu">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!--js-->
+<script src="{% static 'main/js/jquery.min.js' %}"></script>
+<script src="{% static 'main/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'main/js/numscroller-1.0.js' %}"></script>
+<!--js-->
+<!--webfonts-->
+<link rel="shortcut icon" href="{% static 'main/images/logo.png' %}" media="all">
+<link href='http://fonts.googleapis.com/css?family=Bookman' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<!--webfonts-->
+
+
+{% endblock %}
+
+
+{% block body %}
+
+ <div class="banner-w3agile">
+      <div class="container">
+        <h1 style="color: #fff;">ADMISSION</h1>
+      </div>
+    </div>
+    <!--content-->
+    <div class="content">
+      <!--about-->
+        <div class="container">
+          <div class="about-grids">
+            <div class="about-grid" style="text-align: center;width: 100%;">
+                          <h2 align="center" style="color: #009746;"><b>Admission Form Instructions</b></h2>
+                          <h4 align="justify" style="color: black; font-size: 25px;"><br>
+                Kindly fill the form below with your valid <strong>personal</strong> information as required. <span style="color:red;">* indicates mandatory fields</span>. The information provided should be correctly filled. We shall use it to contact You.
+              </h4>
+                          
+                        </div>
+          </div>
+        </div>
+      <!--about-->
+      <!--What we do-->
+        <div class="what-w3">
+          <div class="container" id="ap-form">
+            <h3 class="tittle" style="color: #009746;">Application Form</h3><hr>
+            <div class="what-grids">
+              
+              <div class="col-md-12" style="">
+                <form method="post" enctype="multipart/form-data" action=".">
+                  {% csrf_token %}
+                  
+                  <span class="error center-block" id="error" style="margin-bottom:3%;"></span>
+                  
+                  
+                  <div class="col-md-6">
+                    <div class="container">
+                      <h1 style="color: #000;">Child's Details</h1>
+                    </div><hr>
+                    <img width="200px" height="200px" class="img-responsive center-block" id="paspot"><br>
+                    <div class="form-group">
+                      <label class="btn btn-primary btn-file center-block" style="overflow:hidden;white-space:normal;text-overflow:clip;width:50%;">
+                                    Click to Upload Passport<input type="file" value="images/user.png" accept="image/*" placeholder="images/user.png" onchange="loadFile(event)" name="passport" id="passport" style="display:none;">
+                                </label>
+                    </div><br>
+                    <div class="form-group">
+                        <label for="sname">Surname:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="sname" placeholder="Enter Your Surname" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="name">First Name:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="name" placeholder="Enter Your First Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="preferredname">Preferred Name:</label>
+                      <input type="text" value="" class="name form-control" name="preferredname" placeholder="Enter Your Preferred Name">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="middlename">Middle Name(s):<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="middlename" placeholder="Enter Your Middle Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="bday">Date Of Birth:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="date" placeholder="Please Enter Your Date Of Birth" value="" name="bday" id="bday" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="placeofbirth">Place of Birth:</label>
+                      <input type="text" value="" class="name form-control" name="placeofbirth" placeholder="Enter Your Place of Birth">
+                    </div>
+                    <div class="form-group">
+                              <label for="nationality" class="control-label">Nationality:<em style="color: red;font-weight: bolder;">*</em></label>
+                              <select  class="form-control select" id="nationality" name="nationality" style="width:100%; padding:5px;">
+                                  <option value="">---Nationality---</option>
+        <option value="Albania">Albania</option>
+        <option 
+        value="Algeria">Algeria</option>
+        <option value="American Samoa">American 
+          Samoa</option>
+        <option value="Andorra">Andorra</option>
+        <option 
+        value="Angola">Angola</option>
+        <option value="Anguilla">Anguilla</option>
+        <option value="Antartica">Antarctica</option>
+        <option 
+        value="Antigua and Barbuda">Antigua And Barbuda</option>
+        <option 
+        value="Argentina">Argentina</option>
+        <option 
+        value="Armenia">Armenia</option>
+        <option value="Aruba">Aruba</option>
+        <option value="Australia">Australia</option>
+        <option 
+        value="Austria">Austria</option>
+        <option 
+        value="Azerbaijan">Azerbaijan</option>
+        <option value="Bahamas">Bahamas, 
+          The</option>
+        <option value="Bahrain">Bahrain</option>
+        <option 
+        value="The Caribbean ">The Caribbean</option>
+        <option 
+        value="Barbados">Barbados</option>
+        <option value="Belarus">Belarus</option>
+        <option value="Belgium">Belgium</option>
+        <option 
+        value="Belize">Belize</option>
+        <option value="Benin">Benin</option>
+        <option 
+        value="Bermuda">Bermuda</option>
+        <option value="Bhutan">Bhutan</option>
+        <option value="Bolivia">Bolivia</option>
+        <option 
+        value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+        <option 
+        value="Botswana">Botswana</option>
+        <option value="Bouvet Island">Bouvet 
+          Island</option>
+        <option value="Brazil">Brazil</option>
+        <option 
+        value="Brunei">Brunei</option>
+        <option value="Bulgaria">Bulgaria</option>
+        <option value="Burkina Faso">Burkina Faso</option>
+        <option 
+        value="Burundi">Burundi</option>
+        <option value="Cambodia">Cambodia</option>
+        <option value="Cameroon">Cameroon</option>
+        <option 
+        value="Canada">Canada</option>
+        <option value="Cape Verde">Cape 
+          Verde</option>
+        <option value="Cayman Islands">Cayman Islands </option>
+        <option value="Central African Republic">Central African 
+          Republic</option>
+        <option value="Chad">Chad</option>
+        <option 
+        value="Chile">Chile</option>
+        <option value="China">China</option>
+        <option 
+        value="HK">China (Hong Kong S.A.R.)</option>
+        <option value="MO">China (Macau 
+          S.A.R.)</option>
+        <option value="Christmas">Christmas Island</option>
+        <option value="Cocos (Keeling( Islands">Cocos (Keeling) Islands </option>
+        <option value="Colombia">Colombia</option>
+        <option 
+        value="Comoros">Comoros</option>
+        <option value="Congo">Congo</option>
+        <option value="Cook Islands">Cook Islands</option>
+        <option 
+        value="Costa Rica">Costa Rica</option>
+        <option 
+        value="Cote D'Ivoire">Cote D'Ivoire (Ivory Coast)</option>
+        <option 
+        value="Croatia (Hrvatska)">Croatia (Hrvatska)</option>
+        <option 
+        value="Cuba">Cuba</option>
+        <option value="Cyprus">Cyprus</option>
+        <option 
+        value="Czech Republic">Czech Republic</option>
+        <option 
+        value="Denmark">Denmark</option>
+        <option value="Djibouti">Djibouti</option>
+        <option value="Dominica">Dominica</option>
+        <option 
+        value="Dominican Republic">Dominican Republic</option>
+        <option 
+        value="East Timor">East Timor</option>
+        <option 
+        value="Ecuador">Ecuador</option>
+        <option value="Egypt">Egypt</option>
+        <option value="El Salvador">El Salvador</option>
+        <option 
+        value="Equatorial Guinea">Equatorial Guinea</option>
+        <option 
+        value="Eritrea">Eritrea</option>
+        <option value="Estonia">Estonia</option>
+        <option value="Ethiopia">Ethiopia</option>
+        <option 
+        value="Faroe Islands">Faroe Islands</option>
+        <option 
+        value="Fiji Islands">Fiji Islands</option>
+        <option 
+        value="Finland">Finland</option>
+        <option value="France">France</option>
+        <option value="French Guiana">French Guiana</option>
+        <option 
+        value="French Polynesia">French Polynesia</option>
+        <option 
+        value="Gabon">Gabon</option>
+        <option value="Gambia, The">Gambia, 
+          The</option>
+        <option value="Georgia">Georgia</option>
+        <option 
+        value="Germany">Germany</option>
+        <option value="Ghana">Ghana</option>
+        <option value="Gibraltar">Gibraltar</option>
+        <option 
+        value="Greece">Greece</option>
+        <option value="Greenland">Greenland</option>
+        <option value="Grenada">Grenada</option>
+        <option 
+        value="Guadeloupe">Guadeloupe</option>
+        <option value="Guam">Guam</option>
+        <option value="Guatemala">Guatemala</option>
+        <option 
+        value="Guinea">Guinea</option>
+        <option 
+        value="Guinea-Bissau">Guinea-Bissau</option>
+        <option 
+        value="Guyana">Guyana</option>
+        <option value="Haiti">Haiti</option>
+        <option 
+        value="Honduras">Honduras</option>
+        <option value="Hungary">Hungary</option>
+        <option value="Iceland">Iceland</option>
+        <option 
+        value="India">India</option>
+        <option value="Indonesia">Indonesia</option>
+        <option value="Iran">Iran</option>
+        <option value="Iraq">Iraq</option>
+        <option value="Ireland">Ireland</option>
+        <option 
+        value="Israel">Israel</option>
+        <option value="Italy">Italy</option>
+        <option 
+        value="Jamaica">Jamaica</option>
+        <option value="Japan">Japan</option>
+        <option value="Jordan">Jordan</option>
+        <option 
+        value="Kazakhstan">Kazakhstan</option>
+        <option value="Kenya">Kenya</option>
+        <option value="Kiribati">Kiribati</option>
+        <option 
+        value="&gt;Korea">Korea</option>
+        <option value="Korea, North">Korea, 
+          North</option>
+        <option value="Kuwait">Kuwait</option>
+        <option 
+        value="Kyrgyzstan">Kyrgyzstan</option>
+        <option value="Laos">Laos</option>
+        <option value="Latvia">Latvia</option>
+        <option 
+        value="Lebanon">Lebanon</option>
+        <option value="Lesotho">Lesotho</option>
+        <option value="Liberia">Liberia</option>
+        <option 
+        value="Libya">Libya</option>
+        <option 
+        value="Liechtenstein">Liechtenstein</option>
+        <option 
+        value="Lithuania">Lithuania</option>
+        <option 
+        value="Luxembourg">Luxembourg</option>
+        <option 
+        value="Madagascar">Madagascar</option>
+        <option 
+        value="Malawi">Malawi</option>
+        <option value="Malaysia">Malaysia</option>
+        <option value="Maldives">Maldives</option>
+        <option 
+        value="Mali">Mali</option>
+        <option value="Malta">Malta</option>
+        <option 
+        value="Marshall Islands">Marshall Islands</option>
+        <option 
+        value="Martinique">Martinique</option>
+        <option 
+        value="Mauritania">Mauritania</option>
+        <option 
+        value="Mauritius">Mauritius</option>
+        <option 
+        value="Mayotte">Mayotte</option>
+        <option value="Mexico">Mexico</option>
+        <option value="Micronesia">Micronesia</option>
+        <option 
+        value="Moldova">Moldova</option>
+        <option value="Monaco">Monaco</option>
+        <option value="Mongolia">Mongolia</option>
+        <option 
+        value="Montserrat">Montserrat</option>
+        <option 
+        value="Morocco">Morocco</option>
+        <option 
+        value="Mozambique">Mozambique</option>
+        <option 
+        value="Myanmar">Myanmar</option>
+        <option value="Namibia">Namibia</option>
+        <option value="Nauru">Nauru</option>
+        <option value="Nepal">Nepal</option>
+        <option value="Netherlands Antilles">Netherlands Antilles </option>
+        <option value="Netherlands, The">Netherlands, The </option>
+        <option 
+        value="New Caledonia">New Caledonia</option>
+        <option 
+        value="New Zealand">New Zealand</option>
+        <option 
+        value="Nicaragua">Nicaragua</option>
+        <option value="Niger">Niger</option>
+        <option selected="selected" value="Nigeria">Nigeria</option>
+        <option 
+        value="Niue">Niue</option>
+        <option value="Norfolk Island">Norfolk 
+          Island</option>
+        <option value="Northern Mariana Islands">Northern 
+          Mariana Islands</option>
+        <option value="Norway">Norway</option>
+        <option 
+        value="Oman">Oman</option>
+        <option value="Pakistan">Pakistan</option>
+        <option value="Palau">Palau</option>
+        <option value="Panama">Panama</option>
+        <option value="Papua new Guinea">Papua new Guinea </option>
+        <option 
+        value="Paraguay">Paraguay</option>
+        <option value="Peru">Peru</option>
+        <option value="Philippines">Philippines</option>
+        <option 
+        value="Pitcairn Island">Pitcairn Island</option>
+        <option 
+        value="Poland">Poland</option>
+        <option value="Portugal">Portugal</option>
+        <option value="Puerto Rico">Puerto Rico</option>
+        <option 
+        value="Qatar">Qatar</option>
+        <option value="Romania">Romania</option>
+        <option value="Russia">Russia</option>
+        <option 
+        value="Rwanda">Rwanda</option>
+        <option value="Saint Helena">Saint 
+          Helena</option>
+        <option value="Saint Kitts And Nevis">Saint Kitts And 
+          Nevis</option>
+        <option value="Saint Lucia">Saint Lucia</option>
+        <option 
+        value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
+        <option value="Samoa">Samoa</option>
+        <option value="San Marino">San 
+          Marino</option>
+        <option value="Sao Tome and Principe">Sao Tome and 
+          Principe</option>
+        <option value="Saudi Arabia">Saudi Arabia</option>
+        <option value="Senegal">Senegal</option>
+        <option 
+        value="Seychelles">Seychelles</option>
+        <option value="Sierra Leone">Sierra 
+          Leone</option>
+        <option value="Singapore">Singapore</option>
+        <option 
+        value="Slovakia">Slovakia</option>
+        <option 
+        value="Slovenia">Slovenia</option>
+        <option value="Solomon Islands">Solomon 
+          Islands</option>
+        <option value="Somalia">Somalia</option>
+        <option 
+        value="South Africa">South Africa</option>
+        <option 
+        value="Spain">Spain</option>
+        <option value="Sri Lanka">Sri Lanka</option>
+        <option value="Sudan">Sudan</option>
+        <option 
+        value="Suriname">Suriname</option>
+        <option 
+        value="Swaziland">Swaziland</option>
+        <option value="Sweden">Sweden</option>
+        <option value="Switzerland">Switzerland</option>
+        <option 
+        value="Syria">Syria</option>
+        <option value="Taiwan">Taiwan</option>
+        <option 
+        value="Tajikistan">Tajikistan</option>
+        <option 
+        value="Tanzania">Tanzania</option>
+        <option 
+        value="Thailand">Thailand</option>
+        <option value="Togo">Togo</option>
+        <option value="Tokelau">Tokelau</option>
+        <option 
+        value="Tonga">Tonga</option>
+        <option value="Trinidad And Tobago">Trinidad 
+          And Tobago</option>
+        <option value="Tunisia">Tunisia</option>
+        <option 
+        value="Turkey">Turkey</option>
+        <option 
+        value="Turkmenistan">Turkmenistan</option>
+        <option 
+        value="Turks And Caicos Islands">Turks And Caicos Islands</option>
+        <option value="Tuvalu">Tuvalu</option>
+        <option 
+        value="Uganda">Uganda</option>
+        <option value="Ukraine">Ukraine</option>
+        <option value="United Arab Emirates">United Arab Emirates </option>
+        <option value="United Kingdom">United Kingdom </option>
+        <option 
+        value="United States">United States</option>
+        <option 
+        value="Uruguay">Uruguay</option>
+        <option 
+        value="Uzbekistan">Uzbekistan</option>
+        <option 
+        value="Vanuatu">Vanuatu</option>
+        <option 
+        value="Venezuela">Venezuela</option>
+        <option 
+        value="Vietnam">Vietnam</option>
+        <option 
+        value="Virgin Islands (British)">Virgin Islands (British)</option>
+        <option value="Virgin Islands (US)">Virgin Islands (US) </option>
+        <option 
+        value="Wallis And Futuna Islands">Wallis And Futuna Islands</option>
+        <option value="Western Sahara">Western Sahara </option>
+        <option 
+        value="Yemen">Yemen</option>
+        <option value="Yugoslavia">Yugoslavia</option>
+        <option value="Zambia">Zambia</option>
+        <option 
+        value="Zimbabwe">Zimbabwe</option>
+     
+                              </select>
+                          </div>
+                            <div class="form-group s2"  >
+                      <label for="gender">Gender:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <select name="gender" class="form-control" value="" required>
+                        <option value="">--Gender--</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="religion">Religion:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="religion" placeholder="Enter Your Religion" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="caddress">Child's Current Address:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="caddress" placeholder="Enter Your Child's Current Address" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="cresides">Currently Resides With:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <select name="cresides" class="form-control" value="" required>
+                        <option value="">--Select--</option>
+                        <option value="Both Parents">Both Parents</option>
+                        <option value="Mother">Mother</option>
+                        <option value="Father">Father</option>
+                        <option value="Guardian">Guardian</option>
+                      </select>
+                    </div>  
+                    <h4 for="">OTHER SIBLINGS AT COMMAND DAY SECONDARY SCHOOL:</h4><br>
+                    <div class="form-group  col-md-4">
+                      <label class="control-label" for="siblingsn">Name:</label>
+                      <input type="text" value="" class="name form-control" name="siblingsn" placeholder="Enter Sibling Name">
+                    </div>
+                    <div class="form-group  col-md-4">
+                      <label class="control-label" for="">Class:</label>
+                      <select name="siblingsc" class="form-control" value="">
+                        <option value="">--Select Sibling's Class--</option>
+                        <option value="JSS1">JSS 1</option>
+                        <option value="JSS2">JSS 2</option>
+                        <option value="JSS3">JSS 3</option>
+                        <option value="SSS1">SSS 1</option>
+                        <option value="SSS2">SSS 2</option>
+                        <option value="SSS3">SSS 3</option>
+                      </select>
+                    </div>
+                    <div class="form-group  col-md-4">
+                      <label class="control-label" for="siblingsd">Date of Birth:</label>
+                      <input type="date" value="" class="name form-control" name="siblingsd" placeholder="Enter Sibling Date of Birth">
+                    </div>
+                    <div class="form-group  col-md-4">
+                      <label class="control-label" for="siblingsn1">Name:</label>
+                      <input type="text" value="" class="name form-control" name="siblingsn1" placeholder="Enter Sibling Name">
+                    </div>
+                    <div class="form-group  col-md-4">
+                      <label class="control-label" for="">Class:</label>
+                      <select name="siblingsc1" class="form-control" value="">
+                        <option value="">--Select Sibling's Class--</option>
+                        <option value="JSS1">JSS 1</option>
+                        <option value="JSS2">JSS 2</option>
+                        <option value="JSS3">JSS 3</option>
+                        <option value="SSS1">SSS 1</option>
+                        <option value="SSS2">SSS 2</option>
+                        <option value="SSS3">SSS 3</option>
+                      </select>
+                    </div>
+                    <div class="form-group  col-md-4">
+                      <label class="control-label" for="siblingsd1">Date of Birth:</label>
+                      <input type="date" value="" class="name form-control" name="siblingsd1" placeholder="Enter Sibling Date of Birth">
+                    </div>
+                    <div class="form-group  col-md-4">
+                      <label class="control-label" for="siblingsn2">Name:</label>
+                      <input type="text" value="" class="name form-control" name="siblingsn2" placeholder="Enter Sibling Name">
+                    </div>
+                    <div class="form-group  col-md-4">
+                      <label class="control-label" for="siblingsc2">Class:</label>
+                      <select name="siblingsc2" class="form-control" value="">
+                        <option value="">--Select Sibling's Class--</option>
+                        <option value="JSS1">JSS 1</option>
+                        <option value="JSS2">JSS 2</option>
+                        <option value="JSS3">JSS 3</option>
+                        <option value="SSS1">SSS 1</option>
+                        <option value="SSS2">SSS 2</option>
+                        <option value="SSS3">SSS 3</option>
+                      </select>
+                    </div>
+                    <div class="form-group  col-md-4">
+                      <label class="control-label" for="siblingsd2">Date of Birth:</label>
+                      <input type="date" value="" class="name form-control" name="siblingsd2" placeholder="Enter Sibling Date of Birth">
+                    </div>
+                    <div class="col-xs-12"><hr></div>
+
+
+                    <div class="">
+                      <h1 style="color: #000;">Entry Details</h1>
+                    </div><hr>
+
+                    <div class="form-group">
+                      <label class="control-label" for="prodate">Proposed Date of Entry:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="date" value="" class="name form-control" name="prodate" placeholder="Enter Proposed Date of Entry" required="">
+                    </div>
+                    <h4 for="gutitle">ADMISSION SESSION/TERM DETAILS:</h4><br>
+                    <div class="form-group  col-md-6">
+                      <label class="control-label" for="session">Session:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <select name="session" class="form-control" value="" required>
+                        <option value="">--Select Session--</option>
+                                                <option value="2021-2022">2021-2022</option>
+                                                <option value="2022-2023">2022-2023</option>
+                                                <option value="2023-2024">2023-2024</option>
+                                                <option value="2024-2025">2024-2025</option>
+                                                <option value="2025-2026">2025-2026</option>
+                                                <option value="2026-2027">2026-2027</option>
+                      </select>
+                    </div>
+                    <div class="form-group  col-md-6">
+                      <label class="control-label" for="term">Term:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <select name="term" class="form-control" value="" required>
+                        <option value="">--Select Term--</option>
+                        <option value="1st">1st</option>
+                                                <option value="2nd">2nd</option>
+                                                <option value="3rd">3rd</option>
+                      </select>
+                    </div> 
+                    <div class="form-group">
+                        <label for="medneeds">Does your child have any medical conditions/allergies or special educational needs? (Please give details):<em style="color: red;font-weight: bolder;">*</em></label>
+                      <textarea type="text" value="" class="name form-control" name="medneeds" placeholder="Please Enter Details" required>
+                      </textarea>
+                    </div>
+                    <div class="col-xs-12"><hr></div>
+
+
+                    <div class="">
+                      <h1 style="color: #000;">Parents' Details</h1>
+                    </div><hr>
+                    <h4 for="gutitle">MOTHER:</h4><br>
+                    <div class="form-group col-md-6">
+                        <label for="motitle">Title:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="motitle" placeholder="Please Enter Title" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="moname">Name:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="moname" placeholder="Mother's Name" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="mostate">State of Origin:</label>
+                      <input type="text" value="" class="name form-control" name="mostate" placeholder="Mother's State of Origin">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="mobday">Birthday:</label>
+                      <input type="number" value="" class="name form-control" name="mobday" placeholder="Mother's Birthday">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="mobmonth">Birth Month:</label>
+                      <input type="Text" value="" class="name form-control" name="mobmonth" placeholder="Mother's Birth Month" >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="mophone">Mobile Phone:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="number" value="" class="name form-control" name="mophone" placeholder="Mother's Mobile Phone Number" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="moccupation">Occupation:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="moccupation" placeholder="Mother's Occupation" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="mophone2">Office Phone:</label>
+                      <input type="number" value="" class="name form-control" name="mophone2" placeholder="Mother's Office Phone Number">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="moaddress">Full Postal Address:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="moaddress" placeholder="Mother's Full Address" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="moemail">E-Mail Address:</label>
+                      <input type="email" value="" class="name form-control" name="moemail" placeholder="Mother's E-mail Address" >
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="moaddress2">Business Address:</label>
+                      <input type="text" value="" class="name form-control" name="moaddress2" placeholder="Mother's Business Address">
+                    </div><div class="col-xs-12"><br></div>
+
+                    <h4 for="gutitle">FATHER:</h4><br>
+                    <div class="form-group col-md-6">
+                        <label for="fatitle">Title:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="fatitle" placeholder="Please Enter Title" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="faname">Name:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="faname" placeholder="Father's Name" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="fastate">State of Origin:</label>
+                      <input type="text" value="" class="name form-control" name="fastate" placeholder="Father's State of Origin" >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="fabday">Birthday:</label>
+                      <input type="number" value="" class="name form-control" name="fabday" placeholder="Father's Birthday">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="fabmonth">Birth Month:</label>
+                      <input type="text" value="" class="name form-control" name="fabmonth" placeholder="Father's Birth Month" >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="faphone">Mobile Phone:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="number" value="" class="name form-control" name="faphone" placeholder="Father's Mobile Phone Number" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="faccupation">Occupation:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="faccupation" placeholder="Father's Occupation" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="faphone2">Office Phone:</label>
+                      <input type="number" value="" class="name form-control" name="faphone2" placeholder="Father's Office Phone Number">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="faaddress">Full Postal Address:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="faaddress" placeholder="Father's Full Address" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="faemail">E-Mail Address:</label>
+                      <input type="email" value="" class="name form-control" name="faemail" placeholder="Father's E-mail Address">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="faaddress2">Business Address:</label>
+                      <input type="text" value="" class="name form-control" name="faaddress2" placeholder="Father's Business Address">
+                    </div>              
+                  </div>
+
+
+                  <div class="col-md-6">
+                    <div class="">
+                      <h1 style="color: #000;">Guardians' Details<br><em style="font-size:20px; color:#F60;">Only Enter Details If Applicable</em></h1>
+                    </div><hr>
+                    <div class="form-group col-md-12">
+                        <label for="gutitle">Title:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="gutitle" placeholder="Please Enter Title" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="guname">Name:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="guname" placeholder="Guardian's Name" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="guphone">Mobile Phone:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="number" value="" class="name form-control" name="guphone" placeholder="Guardian's Mobile Phone Number" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="guccupation">Occupation:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="guccupation" placeholder="Guardian's Occupation" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="guphone2">Office Phone:</label>
+                      <input type="number" value="" class="name form-control" name="guphone2" placeholder="Guardian's Office Phone Number">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="guaddress">Full Postal Address:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="guaddress" placeholder="Guardian's Full Address" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="guemail">E-Mail Address:</label>
+                      <input type="email" value="" class="name form-control" name="guemail" placeholder="Guardian's E-mail Address" >
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="guaddress2">Business Address:</label>
+                      <input type="text" value="" class="name form-control" name="guaddress2" placeholder="Guardian's Business Address">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="gurelation">Relationship to Child:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="gurelation" placeholder="Guardian's Relationship to Child" required>
+                    </div>
+                    <div class="col-xs-12"><hr></div>
+
+
+                    <div class="">
+                      <h1 style="color: #000;">Emergency Contact Details<br><em style="font-size:20px; color:#F60;">Other than the Parents or Guardian</em></h1>
+                    </div><hr>
+                    <div class="form-group col-md-12">
+                        <label for="ectitle">Title:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="ectitle" placeholder="Please Enter Title" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="ecname">Name:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="ecname" placeholder="Emergency Contact's Name" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="ecphone">Mobile Phone:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="number" value="" class="name form-control" name="ecphone" placeholder="Emergency Contact's Mobile Phone Number" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="ecphone2">Office Phone:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="number" value="" class="name form-control" name="ecphone2" placeholder="Emergency Contact's Office Phone Number" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="ecaddress">Full Postal Address:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="ecaddress" placeholder="Emergency Contact's Full Address" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="ecemail">E-Mail Address:</label>
+                      <input type="email" value="" class="name form-control" name="ecemail" placeholder="Emergency Contact's E-mail Address">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="ecaddress2">Business Address:<em style="color: red;font-weight: bolder;">*</em></label>
+                      <input type="text" value="" class="name form-control" name="ecaddress2" placeholder="Emergency Contact's Business Address" required>
+                    </div>
+                    <div class="col-xs-12"><hr></div>
+
+
+                    <div class="">
+                      <h1 style="color: #000;">Previous School Details</h1>
+                    </div><hr>
+                    <div class="form-group col-md-12">
+                        <label for="pschname">Name of School:</label>
+                      <input type="text" value="" class="name form-control" name="pschname" placeholder="School Name">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="pschemail">E-Mail Address:</label>
+                      <input type="email" value="" class="name form-control" name="pschemail" placeholder="School E-mail Address" >
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="pschphone">Phone Number:</label>
+                      <input type="number" value="" class="name form-control" name="pschphone" placeholder="School Phone Number">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="pschaddress">Address:</label>
+                      <input type="text" value="" class="name form-control" name="pschaddress" placeholder="School Full Address" >
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="pschhead">Head Teacher's Name:</label>
+                      <input type="text" value="" class="name form-control" name="pschhead" placeholder="School Head Teacher's Name">
+                    </div><div class="col-xs-12"><hr></div>
+
+                    <div class="col-md-12">
+                          <label for="how"><h4>How did you hear about Command Day Secondary School?<em style="color: red;font-weight: bolder;">*</em></h4></label>
+                        <input type="text" value="" class="name form-control" name="how" placeholder="Please Enter How you got to know about us" required>
+                    </div><br>
+
+                      <div class="form-group col-md-6">
+                        <label for="howname">Referrer's Name:</label>
+                        <input type="text" value="" class="name form-control" name="howname" placeholder="Please Enter Referrer's Name">
+                      </div>
+                      <div class="form-group col-md-6">
+                         <label for="howphone">Referrer's Phone Number:</label>
+                        <input type="text" value="" class="name form-control" name="howphone" placeholder="Please Enter Referrer's Phone Number">
+                      </div><div class="col-xs-12"><hr></div>
+
+
+                      <h2 class="" align="center" style="color: maroon;"><b>Declaration</h2>
+                      <div class="clearfix"></div>
+                      <h4 align="justify">
+                        I/We request that the name of our child as entered in this form be registered as a prospective pupil. I/We understand that the terms and conditions of the school will undergo reasonable changes from time to time, as circumstances require, and will comply in all our dealings with the school.
+                      </h4><br><div class="col-xs-12"><hr></div>
+
+                      <button type="submit" value="SUBMIT" class="btn btn-success" name="submit" style="width:100%;">Submit</button>
+                  </div>
+
+                  <div class="clearfix"></div>
+                </form>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      <!--What we do-->
+    <!--content-->
+
+{% endblock %}
+
+{% block script %} 
+
+  <!-- passport preview -->
+      <script>
+        var loadFile = function(event) {
+          document.getElementById('paspot').src = URL.createObjectURL(event.target.files[0]);
+        };
+      </script>
+    <!-- passport preview ends -->
+    
+      <script type="text/javascript">
+        setTimeout(function(){
+                if ($('#tooltipm').length > 0) {
+                  $('#tooltipm').fadeOut("slow");
+                }
+              }, 15000)
+      </script>
+      <script type="text/javascript">
+        setTimeout(function(){
+                if ($('#tooltipm2').length > 0) {
+                  $('#tooltipm2').fadeOut("slow");
+                }
+              }, 7000)
+      </script>
+   <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $(".scroll").click(function(event){
+          event.preventDefault();
+          $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+        });
+      });
+       /*$('a').on('click', function(e){
+      e.preventDefault();
+      });*/
+  </script>
+    <script type="text/javascript">
+$('ul.nav li.dropdown').hover(function() { //alert('');
+  $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
+}, function() {
+  $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
+});
+  </script>
+
+    <!-- //end-smoth-scrolling -->
+    <script src="{% static 'main/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'main/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.html' %}"></script>
+    <script type="text/javascript" src="{% static 'main/js/select2.full.min.html' %}"></script>
+    <script src="{% static 'main/js/countries.html' %}"></script>
+  <script>
+populateCountries("country", "state");
+populateCountries("nationality");
+$('.select').select2();
+          //Add text editor
+          $('.textarea').wysihtml5(
+      {"font-styles": true, //Font styling, e.g. h1, h2, etc. Default true
+  "emphasis": true, //Italics, bold, etc. Default true
+  "lists": true, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+  "html": true, //Button which allows you to edit the generated HTML. Default false
+  "link": true, //Button to insert a link. Default true
+  "image": false,
+  "color": true //Button to change color of font  );
+        });
+      </script>
+
+
+
+<script type="text/javascript">
+$(function()
+{
+    $('#newsScroll').each(function()
+    {
+        var scroller = $(this);
+        var list = scroller.children('ul');
+
+        var listH = list.height();
+        var scrollerH = scroller.height();
+        list.css({
+            marginTop: scrollerH,
+            marginBottom: scrollerH
+        });
+        scroller.css({
+            overflow: 'hidden'
+        });
+
+        var isOver = false;
+        scroller.bind('mouseenter mouseleave', function(e) {
+            isOver = (e.type == 'mouseenter');
+        });
+
+        var scroll = 0;
+        setInterval(function()
+        {
+            if (isOver) return;
+            scroll++;
+            var newTop = scroll % (listH + scrollerH);
+            scroller.scrollTop(newTop);
+        }, 30);
+
+    });
+});
+
+</script>
+
+{% endblock %}
+ 

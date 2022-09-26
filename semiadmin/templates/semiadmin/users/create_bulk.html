@@ -1,0 +1,254 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Add Student | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                        <!--title-->
+<div class="row ">
+      <div class="col-xl-12">
+          <div class="card">
+              <div class="card-body">
+                  <h4 class="page-title">
+                      <i class="mdi mdi-account-multiple-plus title_icon"></i> Student admission form                  </h4>
+              </div> <!-- end card body-->
+          </div> <!-- end card -->
+      </div><!-- end col-->
+  </div>
+<div class="row">
+    <div class="col-12">
+        <div class="card pt-0">
+            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                <li class="nav-item">
+                    <a href="/portal/admin/student/create" class="nav-link rounded-0 ">
+                        <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
+                        <span class="d-none d-lg-block">Single student admission</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/portal/admin/student/create_bulk" class="nav-link rounded-0 active">
+                        <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                        <span class="d-none d-lg-block">Bulk student admission</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/portal/admin/student/create_excel" class="nav-link rounded-0 ">
+                        <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                        <span class="d-none d-lg-block">Excel upload</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <form method="POST" class="col-md-12 ajaxForm" action="/portal/admin/student/create_bulk" id = "student_admission_form">
+                        {% csrf_token %}
+    <div class="row justify-content-md-center">
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <select name="class_id" id="class_id" class="form-control select2" data-toggle = "select2" onchange="classWiseSection(this.value)" required>
+                <option value="">Select a class</option>
+                {% for the_class in the_classes %}
+                <option value="{{ the_class.the_class }}">{{ the_class.the_class }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3 mb-lg-0" id = "section_content">
+            <select name="section_id" id="section_id" class="form-control select2" data-toggle = "select2" required >
+                <option value="">Select section</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div id = "first-row">
+        <div class="row">
+            <div class="col-xl-11 col-lg-11 col-md-12 col-sm-12 mb-3 mb-lg-0">
+                <div class="row justify-content-md-center">
+                    <div class="form-group col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mb-lg-0">
+                        <input type="text" name="name[]" class="form-control"  value="" placeholder="Name" required>
+                    </div>
+                    <div class="form-group col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mb-lg-0">
+                        <input type="email" name="email[]" class="form-control"  value="" placeholder="Email">
+                    </div>
+                    <div class="form-group col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mb-lg-0">
+                        <input type="student_id" name="student_id[]" class="form-control"  value="" placeholder="Student ID" required>
+                    </div>
+                    <div class="form-group col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mb-lg-0">
+                        <input type="password" name="password[]" class="form-control"  value="" placeholder="Password">
+                    </div>
+                    <div class="form-group col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mb-lg-0">
+                        <select name="gender[]" class="form-control" required>
+                            <option value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mb-lg-0">
+                        <select name="parent_id[]" class="form-control">
+                            <option value="">Select a parent</option>
+                            {% for parent in parents %}
+                                <option value="{{ parent.id }}">{{ parent.title }} {{ parent.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 mb-3 mb-lg-0">
+                <div class="row justify-content-md-center">
+                    <div class="form-group col">
+                        <button type="button" class="btn btn-icon btn-success" onclick="appendRow()"> <i class="mdi mdi-plus"></i> </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-secondary col-md-4 col-sm-12 mb-4 mt-2">Add students</button>
+    </div>
+</form>
+
+<div id = "blank-row" style="display: none;">
+    <div class="row student-row">
+        <div class="col-xl-11 col-lg-11 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <div class="row justify-content-md-center">
+                <div class="form-group col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mb-lg-0">
+                    <input type="text" name="name[]" class="form-control"  value="" placeholder="Name">
+                </div>
+                <div class="form-group col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mb-lg-0">
+                    <input type="email" name="email[]" class="form-control"  value="" placeholder="Email">
+                </div>
+
+                <div class="form-group col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mb-lg-0">
+                    <input type="student_id" name="student_id[]" class="form-control"  value="" placeholder="Student ID">
+                </div>
+                <div class="form-group col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mb-lg-0">
+                    <input type="password" name="password[]" class="form-control"  value="" placeholder="Password">
+                </div>
+
+                <div class="form-group col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mb-lg-0">
+                    <select name="gender[]" class="form-control">
+                        <option value="">Select gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mb-lg-0">
+                    <select name="parent_id[]" class="form-control">
+                        <option value="">Select a parent</option>
+                        {% for parent in parents %}
+                            <option value="{{ parent.id }}">{{ parent.title }} {{ parent.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <div class="row justify-content-md-center">
+                <div class="form-group col">
+                    <button type="button" class="btn btn-icon btn-danger" onclick="removeRow(this)"> <i class="mdi mdi-window-close"></i> </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+var blank_field = $('#blank-row').html();
+
+function appendRow() {
+    $('#first-row').append(blank_field);
+}
+
+function removeRow(elem) {
+    $(elem).closest('.student-row').remove();
+}
+</script>
+
+<script>
+var form;
+$(".ajaxForm").submit(function(e) {
+    form = $(this);
+    ajaxSubmit(e, form, refreshForm);
+});
+var refreshForm = function () {
+    form.trigger("reset");
+}
+</script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+var class_id = "";
+var section_id = "";
+$('document').ready(function(){
+    if (class_id != null) {
+        $('#class_id').each(function(index, element) {
+            $(this).find('option[value="'+class_id+'"]').prop('selected', true).change();
+        });
+        classWiseSection(class_id);
+    }
+
+    if (section_id != null) {
+        $('#section_id option').each(function(index, element) {
+            $(this).find('option[value="'+section_id+'"]').prop('selected', true).trigger('change');
+        });
+    }
+
+    if (class_id != "" && section_id != "") {
+        filter_student(class_id, section_id);
+    }
+});
+
+function classWiseSection(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section_no/"+classId,
+        success: function(response){
+            $('#section_id').html(response);
+            // $('#section_id').val(section_id).change();
+        }
+    });
+}
+
+function filter_student(class_id, section_id){
+    if (class_id == '')
+        var class_id = $('#class_id').val();
+
+    if (section_id == '')
+        var section_id = $('#section_id').val();
+
+    if(class_id != "" && section_id!= ""){
+        showAllStudents(class_id, section_id);
+    }else{
+        toastr.error('Please select a class and section');
+    }
+}
+
+var showAllStudents = function(class_id, section_id) {
+    if (class_id == '')
+        var class_id = $('#class_id').val();
+
+    if (section_id == '')
+        var section_id = $('#section_id').val();
+
+    if(class_id != "" && section_id!= ""){
+        $.ajax({
+            url: 'https://cdssenugu.org/portal/admin/student/filter/'+class_id+'/'+section_id,
+            success: function(response){
+                $('.student_content').html(response);
+            }
+        });
+    }
+}
+</script>
+{% endblock %}
+                    

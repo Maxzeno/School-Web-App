@@ -1,0 +1,48 @@
+ <table id="basic-datatable" class="table table-striped" style="width:100%">
+        <thead>
+            <tr style="background-color: #313a46; color: #ababab;">
+            <th>No.</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Designation</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tbody in tbodys %}
+            <tr>
+                <td></td>                
+                {% for tb in tbody %} 
+                    {% if forloop.first %}
+                    <td>
+                      <img class="rounded-circle" width="50" height="50" src="{{ tb }}"> 
+                    </td>
+
+                    {% elif forloop.last %}
+                        <td>
+                            <div class="dropdown text-center">
+                            <button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="true"><i class="mdi mdi-dots-vertical"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-106px, 33px, 0px);">
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/teacher/permission/{{ tb }}', 'Assigned permissions')">Permissions</a>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/management_team/management_team_edit/{{ tb }}', 'Update management team')">Edit</a>
+                                <a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/management_team/management_team_password/{{ tb }}', 'Change password')">Change password</a>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/management_team/delete/{{ tb }}', showAllTeachers )">Delete</a>
+                            </div>
+                            </div>
+                        </td>
+
+                      
+                    {% else %}
+                        <td>{{ tb }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>

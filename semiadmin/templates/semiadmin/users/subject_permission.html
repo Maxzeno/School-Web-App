@@ -1,0 +1,172 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Subject permissions | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-account-multiple-check title_icon"></i> Assigned subject permission for teacher </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="row mt-3">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <select name="class" id="class_id" class="form-control select2" data-toggle = "select2" onchange="classWiseSection(this.value)" required>
+                        <option value="">Select a class</option>
+                        {% for the_class in the_classes %}
+                        <option value="{{ the_class.the_class }}">{{ the_class.the_class }}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="section" id="section_id" class="form-control select2" data-toggle = "select2"  required>
+                        <option value="">Select a section</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="subject" id="subject_id" class="form-control select2" data-toggle = "select2"  required>
+                        <option value="">Select a subject</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-block btn-secondary" onclick="filter()" >Filter by subject</button>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-block btn-danger" onclick="filter_by_class_section()" >Filter by class</button>
+                </div>
+            </div>
+            <div class="card-body permission_content">
+
+
+            	<div class="empty_box">
+                    <img class="mb-3" width="150px" src="{% static 'portal/assets/backend/images/empty_box.png' %}"/>
+                    <br>
+                    <span class="">No data found</span>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modyfy section -->
+<script>
+    $('document').ready(function(){
+
+    });
+
+    function classWiseSection(classId) {
+        $.ajax({
+            url: "/portal/admin/student/other/student_section_no/"+classId,
+            success: function(response){
+                $('#section_id').html(response);
+            }
+        });
+
+        $.ajax({
+            url: "/portal/admin/student/other/student_subject/"+classId,
+            success: function(response){
+                $('#subject_id').html(response);
+            }
+        });
+    }
+
+    function filter(){
+        var class_id = $('#class_id').val();
+        var section_id = $('#section_id').val();
+        var subject_id = $('#subject_id').val();
+        if(class_id != "" && section_id!= "" && subject_id!= ""){
+            $.ajax({
+                url: '/portal/admin/teacher/filter/subject_permission/'+class_id+'/'+section_id+'/'+subject_id,
+                success: function(response){
+                    $('.permission_content').html(response);
+                }
+            });
+        }else{
+            toastr.error('Please select a class and section');
+        }
+    }
+
+    function filter_by_class_section(){
+        var class_id = $('#class_id').val();
+        var section_id = $('#section_id').val();
+        if(class_id != "" && section_id!= ""){
+            $.ajax({
+                url: '/portal/admin/teacher/filter/class_permission/'+class_id+'/'+section_id,
+                success: function(response){
+                    $('.permission_content').html(response);
+                }
+            });
+        }else{
+            toastr.error('Please select a class and section');
+        }
+    }
+</script>
+
+<!-- permission insert and update -->
+<script>
+    function togglePermission(checkbox_id, column_name, teacher_id){
+
+        var value = $('#'+checkbox_id).val();
+        if(value == 1){
+            value = 0;
+        }else{
+            value = 1;
+        }
+        var class_id = $('#class_id').val();
+        var section_id = $('#section_id').val();
+        var subject_id = $('#subject_id').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/portal/admin/teacher/subject_permission_set',
+            data: {class_id : class_id, section_id : section_id, subject_id : subject_id, teacher_id : teacher_id, column_name : column_name,  value : value, csrfmiddlewaretoken: '{{ csrf_token }}'},
+            success: function(response){
+                $('.permission_content').html(response);
+                toastr.success('Subject permission updated successfully.');
+            }
+        });
+
+    }
+
+    function toggleClassSectionSubjectPermission(checkbox_id, column_name, teacher_id, subject_id){
+
+        var value = $('#'+checkbox_id).val();
+        if(value == 1){
+            value = 0;
+        }else{
+            value = 1;
+        }
+        var class_id = $('#class_id').val();
+        var section_id = $('#section_id').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/portal/admin/teacher/class_permission_set',
+            data: {class_id : class_id, section_id : section_id, subject_id : subject_id, teacher_id : teacher_id, column_name : column_name,  value : value, csrfmiddlewaretoken: '{{ csrf_token }}'},
+            success: function(response){
+                $('.permission_content').html(response);
+                toastr.success('Subject permission updated successfully.');
+            }
+        });
+
+    }
+</script>
+{% endblock %}
+                    

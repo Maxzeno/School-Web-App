@@ -1,0 +1,62 @@
+<div class="card-body permission_content"><div class="row mb-3">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 toll-free-box text-center text-white pb-2" style="background-color: #6c757d; border-radius: 10px;">
+        <h4>Subjects permission for</h4>
+        <span>{{ the_class }} {{ the_section }}</span><br>
+    </div>
+</div>
+
+<table id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+    <thead>
+        <tr style="background-color: #313a46; color: #ababab;">
+            <th>Teacher</th>
+            <th>Exam marks</th>
+            <th>Assignment</th>
+            <th>Mid term</th>
+            <th>Attendance</th>
+            <th>Online exam</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for perm in perms %}
+            <tr>
+                <td colspan="6"><h3>{{ perm.0.name }}</h3></td>        
+            </tr>
+
+            {% for per in perm.1 %}
+                <tr>
+                    <td align="right">{{ per.0.name }}</td>
+                    <td>
+                        <input type="checkbox" value="{% if per.1.0 == 'checked' %}1{% else %}0{% endif %}" {{ per.1.0 }} id="{{ per.0.pk }}exam" data-switch="success" onchange="toggleClassSectionSubjectPermission(this.id, 'exam', '{{ perm.0.pk }}', '{{ per.0.pk }}')">
+                        <label for="{{ per.0.pk }}exam" data-on-label="Yes" data-off-label="No">
+                    </label></td> 
+                    <td>
+                        <input type="checkbox" value="{% if per.1.1 == 'checked' %}1{% else %}0{% endif %}" {{ per.1.1 }} id="{{ per.0.pk }}assignment" data-switch="success" onchange="toggleClassSectionSubjectPermission(this.id, 'assignment', '{{ perm.0.pk }}', '{{ per.0.pk }}')">
+                        <label for="{{ per.0.pk }}assignment" data-on-label="Yes" data-off-label="No">
+                    </label></td> 
+                    <td>
+                        <input type="checkbox" value="{% if per.1.2 == 'checked' %}1{% else %}0{% endif %}" {{ per.1.2 }} id="{{ per.0.pk }}mid_term" data-switch="success" onchange="toggleClassSectionSubjectPermission(this.id, 'mid_term', '{{ perm.0.pk }}', '{{ per.0.pk }}')">
+                        <label for="{{ per.0.pk }}mid_term" data-on-label="Yes" data-off-label="No">
+                    </label></td> 
+                    <td>
+                        <input type="checkbox" value="{% if per.1.3 == 'checked' %}1{% else %}0{% endif %}" {{ per.1.3 }} id="{{ per.0.pk }}attendance" data-switch="success" onchange="toggleClassSectionSubjectPermission(this.id, 'attendance', '{{ perm.0.pk }}', '{{ per.0.pk }}')">
+                        <label for="{{ per.0.pk }}attendance" data-on-label="Yes" data-off-label="No">
+                    </label></td> 
+                    <td>
+                        <input type="checkbox" value="{% if per.1.4 == 'checked' %}1{% else %}0{% endif %}" {{ per.1.4 }} id="{{ per.0.pk }}online_exam" data-switch="success" onchange="toggleClassSectionSubjectPermission(this.id, 'online_exam', '{{ perm.0.pk }}', '{{ per.0.pk }}')">
+                        <label for="{{ per.0.pk }}online_exam" data-on-label="Yes" data-off-label="No">
+                    </label></td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+                   
+        </tbody>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+initDataTable('basic-datatable');
+</script>
+
+          

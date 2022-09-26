@@ -1,0 +1,79 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} <title>Manage marksheet | Command Day Secondary School</title> {% endblock %}
+
+
+{% block body %}
+
+<!-- PAGE CONTAINER-->
+            <div class="content-page">
+                <div class="content content-main">
+                    <div class="loadings hidden"></div>
+                    <!-- BEGIN PlACE PAGE CONTENT HERE -->
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-format-list-numbered title_icon"></i> Student marksheet session filter: {{ student.name.upper }} ({{ student.pk }})</h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+<div class="col-12 d-block">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">                       
+                <div class="row mt-3">             
+                    <div class="col-md-3 mb-1"></div>
+                    <div class="col-md-4 mb-1">
+                        <input type="hidden" name="student_id" value="925" id="student_id" required="">
+                        <select name="session" id="session" class="form-control select2 select2-hidden-accessible" data-toggle="select2" required="" data-select2-id="session" tabindex="-1" aria-hidden="true">
+                            <option value="">Select a session</option>
+                            {% for session in sessions %}
+                                <option value="{{ session.pk }}">{{ session.session }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-block btn-secondary" onclick="filter()">Filter</button>
+                    </div>
+                </div>   
+                
+                <div class="card-body mark_content">
+                  <div class="empty_box">
+                    <img class="mb-3" width="150px" src="{% static 'portal/assets/backend/images/empty_box.png' %}"/>
+                    <br>
+                    <span class="">No data found</span>
+                </div>
+                </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+
+function filter(){
+  let session = $("#session").val();
+    if(session != ""){
+        $.ajax({
+            url: '/portal/admin/student/marksheet/filter/{{ student.replace_slash_with_dash }}/' + session,
+            success: function(response){
+                $('.mark_content').html(response);
+            }
+        });
+    }else{
+        toastr.error('Please select a session');
+    }
+}
+
+</script>  
+
+
+  {% endblock %}

@@ -1,0 +1,89 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/noticeboard/create" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="form-row">
+
+      <div class="form-group col-md-12">
+        <label for="notice_title">Notice title</label>
+        <input type="text" class="form-control" id="notice_title" name="notice_title" value="" required="">
+        <small id="name_help" class="form-text text-muted">Provide title name</small>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="date">Date</label>
+        <input type="text" value="" class="form-control" id="date" name="date" data-toggle="date-picker" data-single-date-picker="true" required="">
+        <small id="name_help" class="form-text text-muted">Provide date</small>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="excerpts">Excerpts</label>
+        <textarea name="excerpts" class="form-control" rows="4" cols="80" required=""></textarea>
+        <small id="name_help" class="form-text text-muted">Provide notice excerpts</small>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="notice">Notice</label>
+        <!-- <textarea name="notice" id="notice" class="form-control editor" rows="8" cols="80" required=""></textarea> -->
+        <textarea name="notice" id="notice" class="form-control" rows="8" cols="80" required=""></textarea>
+        <small id="name_help" class="form-text text-muted">Provide notice details</small>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="show_on_website">Show on website</label>
+        <select name="show_on_website" id="show_on_website" class="form-control select2 select2-hidden-accessible" data-toggle="select2" tabindex="-1" aria-hidden="true">
+          <option value="1">Show</option>
+          <option value="0">Do not need to show</option>
+        </select>
+        <small id="" class="form-text text-muted">Notice status</small>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="notice_photo">Upload notice photo</label>
+        <div class="custom-file-upload">
+                    <input type="file" id="notice_photo" class="form-control" name="notice_photo">
+          </div>
+      </div>
+
+      <div class="form-group  col-md-12">
+        <button class="btn btn-block btn-primary" type="submit">Save notice</button>
+      </div>
+    </div>
+  </form>
+
+
+<script>
+  $(document).ready(function() {
+    $('#date').daterangepicker();
+});
+
+initSelect2(['#status', '#show_on_website']);
+initCustomFileUploader();
+</script>
+
+<script>
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllNotices);
+});
+</script>
+
+<script>
+$(document).ready(function() {
+  tinymce.init({ 
+      selector:'.editor',
+      theme: 'modern',
+      plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap emoticons',
+      imagetools_cors_hosts: ['picsum.photos'],
+      menubar: 'file edit view insert format tools table help',
+      toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+      height: 200
+  });
+});
+
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  $('#notice').html( tinymce.get('notice').getContent() );
+  var form = $(this);
+  ajaxSubmit(e, form, showAllNotices);
+});
+</script>
+

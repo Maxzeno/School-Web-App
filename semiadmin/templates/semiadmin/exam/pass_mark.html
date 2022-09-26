@@ -1,0 +1,81 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Pass marks | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-grease-pencil title_icon"></i> Pass marks          <button type="button" class="btn btn-outline-primary btn-rounded alignToTitle" onclick="rightModal('/portal/admin/pass_mark/create', 'Add grade')"> <i class="mdi mdi-plus"></i> Add pass mark</button>
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body pass_marks_content">
+                <table id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+    <thead>
+        <tr style="background-color: #313a46; color: #ababab;">
+            <th>No.</th>
+            <th>Mark</th>
+            <th>Period</th>
+            <th>Category</th>
+            <th>Subject</th>
+            <th>Session</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+	<tbody>
+		{% for pass_mark in pass_marks %}
+		<tr>
+            <td>{{ forloop.counter }}</td>
+			<td>{{ pass_mark.mark }}</td>
+			<td>{{ pass_mark.period }}</td>
+			<td>{{ pass_mark.category }}</td>
+			<td>{{ pass_mark.subject.name }}</td>
+			<td>{{ pass_mark.session.session }}</td>
+			<td>
+			<div class="dropdown text-center">
+				<button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+				<div class="dropdown-menu dropdown-menu-right">
+				<!-- item-->
+				<a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/pass_mark/edit/{{ pass_mark.pk }}', 'Update pass mark');">Edit</a>
+				<!-- item-->
+				<a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/pass_mark/delete/{{ pass_mark.pk }}', showAllPassMarks )">Delete</a>
+				</div>
+			</div>
+			</td>
+		</tr>
+   		{% endfor %}
+	</tbody>
+</table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var showAllPassMarks = function () {
+        var url = '/portal/admin/pass_mark/all';
+
+        $.ajax({
+            type : 'GET',
+            url: url,
+            success : function(response) {
+                $('.pass_marks_content').html(response);
+                initDataTable('basic-datatable');
+            }
+        });
+    }
+</script>
+{% endblock %}

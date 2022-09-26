@@ -1,0 +1,40 @@
+<div class="row" style="margin-bottom: 10px; width: 100%;">
+    <div class="col-6"><a href="javascript:" class="btn btn-sm btn-secondary" onclick="present_all()">Present all</a></div>
+    <div class="col-6"><a href="javascript:" class="btn btn-sm btn-secondary float-right" onclick="absent_all()">Absent all</a></div>
+</div>
+
+<div class="table-responsive-sm row col-md-12" style="padding-right: 0px;">
+    <table class="table table-bordered table-centered mb-0">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>
+                {{ student.name }}</td>
+                <td>
+                <input type="hidden" name="student_id[]" value="{{ student.pk }}">
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="" name="status-{{ student.pk }}" value="1" class="present valid" {% if student in attendances %} checked="" {% endif %} required=""> Present &nbsp;
+                    <input type="radio" id="" name="status-{{ student.pk }}" value="0" class="absent valid" {% if student not in attendances %} checked="" {% endif %}required=""> Absent                                                    
+                </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    function present_all() {
+        $(".present").prop('checked', true);
+    }
+
+    function absent_all() {
+        $(".absent").prop('checked',true);
+    }
+</script>

@@ -1,0 +1,75 @@
+
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/librarian/librarian_edit/{{ librarian.id }}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <input type="hidden" name="school_id" value="1">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name = "name" value="{{ librarian.name }}" required>
+            <small id="" class="form-text text-muted">Provide librarian name</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ librarian.email }}" required>
+            <small id="" class="form-text text-muted">Provide librarian email</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="phone">Phone number</label>
+            <input type="text" class="form-control" id="phone" name = "phone" value="{{ librarian.phone }}" required>
+            <small id="" class="form-text text-muted">Provide librarian phone number</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="gender">Gender</label>
+            <select name="gender" id="gender" class="form-control select2" data-toggle = "select2">
+                <option value="">Select a gender</option>
+                <option value="Male"{% if librarian.gender == 'Male' %} selected {% endif %}>Male</option>
+                <option value="Female"{% if librarian.gender == 'Female' %} selected {% endif %}>Female</option>
+                <option value="Others"{% if librarian.gender == 'Others' %} selected {% endif %}>Others</option>
+            </select>
+            <small id="" class="form-text text-muted">Provide librarian gender</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="blood_group">Blood group</label>
+            <select name="blood_group" id="blood_group" class="form-control select2" data-toggle = "select2">
+                <option value="">Select a blood group</option>
+                <option value="a+" {% if librarian.blood_group == 'a+' %} selected {% endif %}>A+</option>
+                <option value="a-" {% if librarian.blood_group == 'a-' %} selected {% endif %}>A-</option>
+                <option value="b+" {% if librarian.blood_group == 'b+' %} selected {% endif %}>B+</option>
+                <option value="b-" {% if librarian.blood_group == 'b-' %} selected {% endif %}>B-</option>
+                <option value="ab+" {% if librarian.blood_group == 'ab+' %} selected {% endif %}>AB+</option>
+                <option value="ab-" {% if librarian.blood_group == 'ab-' %} selected {% endif %}>AB-</option>
+                <option value="o+" {% if librarian.blood_group == 'o+' %} selected {% endif %}>O+</option>
+                <option value="o-" {% if librarian.blood_group == 'o-' %} selected {% endif %}>O-</option>
+            </select>
+            <small id="" class="form-text text-muted">Provide librarian blood group</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="phone">Address</label>
+            <textarea class="form-control" id="address" name = "address" rows="5" required>{{ librarian.address }}</textarea>
+            <small id="" class="form-text text-muted">Provide librarian address</small>
+        </div>
+
+        <div class="form-group mt-2 col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Update librarian</button>
+        </div>
+    </div>
+</form>
+
+<script>
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllLibrarians);
+});
+
+$(document).ready(function () {
+    initSelect2(['#gender', '#blood_group']);
+});
+
+// initCustomFileUploader();
+</script>

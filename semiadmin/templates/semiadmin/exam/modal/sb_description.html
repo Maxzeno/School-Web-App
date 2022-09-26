@@ -1,0 +1,36 @@
+
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/sb_description/create">
+    {% csrf_token %}
+    <input type="hidden" name="school_id" value="1">
+    <div class="form-group col-md-12">
+        <label  class="col-md-3 control-label">Domain</label>
+        <div class="col-md-9">
+            <select name="sb_type" class="form-control selectboxit">
+                <option value="" selected> --Select type--</option>
+                <option value="AFFECTIVE"> AFFECTIVE DOMAIN DOMAIN</option>
+                <option value="COGNITIVE"> COGNITIVE DOMAIN DOMAIN</option>
+                <option value="PSYCHOMOTOR"> PSYCHOMOTOR DOMAIN DOMAIN</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group col-md-12">
+        <label class="col-md-3 control-label">Description</label>
+        <div class="col-md-9 controls">
+            <input type="text" class="form-control" name="description" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-9">
+            <button type="submit" class="btn btn-info">Add description</button>
+        </div>
+    </div>
+</form> 
+
+<script>
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllDomains);
+});
+</script>

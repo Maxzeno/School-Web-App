@@ -1,0 +1,65 @@
+<table id="example" class="table table-striped" style="width:100%">
+        <thead>
+            <tr style="background-color: #313a46; color: #ababab;">
+            {% for thead in theads %}
+                <th>{{ thead }}</th>
+            {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for tbody in tbodys %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                {% for tb in tbody %}   
+                    {% if forloop.counter == 2 %}
+                        <td>
+                            <img class="rounded-circle" width="50" height="50" src="{{ tb }}"> 
+                        </td>
+
+                    {% elif forloop.counter == 4 %}
+
+                        <td>
+                            {% if tb %}
+                            <i class="dripicons-checkmark" title="Result(s) available!"></i>
+                            {% else %}
+                            <i class="" title="Result(s) not available!"></i>
+                            {% endif %}
+                        </td>
+
+                    {% elif forloop.last %}
+                        <td>
+                        <div class="dropdown text-center">
+                            <button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="true"><i class="mdi mdi-dots-vertical"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(-106px, 33px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            <a href="/portal/teacher/student/marksheet/{{ tb }}" class="dropdown-item">
+                                <i class="dripicons-graph-bar"></i> 
+                                <span> Mark sheet </span>
+                            </a>
+                            <a href="javascript:void(0);" class="dropdown-item" onclick="largeModal('/portal/admin/student/student_profile/{{ tb }}', 'Command Day Secondary School')">Profile</a>
+                            </div>
+                        </div>
+                        </td>
+
+                      
+                    {% else %}
+                        <td>{{ tb }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+
+<!-- <script>
+$(document).ready(function () {
+  $('#example').DataTable();
+});
+</script> -->
+
+
+<script type="text/javascript">
+initDataTable('example');
+</script>

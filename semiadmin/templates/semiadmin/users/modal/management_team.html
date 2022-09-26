@@ -1,0 +1,150 @@
+
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/management_team/create" enctype="multipart/form-data">
+  {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <input type="hidden" name="school_id" value="1">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name = "name" required>
+            <small id="" class="form-text text-muted">Provide management team name</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name = "email" required>
+            <small id="" class="form-text text-muted">Provide management team email</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name = "password" required>
+            <small id="" class="form-text text-muted">Provide management team password</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="designation">Designation</label>
+            <input type="text" class="form-control" id="designation" name = "designation" required>
+            <small id="" class="form-text text-muted">Provide management team designation</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="department">Department</label>
+            <select name="department" id="department" class="form-control select2" data-toggle = "select2" required>
+                <option value="">Select a department</option>
+                {% for department in departments %}
+                <option value="{{ department.name }}">{{ department.name }}</option>
+                {% endfor %}
+            </select>
+            <small id="" class="form-text text-muted">Provide a department</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="phone">Phone number</label>
+            <input type="text" class="form-control" id="phone" name = "phone" required>
+            <small id="" class="form-text text-muted">Provide management team phone number</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="gender">Gender</label>
+            <select name="gender" id="gender" class="form-control select2" data-toggle = "select2">
+                <option value="">Select a gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Others">Others</option>
+            </select>
+            <small id="" class="form-text text-muted">Provide management team gender</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="blood_group">Blood group</label>
+            <select name="blood_group" id="blood_group" class="form-control select2" data-toggle = "select2">
+                <option value="">Select a blood group</option>
+                <option value="a+">A+</option>
+                <option value="a-">A-</option>
+                <option value="b+">B+</option>
+                <option value="b-">B-</option>
+                <option value="ab+">AB+</option>
+                <option value="ab-">AB-</option>
+                <option value="o+">O+</option>
+                <option value="o-">O-</option>
+            </select>
+            <small id="" class="form-text text-muted">Provide management team blood group</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Facebook profile link</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="mdi mdi-facebook"></i></span>
+                </div>
+                <input type="text" class="form-control" name="facebook_link">
+            </div>
+            <small id="" class="form-text text-muted">Facebook profile link</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Twitter profile link</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="mdi mdi-twitter"></i></span>
+                </div>
+                <input type="text" class="form-control" name="twitter_link">
+            </div>
+            <small id="" class="form-text text-muted">Twitter profile link</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Linkedin profile link</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="mdi mdi-linkedin"></i></span>
+                </div>
+                <input type="text" class="form-control" name="linkedin_link">
+            </div>
+            <small id="" class="form-text text-muted">Linkedin profile link</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="phone">Address</label>
+            <textarea class="form-control" id="address" name = "address" rows="5" required></textarea>
+            <small id="" class="form-text text-muted">Provide management team address</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="about">About</label>
+            <textarea class="form-control" id="about" name = "about" rows="5" required></textarea>
+            <small id="" class="form-text text-muted">Provide a small about</small>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label for="show_on_website">Show on website</label>
+          <select name="show_on_website" id="show_on_website" class="form-control select2" data-toggle = "select2">
+            <option value="1">Show</option>
+            <option value="0">Do not need to show</option>
+          </select>
+          <small id="" class="form-text text-muted">Show this management team on website</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="image_file">Upload image</label>
+            <input type="file" class="form-control" id="image_file" name = "image_file">
+        </div>
+
+        <div class="form-group mt-2 col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Create management team</button>
+        </div>
+    </div>
+</form>
+
+<script>
+$(document).ready(function () {
+    initSelect2(['#department', '#gender', '#blood_group', '#show_on_website']);
+});
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, showAllTeachers);
+});
+
+// initCustomFileUploader();
+</script>

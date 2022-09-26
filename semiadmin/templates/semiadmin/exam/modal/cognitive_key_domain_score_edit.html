@@ -1,0 +1,29 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/cognitive_key_domain_score/edit/{{ cognitive_key_domain_score.pk }}" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="form-row">
+        <input type="hidden" name="school_id" value="1">
+        <div class="form-group col-md-12">
+            <label for="key">Key <em style="font-color:#ff0000;">*</em></label>
+            <input type="text" class="form-control" value="{{ cognitive_key_domain_score.key }}" id="key" name="key" placeholder="Key" required="">
+            <small id="key_help" class="form-text text-muted">Provide key</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="score">Score <em style="font-color:#ff0000;">*</em></label>
+            <input type="number" min="1" max="5" class="form-control" value="{{ cognitive_key_domain_score.score }}" id="score" name="score" placeholder="Score" required="">
+            <small id="score_help" class="form-text text-muted">Provide score</small>
+        </div>
+
+        <div class="form-group  col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Update cognitive key</button>
+        </div>
+    </div>
+</form>
+
+<script>
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllCognitiveKeyScores);
+});
+</script>

@@ -1,0 +1,28 @@
+<table  id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+	<thead>
+		<tr style="background-color: #313a46; color: #ababab;" role="row">
+			<th>Srno.</th>
+			<th>Name</th>
+			<th>Options</th>
+		</tr>
+	</thead>
+	<tbody>
+			{% for department in departments %}	
+			<tr>
+                <td>{{ forloop.counter }}</td>
+				<td>{{ department.name }}</td>
+				<td>
+					<div class="dropdown text-center">
+						<button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+						<div class="dropdown-menu dropdown-menu-right">
+							<!-- item-->
+							<a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/department/edit/{{ department.pk }}','Update class room');">Edit</a>
+							<!-- item-->
+							<a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/department/delete/{{ department.pk }}', showAllDepartments)">Delete</a>
+						</div>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+	</tbody>
+</table>

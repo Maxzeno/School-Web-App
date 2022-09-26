@@ -1,0 +1,73 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/pass_mark/edit/{{ pass_mark.pk }}" novalidate="novalidate">
+    {% csrf_token %}
+
+    <div class="form-row">
+
+        <div class="form-group col-md-12">
+            <label for="mark">Mark</label>
+            <input type="number" class="form-control" id="mark" value="{{ pass_mark.mark }}" name="mark" placeholder="Mark" required="">
+            <small id="mark_help" class="form-text text-muted">Provide mark</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="period">Period <em style="font-color:#ff0000;">*</em></label>
+            <select name="period" id="period" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+                <option value="">Select period</option>
+                <option value="TERM" {% if pass_mark.period == 'TERM' %} selected {% endif %}>Term</option>
+                <option value="ANNUAL" {% if pass_mark.period == 'ANNUAL' %} selected {% endif %}>Annual</option>
+            </select>
+            <small id="period_help" class="form-text text-muted">Provide period</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="session">Session <em style="font-color:#ff0000;">*</em></label>
+            <select name="session" id="session" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+                <option value="">Select session</option>
+                {% for ses in sessions %}
+                    <option value="{{ ses.session }}" {% if pass_mark.session.session == ses.session %} selected {% endif %}>{{ ses.session }}</option>
+                {% endfor %}           
+            </select>
+            <small id="session_help" class="form-text text-muted">Provide exam session</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="category">Category <em style="font-color:#ff0000;">*</em></label>
+            <select name="category" id="category" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+                <option value="">Select category</option>
+                <option value="JSS" {% if pass_mark.category == 'JSS' %} selected {% endif %}>JSS</option>
+                <option value="SSS" {% if pass_mark.category == 'SSS' %} selected {% endif %}>SSS</option>
+            </select>
+            <small id="category_help" class="form-text text-muted">Provide category</small>
+        </div>        
+
+        <div class="form-group col-md-12">
+            <label for="subject">Subject <em style="font-color:#ff0000;">*</em></label>
+            <select name="subject" id="subject" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+                <option value="">Select subject</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.name }}" {% if pass_mark.subject.name == subject.name %} selected {% endif %}>{{ subject.name }}</option>
+                {% endfor %} 
+            </select>
+            <small id="subject_help" class="form-text text-muted">Provide subject</small>
+        </div>
+
+        <div class="form-group  col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Update pass mark</button>
+        </div>
+    </div>
+</form>
+
+
+<script>
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllPassMarks);
+});
+
+$(document).ready(function () {
+  initSelect2(['#period', '#session', '#category', '#subject']);
+});
+</script>
+
+      

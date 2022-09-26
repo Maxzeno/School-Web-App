@@ -1,0 +1,104 @@
+<form method="POST" class="d-block ajaxForm responsive_media_query" action="/portal/teacher/attendance/take_attendance" style="min-width: 300px; max-width: 400px;" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="form-group row">
+        <div class="col-md-12">
+            <label for="date_on_taking_attendance">Date</label>
+            <input type="text" class="form-control date valid" id="date_on_taking_attendance" data-toggle="date-picker" data-single-date-picker="true" name="date" value="" required="">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-12">
+            <label for="class_id_on_taking_attendance">Class</label>
+            <select name="class_id" id="class_id_on_taking_attendance" class="form-control select2 select2-hidden-accessible valid" data-toggle="select2" onchange="classWiseSectionOnTakingAttendance(this.value)" required="" tabindex="-1" aria-hidden="true">
+                <option value="">Select a class</option>
+                {% for class in the_classes %}
+                  <option value="{{ class.the_class }}">{{ class.the_class }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-12" id="section_content_2">
+            <label for="section_id_on_taking_attendance">Section</label>
+            <select name="section_id" id="section_id_on_taking_attendance" class="form-control select2 select2-hidden-accessible valid" data-toggle="select2" required="" tabindex="-1" aria-hidden="true">
+                <option value="">Select a section</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="row" id="student_content" style="margin-left: 2px;">
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-12" id="showStudentDiv">
+            <a class="btn btn-block btn-secondary" onclick="getStudentList()" style="color: #fff;">Show student list</a>
+        </div>
+    </div>
+    <div class="form-group col-md-12 mt-4" id="updateAttendanceDiv" style="display: none;">
+        <button class="btn w-100 btn-primary" type="submit">Update attendance</button>
+    </div>
+</form>
+
+<script>
+    $(".ajaxForm").validate({}); // Jquery form validation initialization
+    $(".ajaxForm").submit(function(e) {
+        var form = $(this);
+        ajaxSubmit(e, form, getDailtyAttendance);
+    });
+
+    $('document').ready(function(){
+        initSelect2(['#class_id_on_taking_attendance', '#section_id_on_taking_attendance']);
+
+        $('#date_on_taking_attendance').change(function(){
+            $('#showStudentDiv').show();
+            $('#updateAttendanceDiv').hide();
+            $('#student_content').hide();
+        });
+        $('#class_id_on_taking_attendance').change(function(){
+            $('#showStudentDiv').show();
+            $('#updateAttendanceDiv').hide();
+            $('#student_content').hide();
+        });
+        $('#section_id_on_taking_attendance').change(function(){
+            $('#showStudentDiv').show();
+            $('#updateAttendanceDiv').hide();
+            $('#student_content').hide();
+        });
+    });
+
+    $('#date_on_taking_attendance').daterangepicker();
+
+    function classWiseSectionOnTakingAttendance(classId) {
+        $.ajax({
+            url: "/portal/admin/student/other/student_section_no/"+classId,
+            success: function(response){
+                $('#section_id_on_taking_attendance').html(response);
+            }
+        });
+    }
+
+    function getStudentList() {
+        var date = $('#date_on_taking_attendance').val();
+        var class_id = $('#class_id_on_taking_attendance').val();
+        var section_id = $('#section_id_on_taking_attendance').val();
+
+        if(date != '' && class_id != '' && section_id != ''){
+            $.ajax({
+                type : 'POST',
+                url : '/portal/teacher/attendance/attendance_list',
+                data: {date : date, class_id : class_id, section_id : section_id, csrfmiddlewaretoken : '{{ csrf_token }}'},
+                success : function(response) {
+                    $('#student_content').show();
+                    $('#student_content').html(response);
+                    $('#showStudentDiv').hide();
+                    $('#updateAttendanceDiv').show();
+                }
+            });
+        }else{
+            toastr.error('Please select in all fields !');
+        }
+    }
+</script>

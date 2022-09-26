@@ -1,0 +1,143 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Manage skill & behaviour scores | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-library title_icon title_icon"></i> Students domain scores          <!--<button type="button" class="btn btn-outline-primary btn-rounded alignToTitle" onclick="rightModal('', '')"> <i class="mdi mdi-plus"></i> </button>-->
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="">
+                
+<!-- <form method="POST" class="d-block ajaxForm" action="https://cdssenugu.org/portal/admin/sb_score_manage_view"> -->
+	<div class="row mt-3 justify-content-center">
+                <div class="col-md-2 mb-1">
+                    <select name="session" id="session_id" class="form-control select2" data-toggle = "select2" required onchange="termWiseSection(this.value)">
+                        <option value="">Select session</option>
+                        {% for ses in sessions %}
+                            <option value="{{ ses.pk }}">{{ ses.session }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2 mb-1">
+                    <select name="exam" id="exam_id" class="form-control select2" data-toggle = "select2" required>
+                        <option value="">Select a exam</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-1">
+                    <select name="class" id="class_id" class="form-control select2" data-toggle = "select2" required onchange="classWiseSection(this.value)">
+                        <option value="">Select a class</option>
+                            {% for the_class in the_classes %}
+                            <option value="{{ the_class.the_class }}">{{ the_class.the_class }}</option>
+                            {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2 mb-1">
+                    <select name="section" id="section_id" class="form-control select2" data-toggle = "select2" required>
+                        <option value="">Select section</option>
+                    </select>
+                </div>
+            
+            <div class="col-md-3 mb-1">
+                    <button class="btn btn-block px-4 btn-info" onclick="showAllDomains()">Manage scores</button>
+            </div>
+
+            </div>
+<!-- </form> -->
+
+            <div class="card-body sb_description_content">
+                <div class="empty_box">
+                    <img class="mb-3" width="150px" src="https://cdssenugu.org/portal/assets/backend/images/empty_box.png" />
+                    <br>
+                    <span class="">No data found</span>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$('document').ready(function(){
+    initSelect2(['#class_id', '#exam_id', '#section_id', '#subject_id']);
+});
+
+function termWiseSection(sessionId) {
+    $.ajax({
+        url: "/portal/admin/exam/filter/exam_term/"+sessionId,
+        success: function(response){
+            $('#exam_id').html(response);
+        }
+    });
+}
+
+function classWiseSection(class_id) {
+
+$.ajax({
+    url: '/portal/admin/student/other/student_section_no/'+class_id,
+    success: function(response)
+    {
+        jQuery('#section_id').html(response);
+    }
+});
+
+}
+</script>
+
+<script>
+var showAllDomains = function () {
+var class_id = $('#class_id').val();
+var section_id = $('#section_id').val();
+var exam_id = $('#exam_id').val();
+
+$.ajax({
+    type : 'POST',
+    url: '/portal/admin/sb_description_score/filter',
+    data: {class_id : class_id, section_id : section_id, exam_id : exam_id, csrfmiddlewaretoken: '{{ csrf_token}}'},
+    success : function(response) {
+        $('.sb_description_content').html(response);
+        initDataTable('basic-datatable');
+    }
+});
+}
+
+</script>
+<script>
+ 
+
+function domainForm() {
+  $(".domainForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, showAllDomains);
+  });
+}
+
+
+function reload() {
+  setTimeout(
+    function()
+    {
+      location.reload();
+    }, 1000);
+}
+function doNothing() {
+
+}
+
+</script>
+{% endblock %}

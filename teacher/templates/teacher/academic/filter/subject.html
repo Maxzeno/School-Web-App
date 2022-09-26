@@ -1,0 +1,16 @@
+<table  id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+	<thead>
+		<tr style="background-color: #313a46; color: #ababab;" role="row">
+			<th>No.</th>
+			<th>Name</th>
+		</tr>
+	</thead>
+	<tbody>
+			{% for subject in subjects.all %}	
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>{{ subject.name }}</td>
+			</tr>
+			{% endfor %}
+	</tbody>
+</table>

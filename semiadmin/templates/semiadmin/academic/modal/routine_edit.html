@@ -1,0 +1,156 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/routine/edit/{{ routine.pk }}" style="min-width: 300px;" novalidate="novalidate">
+        {% csrf_token %}
+        <div class="form-group row">
+        <label for="class_id_on_routine_edit" class="col-md-3 col-form-label">Class</label>
+        <div class="col-md-9">
+            <select name="class_id" id="class_id_on_routine_edit" class="form-control select2 select2-hidden-accessible" data-toggle="select2" required="" onchange="classWiseSectionForRoutineCreate(this.value)" tabindex="-1" aria-hidden="true">
+                <option value="">Select a class</option>
+                {% for class in the_classes %}
+                  <option value="{{ class.the_class }}" {% if routine.the_class.the_class.the_class == class.the_class %} selected {% endif %}>{{ class.the_class }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="section_id_on_routine_edit" class="col-md-3 col-form-label">Section</label>
+        <div class="col-md-9">
+            <select name="section_id" id="section_id_on_routine_edit" class="form-control select2 select2-hidden-accessible" data-toggle="select2" required="" tabindex="-1" aria-hidden="true">
+                <option value="">Select section</option>
+                {% for section in the_sections %}
+                  <option value="{{ section.0 }}" {% if routine.the_class.the_section == section.0 %} selected {% endif %}>{{ section.0 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="subject_id_on_routine_edit" class="col-md-3 col-form-label">Subject</label>
+        <div class="col-md-9">
+            <select name="subject_id" id="subject_id_on_routine_edit" class="form-control select2 select2-hidden-accessible" data-toggle="select2" required="" tabindex="-1" aria-hidden="true">
+                <option value="">Select subject</option>
+                {% for subject in routine.the_class.the_class.subject.all %}
+                  <option value="{{ subject.name }}" {% if routine.subject.pk == subject.pk %} selected {% endif %}>{{ subject.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="teacher" class="col-md-3 col-form-label">Teacher</label>
+        <div class="col-md-9">
+            <select name="teacher_id" id="teacher_on_routine_edit" class="form-control select2 select2-hidden-accessible" data-toggle="select2" required="" tabindex="-1" aria-hidden="true">
+                <option value="">Assign a teacher</option>
+                    {% for teacher in teachers %}
+                      <option value="{{ teacher.pk }}" {% if routine.teacher.pk == teacher.pk %} selected {% endif %}>{{ teacher.name }}</option>
+                    {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="day" class="col-md-3 col-form-label">Day</label>
+        <div class="col-md-9">
+            <select name="day" id="day_on_routine_edit" class="form-control select2 select2-hidden-accessible" data-toggle="select2" required="" tabindex="-1" aria-hidden="true">
+                <option value="">Select a day</option>
+                {% for weekday in weekdays %}
+                <option value="{{ weekday }}" {% if routine.day == weekday %} selected {% endif %}>{{ weekday.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="starting_hour" class="col-md-3 col-form-label">Starting hour</label>
+        <div class="col-md-9">
+            <select name="starting_hour" id="starting_hour_on_routine_edit" class="form-control select2 select2-hidden-accessible" data-toggle="select2" required="" tabindex="-1" aria-hidden="true">
+                <option value="">Starting hour</option>
+                {% for hour in hours %}
+                <option value="{{ hour }}" {% if routine.starting_hour == hour %} selected {% endif %}>{{ hour }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="starting_minute" class="col-md-3 col-form-label">Starting minute</label>
+        <div class="col-md-9">
+            <select name="starting_minute" id="starting_minute_on_routine_edit" class="form-control select2 select2-hidden-accessible" data-toggle="select2" required="" tabindex="-1" aria-hidden="true">
+                <option value="">Starting minute</option>
+                {% for minute in minutes %}
+                <option value="{{ minute }}" {% if routine.starting_minute == minute %} selected {% endif %}>{{ minute }}</option>
+                {% endfor %}
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="ending_hour" class="col-md-3 col-form-label">Ending hour</label>
+        <div class="col-md-9">
+            <select name="ending_hour" id="ending_hour_on_routine_edit" class="form-control select2 select2-hidden-accessible" data-toggle="select2" required="" tabindex="-1" aria-hidden="true">
+                <option value="">Endinging hour</option>
+                {% for hour in hours %}
+                <option value="{{ hour }}" {% if routine.ending_hour == hour %} selected {% endif %}>{{ hour }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="ending_minute" class="col-md-3 col-form-label">Ending minute</label>
+        <div class="col-md-9">
+            <select name="ending_minute" id="ending_minute_on_routine_edit" class="form-control select2 select2-hidden-accessible" data-toggle="select2" required=""tabindex="-1" aria-hidden="true">
+                <option value="">Ending minute</option>
+                {% for minute in minutes %}
+                <option value="{{ minute }}" {% if routine.ending_minute == minute %} selected {% endif %}>{{ minute }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group  col-md-12">
+        <button class="btn btn-block btn-primary" type="submit">Update class routine</button>
+    </div>
+</form>
+
+
+<script>
+$(document).ready(function () {
+
+    initSelect2(['#class_id_on_routine_edit',
+    '#section_id_on_routine_edit',
+    '#subject_id_on_routine_edit',
+    '#teacher_on_routine_edit',
+    '#class_room_id_on_routine_edit',
+    '#day_on_routine_edit',
+    '#starting_hour_on_routine_edit',
+    '#starting_minute_on_routine_edit',
+    '#ending_hour_on_routine_edit',
+    '#ending_minute_on_routine_edit']);
+});
+
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, getFilteredClassRoutine);
+});
+
+function classWiseSectionForRoutineCreate(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section_no/"+classId,
+        success: function(response){
+            $('#section_id_on_routine_edit').html(response);
+            classWiseSubjectForRoutineCreate(classId);
+        }
+    });
+}
+
+function classWiseSubjectForRoutineCreate(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_subject/"+classId,
+        success: function(response){
+            $('#subject_id_on_routine_edit').html(response);
+        }
+    });
+}
+</script>

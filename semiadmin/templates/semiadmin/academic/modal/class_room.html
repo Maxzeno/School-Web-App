@@ -1,0 +1,39 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/class_room/create" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+        <label for="class_id_on_create">Class</label>
+        <select name="class_id" id="class_id_on_modal" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+            <option value="">Select a class</option>
+            {% for the_class in the_classes %}
+              <option value="{{ the_class.the_class }}">{{ the_class.the_class }}</option>
+            {% endfor %}
+        </select>
+        <small id="class_help" class="form-text text-muted">Select a class</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="section_id">Class room name</label>
+            <input type="text" class="form-control" id="section_id" name="section_id" required="">
+            <small id="name_help" class="form-text text-muted">Provide class room name</small>
+        </div>
+
+        <div class="form-group  col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Create class room</button>
+        </div>
+    </div>
+</form>
+
+
+<script>
+  
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllClassRooms);
+});
+
+$(document).ready(function () {
+  initSelect2(['#class_id_on_modal']);
+});
+</script>

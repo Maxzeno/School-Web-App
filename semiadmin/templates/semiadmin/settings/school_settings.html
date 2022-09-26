@@ -1,0 +1,265 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>School settings | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                    
+<!-- start page title -->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-settings title_icon"></i>School settings        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+<!-- end page title -->
+<div class="row">
+  <div class="col-xl-10 offset-xl-1">
+    <div class="settings_content">
+      <div class="row justify-content-md-center">
+        <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">School settings</h4>
+                    <form method="POST" class="col-12 schoolForm" action="/portal/admin/school_settings" id="schoolForm">
+                        {% csrf_token %}
+                        <div class="col-12">
+                            <div class="form-group row mb-3">
+                                <label class="col-md-3 col-form-label" for="school_name"> School name</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="school_name" name="school_name" class="form-control"  value="{{ school_setting.school_name }}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3">
+                                <label class="col-md-3 col-form-label" for="phone">Phone</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="phone" name="phone" class="form-control"  value="{{ school_setting.phone }}" required>
+                                </div>
+                            </div>
+
+                            <!-- FORM ENTRY STARTS HERE-->
+                                {% for mark_sheet in school_setting.marksheet_format_entrys.all %}
+                                    <div id="format_entry" class="format_entry">
+                                        <div class="form-group row mb-3">
+                                            <label class="col-sm-3 control-label">Marksheet format entry</label>
+
+                                            <div class="col-md-2 col-sm-2">
+                                                <select name="category[]" class="form-control category">
+                                                    <option value="">-select category-</option>
+                                                    <option value="PRY"{% if mark_sheet.category == 'PRY' %} selected {% endif %}>PRY</option>
+                                                    <option value="JSS"{% if mark_sheet.category == 'JSS' %} selected {% endif %}>JSS</option>
+                                                    <option value="SS"{% if mark_sheet.category == 'SS' %} selected {% endif %}>SSS</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-3">
+                                                <select name="mark_format[]" class="form-control">
+                                                    <option value="">Select a format</option>
+
+                                                    <option value="five_column_format"{% if mark_sheet.mark_format == 'five_column_format' %} selected {% endif %}>CA1(10) + CA2(10) + CA3(10) + CA4(10) + EXAM(60)</option>
+
+                                                    <option value="four_column_format"{% if mark_sheet.mark_format == 'four_column_format' %} selected {% endif %}>CA1(10) + CA2(10) + CA3(10) + EXAM(70)</option>
+
+                                                    <option value="three_column_format"{% if mark_sheet.mark_format == 'three_column_format' %} selected {% endif %}>CA1(15) + CA2(15) + EXAM(70)</option>
+
+                                                    <option value="two_column_format"{% if mark_sheet.mark_format == 'two_column_format' %} selected {% endif %}>CA(30) + EXAM(70)</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2 col-sm-2">
+                                                <select name="session[]" class="form-control session">
+                                                    <option value="">-select session-</option>
+                                                    {% for session in sessions %}
+                                                    <option value="{{ session.session }}"{% if mark_sheet.session.session == session.session %} selected {% endif %}>{{ session.session }}</option>
+                                                    {% endfor %}
+                                            </select>
+                                            </div>
+
+                                            <div class="col-md-1 col-sm-1">
+                                                <button type="button" class="btn btn-default" onclick="deleteParentElement(this)">
+                                                    <i class="dripicons-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                   <div id="format_entry" class="format_entry">
+                                        <div class="form-group row mb-3">
+                                            <label class="col-sm-3 control-label">Marksheet format entry</label>
+
+                                            <div class="col-md-2 col-sm-2">
+                                                <select name="category[]" class="form-control category">
+                                                    <option value="">-select category-</option>
+                                                    <option value="PRY">PRY</option>
+                                                    <option value="JSS">JSS</option>
+                                                    <option value="SS">SSS</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-3">
+                                                <select name="mark_format[]" class="form-control">
+                                                    <option value="">Select a format</option>
+                                                    <option value="five_column_format">CA1(10) + CA2(10) + CA3(10) + CA4(10) + EXAM(60)</option>
+                                                    <option value="four_column_format">CA1(10) + CA2(10) + CA3(10) + EXAM(70)</option>
+                                                    <option value="three_column_format">CA1(15) + CA2(15) + EXAM(70)</option>
+                                                    <option value="two_column_format">CA(30) + EXAM(70)</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2 col-sm-2">
+                                                <select name="session[]" class="form-control session">
+                                                    <option value="">-select session-</option>
+                                                    {% for session in sessions %}
+                                                    <option value="{{ session.session }}"{% if mark_sheet.session.session == session.session %} selected {% endif %}>{{ session.session }}</option>
+                                                    {% endfor %}
+                                            </select>
+                                            </div>
+
+                                            <div class="col-md-1 col-sm-1">
+                                                <button type="button" class="btn btn-default" onclick="deleteParentElement(this)">
+                                                    <i class="dripicons-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                                        <!-- FORM ENTRY ENDS HERE-->
+                            <div id="add_format_entry_row">
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-3 control-label"></label>
+                                    <div class="col-sm-9">
+                                            <button type="button" class="btn btn-default btn-sm btn-icon icon-left"
+                                                    onclick="add_entry(this)">
+                                                        Add format entry row<i class="dripicons-plus"></i>
+                                            </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3">
+                                <label class="col-md-3 col-form-label" for="address"> Address</label>
+                                <div class="col-md-9">
+                                    <textarea class="form-control" id="address" name = "address" rows="5" required>{{ school_setting.address }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-secondary col-xl-4 col-lg-4 col-md-12 col-sm-12" onclick="updateSchoolInfo()">Update settings</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div> <!-- end card body-->
+            </div> <!-- end card -->
+        </div>
+    </div>
+
+<script type="text/javascript">
+    // CREATING BLANK INVOICE ENTRY
+    var blank_format_entry = '';
+    $(document).ready(function () {
+        var last_row = $(".card-body .format_entry:last");
+        blank_format_entry = last_row.html();
+    });
+
+    function add_entry(n)
+    {
+        var last_row = $(".card-body .format_entry:last");
+        last_row.append(blank_format_entry);
+    }
+
+    // REMOVING INVOICE ENTRY
+    function deleteParentElement(n) {
+        n.parentNode.parentNode.parentNode.removeChild(n.parentNode.parentNode);
+    }
+</script>    </div>
+  </div>
+</div>
+<script>
+function updateSystemInfo(system_name) {
+  $(".systemAjaxForm").validate({});
+  $(".systemAjaxForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, reload);
+  });
+}
+
+function updateSystemLogo() {
+  $(".systemLogoAjaxForm").validate({});
+  $(".systemLogoAjaxForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, reload);
+  });
+}
+
+
+function updateSystemCurrencyInfo() {
+  $(".systemAjaxForm").validate({});
+  $(".systemAjaxForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, reload);
+  });
+}
+
+function updatePaypalInfo() {
+  $(".paypalAjaxForm").validate({});
+  $(".paypalAjaxForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, reload);
+  });
+}
+
+function updateStripeInfo() {
+  $(".stripeAjaxForm").validate({});
+  $(".stripeAjaxForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, reload);
+  });
+}
+
+function updateSmsInfo() {
+  $(".smsForm").validate({});
+  $(".smsForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, reload);
+  });
+}
+
+function updateSmtpInfo() {
+  $(".smtpForm").validate({});
+  $(".smtpForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, reload);
+  });
+}
+
+function updateSchoolInfo() {
+  $(".schoolForm").validate({});
+  $(".schoolForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, reload);
+  });
+}
+
+function reload() {
+  setTimeout(
+    function()
+    {
+      location.reload();
+    }, 1000);
+}
+function doNothing() {
+
+}
+  </script>
+{% endblock %}
+                    

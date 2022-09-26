@@ -1,0 +1,399 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- all the meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Creativeitem" name="author" />
+    <!-- All HEAD -->
+
+   
+    <!-- App favicon -->
+<link rel="shortcut icon" href="{% static 'portal/uploads/system/logo/favicon.png' %}">
+    <!-- all the css files -->
+    <!-- third party css -->
+<link href="{% static 'portal/assets/backend/css/vendor/jquery-jvectormap-1.2.2.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'portal/assets/backend/css/vendor/fullcalendar.min.css' %}" rel="stylesheet" type="text/css" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="{% static 'portal/assets/backend/css/vendor/dataTables.bootstrap4.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'portal/assets/backend/css/vendor/responsive.bootstrap4.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'portal/assets/backend/css/vendor/buttons.bootstrap4.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'portal/assets/backend/css/vendor/select.bootstrap4.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'portal/assets/backend/css/vendor/summernote-bs4.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'portal/assets/backend/css/vendor/simplemde.min.css' %}" rel="stylesheet" type="text/css" />
+<!-- third party css end -->
+
+<!-- App css -->
+<link href="{% static 'portal/assets/backend/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'portal/assets/backend/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+
+<!-- CUSTOM CSS FILES -->
+<link href="{% static 'portal/assets/backend/css/custom.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'portal/assets/backend/css/content-placeholder.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'portal/assets/backend/css/addon.css' %}" rel="stylesheet" type="text/css" />
+
+<!--Notify for ajax-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+<!--Jquery-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+
+<link href="{% static 'portal/assets/backend/css/sweetalert.css' %}" rel="stylesheet">
+
+<!--Amcharts-->
+<script src="{% static 'portal/assets/backend/js/amcharts/amcharts.js' %}" type="text/javascript"></script>
+<script src="{% static 'portal/assets/backend/js/amcharts/pie.js' %}" type="text/javascript"></script>
+<script src="{% static 'portal/assets/backend/js/amcharts/serial.js' %}" type="text/javascript"></script>
+<script src="{% static 'portal/assets/backend/js/amcharts/gauge.js' %}" type="text/javascript"></script>
+<script src="{% static 'portal/assets/backend/js/amcharts/funnel.js' %}" type="text/javascript"></script>
+<script src="{% static 'portal/assets/backend/js/amcharts/radar.js' %}" type="text/javascript"></script>
+<script src="{% static 'portal/assets/backend/js/amcharts/exporting/amexport.js' %}" type="text/javascript"></script>
+<script src="{% static 'portal/assets/backend/js/amcharts/exporting/rgbcolor.js' %}" type="text/javascript"></script>
+<script src="{% static 'portal/assets/backend/js/amcharts/exporting/canvg.js' %}" type="text/javascript"></script>
+<script src="{% static 'portal/assets/backend/js/amcharts/exporting/jspdf.js' %}" type="text/javascript"></script>
+<script src="{% static 'portal/assets/backend/js/amcharts/exporting/filesaver.js' %}" type="text/javascript"></script>
+<script src="{% static 'portal/assets/backend/js/amcharts/exporting/jspdf.plugin.addimage.js' %}" type="text/javascript"></script>
+
+
+
+    {% block head %} {% endblock %}
+</head>
+
+<body data-layout="detached">
+
+  {% include "teacher/nav_include.html" %}
+  <!-- PAGE CONTAINER-->
+<div class="content-page">
+    <div class="content content-main">
+        <div class="loadings hidden"></div>
+        <!-- BEGIN PlACE PAGE CONTENT HERE -->
+  {% block body %} {% endblock %}
+      <!-- END PLACE PAGE CONTENT HERE -->
+    </div>
+      <!-- Footer -->
+      <!-- Footer Start -->
+      <footer class="footer">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-12">
+                      © <a href="/" target = "_blank">Command Day Secondary School, Enugu</a> | Powered by <a href="https://www.visiondatatechs.com" target="_blank">Vision Data-Techs Ltd.</a>
+                  </div>
+              </div>
+          </div>
+      </footer>
+      <!-- end Footer -->
+  </div>
+  <!-- END CONTENT -->
+
+
+</div>
+</div>
+
+{% block script %} 
+   <!-- all the js files -->
+    
+<!-- bundle -->
+<script src="{% static 'portal/assets/backend/js/app.min.js' %}"></script>
+
+<!-- third party js -->
+<script src="{% static 'portal/assets/backend/js/vendor/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/dataTables.bootstrap4.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/buttons.html5.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/buttons.flash.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/buttons.print.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/dataTables.select.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/Chart.bundle.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/jquery-jvectormap-1.2.2.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/jquery-jvectormap-world-mill-en.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/pages/demo.datatable-init.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/pages/demo.form-wizard.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/jquery-ui.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/fullcalendar.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/vendor/summernote-bs4.min.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/pages/demo.summernote.js' %}"></script>
+<!-- TinyMCE script -->
+<script src="{% static 'portal/resources/tinymce/tinymce.min.js' %}"></script>
+
+<!--Notify for ajax-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+<!-- demo app -->
+<script src="{% static 'portal/assets/backend/js/pages/demo.dashboard.js' %}"></script>
+<!-- end demo js-->
+
+<!--Custom JS-->
+<script src="{% static 'portal/assets/backend/js/ajax_form_submission.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/custom.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/content-placeholder.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/addon.js' %}"></script>
+<script src="{% static 'portal/assets/backend/js/init.js' %}"></script>
+
+<!-- dragula js-->
+<script src="{% static 'portal/assets/backend/js/vendor/dragula.min.js' %}"></script>
+<!-- component js -->
+<script src="{% static 'portal/assets/backend/js/ui/component.dragula.js' %}"></script>
+
+
+
+    <!-- All JS -->
+<script>
+  function error_required_field() {
+    $.NotificationApp.send("Oh snap!", "Please fill all the required fields" ,"top-right","rgba(0,0,0,0.2)","error");
+  }
+</script>
+<script type="text/javascript" src="{% static 'portal/assets/backend/js/sweetalert.min.js' %}"></script>    <!-- Toastr and alert notifications for PHP scripts -->
+<script type="text/javascript">
+function notify(message) {
+  $.NotificationApp.send("Heads up!", message ,"top-right","rgba(0,0,0,0.2)","info");
+}
+
+function success_notify(message) {
+  $.NotificationApp.send("Congratulations!", message ,"top-right","rgba(0,0,0,0.2)","success");
+}
+
+function error_notify(message) {
+  $.NotificationApp.send("Oh snap!", message ,"top-right","rgba(0,0,0,0.2)","error");
+}
+</script>
+
+
+{% if messages %}
+<script type="text/javascript">
+  {% for message in messages %}
+      $.NotificationApp.send('Congratulations!', '{{ message }}' ,"top-right","rgba(0,0,0,0.2)","{{ message.tags }}");
+  {% endfor %}
+</script>
+{% endif %}
+
+
+
+<!-- SHOW TOASTR NOTIFICATION FOR AJAX-->
+
+    <script type="text/javascript">
+var callBackFunction;
+var callBackFunctionForGenericConfirmationModal;
+function largeModal(url, header)
+{
+  jQuery('#large-modal').modal('show', {backdrop: 'true'});
+  // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+  $.ajax({
+    url: url,
+    success: function(response)
+    {
+      jQuery('#large-modal .modal-body').html(response);
+      jQuery('#large-modal .modal-title').html(header);
+    }
+  });
+}
+
+function previewModal(url, header)
+{
+  jQuery('#preview-modal').modal('show', {backdrop: 'true'});
+  // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+  $.ajax({
+    url: url,
+    success: function(response)
+    {
+      jQuery('#preview-modal .modal-body').html(response);
+      jQuery('#preview-modal .modal-title').html(header);
+    }
+  });
+}
+
+function rightModal(url, header)
+{
+  // LOADING THE AJAX MODAL
+  jQuery('#right-modal').modal('show', {backdrop: 'true'});
+
+  // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+  $.ajax({
+    url: url,
+    success: function(response)
+    {
+      jQuery('#right-modal .modal-body').html(response);
+      jQuery('#right-modal .modal-title').html(header);
+    }
+  });
+}
+
+
+function confirmModal(delete_url, param)
+{
+  jQuery('#alert-modal').modal('show', {backdrop: 'static'});
+  callBackFunction = param;
+  document.getElementById('delete_form').setAttribute('action' , delete_url);
+}
+
+function genericConfirmModal(callBackFunction)
+{
+  jQuery('#genric-confirmation-modal').modal('show', {backdrop: 'static'});
+  callBackFunctionForGenericConfirmationModal = callBackFunction;
+}
+
+function callTheCallBackFunction() {
+  $('#genric-confirmation-modal').modal('hide');
+  callBackFunctionForGenericConfirmationModal();
+}
+function blankFunction(){
+
+}
+</script>
+
+
+
+<!-- Right modal content -->
+<div id="right-modal" class="modal fade" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-right">
+    <div class="modal-content modal_height">
+
+      <div class="modal-header border-1">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body" style="overflow-x:scroll;">
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!--  Large Modal -->
+<div class="modal fade" id="large-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header d-print-none">
+        <h4 class="modal-title" id="myLargeModalLabel"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Info Alert Modal -->
+<div id="alert-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body p-4">
+        <div class="text-center">
+          <i class="dripicons-information h1 text-info"></i>
+          <h4 class="mt-2">Heads up!</h4>
+          <p class="mt-3">Are you sure?</p>
+          <form method="POST" class="ajaxDeleteForm" action="" id = "delete_form">
+            {% csrf_token %}
+            <button type="button" class="btn btn-info my-2" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-danger my-2" onclick="">Continue</button>
+          </form>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Info Alert Modal THIS MODAL WAS USED BECAUSE OF SOME GENERIC ALERTS-->
+<div id="genric-confirmation-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body p-4">
+        <div class="text-center">
+          <i class="dripicons-information h1 text-info"></i>
+          <h4 class="mt-2">Heads up!</h4>
+          <p class="mt-3">Are you sure?</p>
+          <button type="button" class="btn btn-info my-2" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger my-2" onclick="callTheCallBackFunction()">Continue</button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="preview-modal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content course-preview-modal">
+        <div class="modal-header">
+          <h5 class="modal-title"></h5>
+          <button type="button" class="close" data-dismiss="modal" onclick="pageReload()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center" style="min-height: 300px;">
+            <img style="width: 60px; margin-top: 100px;" src="{% static 'portal/assets/backend/images/straight-loader.gif' %}">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function pageReload(){
+    //filterCourse();
+    filterCourseFullPage();
+    //location.reload();
+  }
+</script>
+
+<script>
+    jQuery(".ajaxDeleteForm").submit(function(e) {
+
+        var form = $(this);
+        ajaxSubmit(e, form, callBackFunction);
+    });
+</script>
+
+<script>
+  function showAjaxModal(url, header)
+  {
+      // SHOWING AJAX PRELOADER IMAGE
+      jQuery('#scrollable-modal .modal-body').html('<div style="text-align:center;margin-top:200px;"><img style="width: 100px; opacity: 0.4; " src="{% static 'portal/assets/backend/images/straight-loader.gif' %}" /></div>');
+      jQuery('#scrollable-modal .modal-title').html('...');
+      // LOADING THE AJAX MODAL
+      jQuery('#scrollable-modal').modal('show', {backdrop: 'true'});
+
+      // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+      $.ajax({
+          url: url,
+          success: function(response)
+          {
+              jQuery('#scrollable-modal .modal-body').html(response);
+              jQuery('#scrollable-modal .modal-title').html(header);
+          }
+      });
+  }
+</script>
+<!-- Scrollable modal -->
+<div class="modal fade" id="scrollable-modal" tabindex="-1" role="dialog" aria-labelledby="scrollableModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="scrollableModalTitle">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body ml-2 mr-2">
+
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+      </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+{% endblock %}
+
+</body>
+</html>

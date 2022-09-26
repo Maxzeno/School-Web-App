@@ -1,0 +1,79 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Manage skill & behaviour | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-library title_icon title_icon"></i> Domain settings          <button type="button" class="btn btn-outline-primary btn-rounded alignToTitle" onclick="rightModal('/portal/admin/sb_description/create', 'Create domain')"> <i class="mdi mdi-plus"></i> Add domain</button>
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body sb_description_content">
+                    <table id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+    	<thead>
+    		<tr>
+        		<th><div>#</div></th>
+        		<th><div>Type</div></th>
+        		<th><div>Description</div></th>
+                <th><div></div></th>
+			</tr>
+		</thead>
+        <tbody>
+
+        {% for sb_description in sb_descriptions %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ sb_description.sb_type }}</td>
+            <td>{{ sb_description.description }}</td>
+        <td>
+        <div class="dropdown text-center">
+                    <button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/sb_description/edit/{{ sb_description.pk }}', 'Update domain');">Edit domain</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/sb_description/delete/{{ sb_description.pk }}', showAllDomains)">Delete</a>
+                    </div>
+                </div>
+        </td>
+    </tr>
+    {% endfor %}
+                        
+        </tbody>
+    </table>
+
+<!-----  DATA TABLE EXPORT CONFIGURATIONS ---->                                  </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var showAllDomains = function () {
+        var url = '/portal/admin/sb_description/all';
+
+        $.ajax({
+            type : 'GET',
+            url: url,
+            success : function(response) {
+                $('.sb_description_content').html(response);
+                initDataTable('basic-datatable');
+            }
+        });
+    }
+    
+</script> 
+{% endblock %}

@@ -1,0 +1,275 @@
+{% load static %}
+  
+  <!-- HEADER -->
+    <!-- Topbar Start -->
+<div class="navbar-custom topnav-navbar topnav-navbar-dark">
+    <div class="container-fluid">
+
+        <!-- LOGO -->
+        <a class="topnav-logo" style = "min-width: unset;">
+            <span class="topnav-logo-lg">
+                <img src="{% static '/portal/uploads/system/logo/logo-light.png' %}" alt="" height="80">
+            </span>
+            <!-- <span class="topnav-logo-sm">
+                <img src="{% static '/portal/uploads/system/logo/logo-light-sm.png' %}" alt="" height="80">
+            </span> -->
+        </a>
+
+        <ul class="list-unstyled topbar-right-menu float-right mb-0">
+          
+            <li class="dropdown notification-list">
+                <a class="nav-link dropdown-toggle nav-user arrow-none mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false"
+                aria-expanded="false">
+                <span class="account-user-avatar">
+                    <img src="{% static '/portal/uploads/users/placeholder.jpg' %}" alt="user-image" class="rounded-circle">
+                </span>
+                <span>
+                    <span class="account-user-name">{{ request.user.semiadmin.name }}</span>
+                                            <span class="account-position">School admin</span>
+                    
+                </span>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
+                <!-- item-->
+                <div class=" dropdown-header noti-title">
+                    <h6 class="text-overflow m-0">Welcome !</h6>
+                </div>
+
+                <!-- item-->
+                <a href="/portal/admin/profile" class="dropdown-item notify-item">
+                    <i class="mdi mdi-account-circle mr-1"></i>
+                    <span>My account</span>
+                </a>
+                
+                
+                <!-- item-->
+                <a href="/portal/login/logout" class="dropdown-item notify-item">
+                    <i class="mdi mdi-logout mr-1"></i>
+                    <span>Logout</span>
+                </a>
+
+            </div>
+        </li>
+
+    </ul>
+    <a class="button-menu-mobile disable-btn">
+        <div class="lines">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </a>
+    <div class="visit_website d-sm-block d-none">
+        <h4 style="color: #fff; float: left;"> Command Day Secondary School</h4>
+        <a href="/" target="" class="btn btn-outline-light ml-3">Visit website</a>
+        <img  class="hidden content-placeholder" src="{% static 'portal/assets/backend/images/loader.gif' %}" alt="" height="35px;">
+    </div>
+    <div class="d-sm-none">
+      <img src="{% static '/portal/uploads/system/logo/logo-light.png' %}" class="mt-1" alt="" height="60">
+        <img  class="hidden content-placeholder" src="{% static 'portal/assets/backend/images/loader.gif' %}" alt="" height="35px;">
+    </div>
+</div>
+</div>
+<!-- end Topbar -->
+
+
+<script type="text/javascript">
+function getLanguageList() {
+    $.ajax({
+        url: "/portal/admin/language/dropdown",
+        success: function(response){
+            console.log(response);
+            $('#language-list').html(response);
+        }
+    });
+}
+</script>
+    <div class="container-fluid">
+        <div class="wrapper">
+            <!-- BEGIN CONTENT -->
+            <!-- SIDEBAR -->
+            <!-- ========== Left Sidebar Start ========== -->
+<div class="left-side-menu left-side-menu-detached content-main">
+
+  <div class="leftbar-user">
+    <a href="javascript: void(0);">
+      <img src="{% static '/portal/uploads/users/placeholder.jpg' %}" alt="user-image" height="42" class="rounded-circle shadow-sm">
+            <span class="leftbar-user-name">{{ request.user.semiadmin.name }}</span>
+    </a>
+  </div>
+  <!--- Sidemenu -->
+  <ul class="metismenu side-nav side-nav-light">
+    <li class="side-nav-title side-nav-item">Navigation</li>
+    <li class="side-nav-item">
+      <a href="/portal/admin/dashboard" class="side-nav-link">
+        <i class="dripicons-meter"></i>
+        <span> Dashboard </span>
+      </a>
+    </li>
+
+    <li class="side-nav-item">        <a href="javascript: void(0);" class="side-nav-link">
+          <i class="dripicons-user"></i>
+          <span>Users</span>
+          <span class="menu-arrow"></span>
+        </a>
+        <ul class="side-nav-second-level" aria-expanded="false">
+                                  <li>
+                                <a href="/portal/admin/subject_permission">Subject permission</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/student">Student</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/student/create">Admission</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/teacher">Teacher</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/management_team">Management staff</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/permission">Teacher permission</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/parent">Parent</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/accountant">Accountant</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/librarian">Librarian</a>
+              </li>
+                      </ul><li class="side-nav-item">        <a href="javascript: void(0);" class="side-nav-link">
+          <i class="dripicons-store"></i>
+          <span>Academic</span>
+          <span class="menu-arrow"></span>
+        </a>
+        <ul class="side-nav-second-level" aria-expanded="false">
+                                  <li>
+                                <a href="/portal/admin/attendance">Daily attendance</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/routine">Class routine</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/subject">Subject</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/syllabus">Syllabus</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/manage_class">Class</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/class_room">Class room</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/department">Department</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/event_calendar">Event calender</a>
+              </li>
+                      </ul><li class="side-nav-item">        <a href="javascript: void(0);" class="side-nav-link">
+          <i class="dripicons-to-do"></i>
+          <span>Exam</span>
+          <span class="menu-arrow"></span>
+        </a>
+        <ul class="side-nav-second-level" aria-expanded="false">
+                                  <li>
+                                <a href="/portal/admin/mark">Manage marks</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/exam">Manage examinations</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/grade">Grades</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/pass_mark">Pass marks</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/sb_description">Manage cognitive domains</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/sb_description_score">Manage cognitive domain scores</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/principal_comment_code">Principal comment codes</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/teacher_comment_code">Teacher comment codes</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/principal_subject_code">Principal subject codes</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/cognitive_key_domain_score">Cognitive key domain scores</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/housemaster_comment_code">House master comment codes</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/promotion">Promotion</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/tabulation_sheet">Tabulation sheet marks</a>
+              </li>
+                      </ul><li class="side-nav-item">        <a href="javascript: void(0);" class="side-nav-link">
+          <i class="dripicons-suitcase"></i>
+          <span>Accounting</span>
+          <span class="menu-arrow"></span>
+        </a>
+        <ul class="side-nav-second-level" aria-expanded="false">
+                                  <li>
+                                <a href="/portal/admin/invoice">Student fee manager</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/expense_category">Expense category</a>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/expense">Expense manager</a>
+              </li>
+                      </ul><li class="side-nav-item">        <a href="javascript: void(0);" class="side-nav-link">
+          <i class="dripicons-archive"></i>
+          <span>Back office</span>
+          <span class="menu-arrow"></span>
+        </a>
+        <ul class="side-nav-second-level" aria-expanded="false">
+                                  <li class="side-nav-item">
+                <a href="javascript: void(0);" aria-expanded="false">Library                  <span class="menu-arrow"></span>
+                </a>
+                <ul class="side-nav-third-level" aria-expanded="false">
+                                      <li>
+                                            <a href="/portal/admin/book">Book list manager</a>
+                    </li>
+                                      <li>
+                                            <a href="/portal/admin/book_issue">Book issue report</a>
+                    </li>
+                                  </ul>
+              </li>
+                                    <li>
+                                <a href="/portal/admin/noticeboard">Noticeboard</a>
+              </li>
+                      </ul><li class="side-nav-item">        <a href="javascript: void(0);" class="side-nav-link">
+          <i class="dripicons-cutlery"></i>
+          <span>Settings</span>
+          <span class="menu-arrow"></span>
+        </a>
+        <ul class="side-nav-second-level" aria-expanded="false">
+                                  <li>
+                                <a href="/portal/admin/school_settings">School settings</a>
+              </li>
+                      </ul>  </ul>
+  <!-- End Sidebar -->
+
+  <div class="clearfix"></div>
+  <!-- Sidebar -left -->
+
+</div>
+<!-- Left Sidebar End -->
+<!-- 
+<script>
+  let all_a = document.querySelectorAll('.')
+</script> -->

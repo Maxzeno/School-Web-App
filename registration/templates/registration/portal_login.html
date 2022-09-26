@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'portal/uploads/system/logo/favicon.png' %}">
+
+    <!-- App css -->
+    <link href="{% static 'portal/assets/backend/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'portal/assets/backend/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+    <!--Notify for ajax-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+</head>
+
+<body class="auth-fluid-pages pb-0">
+
+    <div class="auth-fluid">
+        <!--Auth fluid left content -->
+        <div class="auth-fluid-form-box">
+            <div class="align-items-center d-flex h-100">
+                <div class="card-body">
+                    <!-- Logo -->
+                    <div class="text-center text-lg-left mb-3">
+                        <a href="/">
+                            <span><img src="{% static 'portal/uploads/system/logo/logo-dark.png' %}" alt="" height="120"></span>
+                        </a>
+                    </div>
+                    <!-- title-->
+                    <h4 class="mt-0">Sign in</h4>
+                    <p class="text-muted mb-4">Enter your email address and password to access account.</p>
+
+                    <!-- form -->
+                    <form action="/portal/login/" method="post" id="loginForm">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="emailaddress">Email / Student ID</label>
+                            <input class="form-control" type="text" name="email" id="emailaddress" required="" placeholder="Enter your email or Student ID">
+                        </div>
+                        <div class="form-group">
+                            <a href="javascript: void(0);" class="text-muted float-right" onclick="forgotPass();"><small>Forgot your password?</small></a>
+                            <label for="password">Password / PIN</label>
+                            <input class="form-control" type="password" name="password" required="" id="password" placeholder="Enter your password or Scratch PIN">
+                            <span class="text-danger" id="error_message"></span>
+                        </div>
+                        <div class="form-group mb-0 text-center">
+                            <button class="btn btn-primary btn-block" type="submit"><i class="mdi mdi-login"></i> Log in </button>
+                        </div>
+                    </form>
+
+                    <form action="/portal/forgot-password/" method="post" id="forgotForm" style="display: none;">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <a href="javascript: void(0);" class="text-muted float-right" onclick="backToLogin();"><small>Back to login</small></a>
+                            <label for="forgotEmail">Email</label>
+                            <input class="form-control" type="email" name="email" required="" id="forgotEmail" placeholder="Enter your email">
+                        </div>
+                        <div class="form-group mb-0 text-center">
+                            <button class="btn btn-primary btn-block" type="submit"><i class="mdi mdi-login"></i> Sent password reset link </button>
+                        </div>
+                    </form>
+                    <!-- end form-->
+                </div> <!-- end .card-body -->
+            </div> <!-- end .align-items-center.d-flex.h-100-->
+        </div>
+        <!-- end auth-fluid-form-box-->
+
+        <!-- Auth fluid right content -->
+<!-- end Auth -->
+<!-- end auth-fluid-->
+
+<!-- App js -->
+<script src="{% static 'portal/assets/backend/js/app.min.js' %}"></script>
+
+<!--Notify for ajax-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script>
+function forgotPass(){
+    $('#loginForm').hide();
+    $('#forgotForm').show();
+}
+
+function backToLogin(){
+    $('#forgotForm').hide();
+    $('#loginForm').show();
+}
+</script>
+
+{% if messages %}
+<script type="text/javascript">
+    {% for message in messages %}
+        $.NotificationApp.send('Oh snap!', '{{ message }}' ,"top-right","rgba(0,0,0,0.2)","error");
+    {% endfor %}
+</script>
+{% endif %}
+
+
+</body>
+
+
+<!-- Mirrored from cdssenugu.org/portal/login by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 04 Jul 2022 02:56:47 GMT -->
+</html>

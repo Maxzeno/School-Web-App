@@ -1,0 +1,74 @@
+
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/parent/parent_edit/{{ parent.id }}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <input type="hidden" name="school_id" value="1">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name = "name" value="{{ parent.name }}" required>
+            <small id="" class="form-text text-muted">Provide parent name</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ parent.email_address }}" required>
+            <small id="" class="form-text text-muted">Provide parent email</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="phone">Phone number</label>
+            <input type="text" class="form-control" id="phone" name = "phone" value="{{ parent.phone }}" required>
+            <small id="" class="form-text text-muted">Provide parent phone number</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="gender">Gender</label>
+            <select name="gender" id="gender" class="form-control select2" data-toggle = "select2">
+                <option value="">Select a gender</option>
+                <option value="Male"{% if parent.gender == 'Male' %} selected {% endif %}>Male</option>
+                <option value="Female"{% if parent.gender == 'Female' %} selected {% endif %}>Female</option>
+                <option value="Others"{% if parent.gender == 'Others' %} selected {% endif %}>Others</option>
+            </select>
+            <small id="" class="form-text text-muted">Provide parent gender</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="blood_group">Blood group</label>
+            <select name="blood_group" id="blood_group" class="form-control select2" data-toggle = "select2">
+                <option value="">Select a blood group</option>
+                <option value="a+" {% if parent.blood_group == 'a+' %} selected {% endif %}>A+</option>
+                <option value="a-" {% if parent.blood_group == 'a-' %} selected {% endif %}>A-</option>
+                <option value="b+" {% if parent.blood_group == 'b+' %} selected {% endif %}>B+</option>
+                <option value="b-" {% if parent.blood_group == 'b-' %} selected {% endif %}>B-</option>
+                <option value="ab+" {% if parent.blood_group == 'ab+' %} selected {% endif %}>AB+</option>
+                <option value="ab-" {% if parent.blood_group == 'ab-' %} selected {% endif %}>AB-</option>
+                <option value="o+" {% if parent.blood_group == 'o+' %} selected {% endif %}>O+</option>
+                <option value="o-" {% if parent.blood_group == 'o-' %} selected {% endif %}>O-</option>
+            </select>
+            <small id="" class="form-text text-muted">Provide parent blood group</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="phone">Address</label>
+            <textarea class="form-control" id="address" name = "address" rows="5" required>{{ parent.address }}</textarea>
+            <small id="" class="form-text text-muted">Provide parent address</small>
+        </div>
+
+        <div class="form-group mt-2 col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Update parent</button>
+        </div>
+    </div>
+</form>
+
+<script>
+$(document).ready(function () {
+    initSelect2(['#gender', '#blood_group']);
+});
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, showAllParents);
+});
+
+// initCustomFileUploader();
+</script>

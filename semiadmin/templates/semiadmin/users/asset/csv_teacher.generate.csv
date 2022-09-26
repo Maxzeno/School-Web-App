@@ -1,0 +1,2 @@
+TeacherName(R),Email(R),Password(R),Designation(R),Phone Number(R),Gender(R),Show on Website(1 or 0 needed)(R)
+Ikenna Okoye (Dr.),i.okoye@gmail.com,TryMe2021,Mathematics Teacher,0801 234 5678,Male,1

@@ -1,0 +1,89 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} <title>Books | Command Day Secondary School</title> {% endblock %}
+
+
+{% block body %}
+                    <!-- start page title -->
+<div class="row ">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="page-title">
+                    <i class="mdi mdi-database title_icon"></i> Book                    <button type="button" class="btn btn-outline-primary btn-rounded alignToTitle" onclick="rightModal('/portal/admin/book/create', 'Add book')"> <i class="mdi mdi-plus"></i> Add book</button>
+                </h4>
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
+</div>
+<!-- end page title -->
+
+<div class="row ">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div class = "book_content">
+                        {% if books %}
+                        <table  id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+    <thead>
+        <tr style="background-color: #313a46; color: #ababab;" role="row">
+            <th>No.</th>
+            <th>Book name</th>
+            <th>Author</th>
+            <th>Copies</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for book in books %} 
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ book.book_name }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.number_of_copy }}</td>
+                <td>
+                    <div class="dropdown text-center">
+                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/book/edit/{{ book.pk }}','Update class room');">Edit</a>
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/book/delete/{{ book.pk }}', showAllBooks)">Delete</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+    </tbody>
+</table>
+{% else %}
+                      <div class="empty_box">
+  <img class="mb-1" width="120px" src="{% static 'portal/assets/backend/images/empty_box.png' %}" />
+  <br>
+  <span class="">No data found</span>
+</div>
+{% endif %}
+                </div> <!-- end table-responsive-->
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
+</div>
+
+
+<script>
+var showAllBooks = function () {
+    var url = '/portal/admin/book/all';
+
+    $.ajax({
+        type : 'GET',
+        url: url,
+        success : function(response) {
+            $('.book_content').html(response);
+            initDataTable('basic-datatable');
+        }
+    });
+}
+</script>
+{% endblock %}
+           

@@ -1,0 +1,145 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+{% block head %} 
+
+<title>Contact Us | Command Day Secondary School Enugu</title>
+<!--css-->
+<link href="{% static 'main/css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'main/css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
+<!--css-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="CDSSENUGU, Command Day Secondary School, Enugu" />
+<meta name="description" content="At Command Day Secondary School we aim at nurturing and training youths in intellectual excellence with sound moral values as well as sound academic knowledge.">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!--js-->
+<script src="{% static 'main/js/jquery.min.js' %}"></script>
+<script src="{% static 'main/js/bootstrap.min.js' %}"></script>
+<!--js-->
+<!--webfonts-->
+<link href='http://fonts.googleapis.com/css?family=Bookman' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<link rel="shortcut icon" href="{% static 'main/images/logo.png' %}" media="all">
+<!--webfonts-->
+
+{% endblock %}
+
+{% block before_nav %} 
+{% if display == 'block' %}
+<!-- Tooltip -->
+    <div id="tooltipm" class="alert alert-success alert-dismissable tooltipm" style="background-color: green; color: #fff;display: {{ display }};">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Your Message has been successfully sent!<br>
+        We will get back to you, Thanks</h4>
+    </div>
+  <!-- //Tooltip -->
+{% endif %}
+{% endblock %}
+
+{% block body %}
+
+          
+ <div class="banner-w3agile">
+      <div class="container">
+        <h3><a href="/">Home</a> / <span style="color: #fff;">Contact</span></h3>
+      </div>
+    </div>
+    <div class="content">
+      <!--contact-->
+      <div class="contact-w3l">
+        <div class="container">
+          <h2 class="tittle">How To Find Us</h2>
+          <div class="contact-bottom">
+                        
+
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.4612267427888!2d7.515758864770419!3d6.463103145324392!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a38c16c906e5%3A0xa8a85e1a89afb724!2sCommand%20Day%20Secondary%20School%2C%2082nd%20Airbourne%20Division%20400103%2C%20Enugu!5e0!3m2!1sen!2sng!4v1629206166931!5m2!1sen!2sng" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="col-md-4 contact-left">
+            <div class="contct-info">
+              <h4 style="color: #009746;"> Contact Information</h4>
+              <p>We would like to hear from you in any case you would want to partner with us.</p>
+              <ul>
+                <li><b>LOCATION &amp; ADDRESS </b>:
+                                <br> Command Day Secondary School Enugu.
+                                <br>Abakpa Military Cantonment,<br>
+                                P.M.B 01565, Enugu,
+                                Nigeria.</li><br>
+                                <li><b>CONTACT PHONE</b> : 
+                                  <br><a href="tel:++2347034605940" style="text-decoration: none;">+2347034605940</a>                                  
+                                  <br><a href="tel:+2348062498296" style="text-decoration: none;">+2348062498296</a>
+                                </li><br>
+                <li><b>EMAIL ADDRESS</b>: 
+                                <br><a href="mailto:info@cdssenugu.org" style="text-decoration: none;">info@cdssenugu.org</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-8 contact-left cont">
+            <div class="contct-info">
+              <h4 style="color: #009746;">Contact Form</h4>
+              <h5 style="font-size: 20px;">
+                Kindly send us your <b>Message</b> with the Contact Form provided below.
+              </h5>
+              <form method="post" enctype="multipart/form-data" action=".">
+                  {% csrf_token %}
+
+                <span class="error center-block" id="error" style="margin-bottom:3%;"></span>
+                <div class="row">
+                  <div class="col-md-6 row-grid">
+                    <input type="text" value="" name="firstname" placeholder="Your First Name" required>
+                    <input type="text" name="first_name" value="" id="app_id" autocomplete="off">
+                    <input type="hidden" name="app_source_id" value="_105.112.55.44">
+                  </div>
+                  <div class="col-md-6 row-grid">
+                    <input type="text" value="" name="lastname" placeholder="Your Last Name" required>
+                  </div>
+                  <div class="clearfix"></div>
+                </div><br>
+                <div class="row">
+                  <div class="col-md-6 row-grid">
+                    <input type="text" value="" name="email" placeholder="Email Address" required>
+                  </div>
+                  <div class="col-md-6 row-grid">
+                    <input type="text" value="" name="phone_number" placeholder="Phone Number" required>
+                  </div>
+                <div class="clearfix"></div>
+                </div><br>
+                <div class="row">
+                  <div class="col-md-12 row-grid">
+                  <input type="text" value="" name="subject" placeholder="Subject" required>
+                  <br><br>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <textarea value="" placeholder="Message" name="message" required></textarea>
+                <input type="submit" value="Submit" >
+                <input type="reset" value="Clear" >
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--contact-->
+    </div>
+
+   {% endblock %}
+
+{% block script %} 
+
+      <script type="text/javascript">
+        setTimeout(function(){
+                if ($('#tooltipm').length > 0) {
+                  $('#tooltipm').fadeOut("slow");
+                }
+              }, 10000)
+
+      jQuery(document).ready(function($) {
+        $("#app_id").hide()
+      });
+      </script>
+
+{% endblock %}
+ 

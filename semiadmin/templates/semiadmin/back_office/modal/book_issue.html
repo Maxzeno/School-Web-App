@@ -1,0 +1,65 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/book_issue/create" novalidate="novalidate">
+  {% csrf_token %}
+   <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label" for="issue_date">Issue date</label>
+        <div class="col-md-9">
+            <input type="text" class="form-control date valid" id="issue_date" data-toggle="date-picker" data-single-date-picker="true" name="issue_date" value="" required="">
+        </div>
+    </div>
+
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label" for="class_id">Class</label>
+        <div class="col-md-9">
+          <select name="class_id" id="class_id_on_modal" class="form-control select2" data-toggle = "select2" onchange="classWiseStudentOnCreate(this.value)" required>
+                  <option value="">Select a class</option>
+                  {% for the_class in the_classes %}
+                  <option value="{{ the_class.the_class }}">{{ the_class.the_class }}</option>
+                  {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label" for="student_id"> Student</label>
+        <div class="col-md-9" id="student_content">
+            <select name="student_id" id="student_id_on_modal" class="form-control select2" data-toggle = "select2" required>
+                  <option value="">Select a student</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label" for="book_id"> Book</label>
+        <div class="col-md-9" id="student_content">
+            <select name="book_id" id="book_id_on_modal" class="form-control select2" data-toggle = "select2" required>
+                  <option value="">Select a book</option>
+                  {% for book in books %}
+                  <option value="{{ book.pk }}">{{ book.book_name }}</option>
+                  {% endfor %}
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group  col-md-12">
+        <button class="btn btn-block btn-primary" type="submit">Save book issue info</button>
+    </div>
+</form>
+
+<script>
+$(document).ready(function() {
+    $('#issue_date').daterangepicker();
+});
+
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllBookIssues);
+});
+
+$(document).ready(function () {
+  initSelect2(['#class_id_on_modal', '#student_id_on_modal', '#book_id_on_modal']);
+});
+</script>

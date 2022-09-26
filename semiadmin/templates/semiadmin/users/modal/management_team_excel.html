@@ -1,0 +1,44 @@
+
+<form method="POST" class="col-md-12 ajaxForm" action="/portal/admin/management_team/excel_management_team_create" id = "management_team_entry_form" enctype="multipart/form-data">
+    {% csrf_token %}
+        
+        <div class="col-md-12 mt-4">
+            <div class="row">
+                <div class="col-12">
+                    <a href="/portal/admin/management_team/csv_management_team_generate.generate.csv" class="btn btn-success btn-sm mb-1" download>Generate csv file<i class="mdi mdi-download"></i></a>
+                    <button href="#" class="btn btn-dark btn-sm mb-1 mdi mdi-eye-outline" onclick="largeModal('/portal/admin/management_team/csv_management_team_generate.generate.csv', 'CSV Format');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Preview csv format"></button>
+                </div>
+            </div>
+            <br>
+            <div class="form-group">
+                <label class="m-0">UploadCSV</label>
+                <div class="custom-file-upload">
+                    <input type="file" id="csv_file" class="form-control" name="csv_file" required>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-secondary col-md-12 col-sm-12 mb-4 mt-3">Upload management teams</button>
+    </div>
+</form>
+
+<script>
+$(document).ready(function(){
+    initCustomFileUploader();
+});
+
+var form;
+$(".ajaxForm").submit(function(e) {
+  form = $(this);
+  ajaxSubmit(e, form, showAllTeachers);
+});
+var refreshForm = function () {
+    form.trigger("reset");
+}
+
+$(document).ready(function () {
+  initSelect2(['#class_id', '#section_id']);
+});
+</script>

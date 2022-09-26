@@ -1,0 +1,37 @@
+{% load static %}
+{% if expense_categorys %}
+                        <table  id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+    <thead>
+        <tr style="background-color: #313a46; color: #ababab;" role="row">
+            <th>No.</th>
+            <th>Name</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for expense_category in expense_categorys %} 
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ expense_category.name }}</td>
+                <td>
+                    <div class="dropdown text-center">
+                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/expense_category/edit/{{ expense_category.pk }}','Update class room');">Edit</a>
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/expense_category/delete/{{ expense_category.pk }}', showAllExpenseCategories)">Delete</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+    </tbody>
+</table>
+{% else %}
+                      <div class="empty_box">
+  <img class="mb-1" width="120px" src="{% static 'portal/assets/backend/images/empty_box.png' %}" />
+  <br>
+  <span class="">No data found</span>
+</div>
+{% endif %}

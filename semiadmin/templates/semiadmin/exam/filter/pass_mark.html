@@ -1,0 +1,37 @@
+
+<table id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+    <thead>
+        <tr style="background-color: #313a46; color: #ababab;">
+            <th>No.</th>
+            <th>Mark</th>
+            <th>Period</th>
+            <th>Category</th>
+            <th>Subject</th>
+            <th>Session</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+		{% for pass_mark in pass_marks %}
+		<tr>
+			<td>{{ forloop.counter }}</td>
+			<td>{{ pass_mark.mark }}</td>
+			<td>{{ pass_mark.period }}</td>
+			<td>{{ pass_mark.category }}</td>
+			<td>{{ pass_mark.subject.name }}</td>
+			<td>{{ pass_mark.session.session }}</td>
+	    <td>
+        <div class="dropdown text-center">
+				<button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+				<div class="dropdown-menu dropdown-menu-right">
+				<!-- item-->
+				<a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/pass_mark/edit/{{ pass_mark.pk }}', 'Update pass mark');">Edit</a>
+				<!-- item-->
+				<a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/pass_mark/delete/{{ pass_mark.pk }}', showAllPassMarks )">Delete</a>
+				</div>
+			</div>
+	    </td>
+	</tr>
+    {% endfor %}
+	</tbody>
+</table>

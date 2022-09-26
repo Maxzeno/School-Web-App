@@ -1,0 +1,83 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} <title>Class room | Command Day Secondary School</title> {% endblock %}
+
+
+{% block body %}
+
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-library title_icon title_icon"></i> Class room          <button type="button" class="btn btn-outline-primary btn-rounded alignToTitle" onclick="rightModal('/portal/admin/class_room/create', 'Create class room')"> <i class="mdi mdi-plus"></i> Add class room</button>
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body class_room_content">
+            {% if the_classes %}
+            <table  id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+                <thead>
+                    <tr style="background-color: #313a46; color: #ababab;" role="row">
+                        <th>Srno.</th>
+                        <th>Class</th>
+                        <th>Room</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for the_class in the_classes %}  
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ the_class.the_class.the_class }}</td>
+                            <td>{{ the_class.the_section }}</td>
+                            <td>
+                                <div class="dropdown text-center">
+                                    <button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <!-- item-->
+                                        <a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/class_room/edit/{{ the_class.pk }}','Update class room');">Edit</a>
+                                        <!-- item-->
+                                        <a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/class_room/delete/{{ the_class.pk }}', showAllClassRooms)">Delete</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+
+            {% else %}
+                <div class="empty_box">
+                <img class="mb-1" width="120px" src="{% static 'portal/assets/backend/images/empty_box.png' %}" />
+                <br>
+                <span class="">No data found</span>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var showAllClassRooms = function () {
+        $.ajax({
+            type : 'GET',
+            url: '/portal/admin/class_room/all',
+            success : function(response) {
+                $('.class_room_content').html(response);
+                initDataTable('basic-datatable');
+            }
+        });
+    }
+</script>
+
+{% endblock %}

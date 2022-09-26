@@ -1,0 +1,46 @@
+
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/principal_comment_code/edit/{{ principal_comment_code.pk }}" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="form-row">
+
+        <div class="form-group col-md-12">
+            <label for="category">Code section</label>
+            <select name="category" class="form-control selectboxit" required="">
+                <option value="" selected=""> --Select section--</option>
+                <option value="SECTION A: EXCELLENT RESULT" {% if principal_comment_code.category == 'SECTION A: EXCELLENT RESULT' %} selected {% endif %}> SECTION A: EXCELLENT RESULT</option>
+                <option value="SECTION B: VERY GOOD RESULT" {% if principal_comment_code.category == 'SECTION B: VERY GOOD RESULT' %} selected {% endif %}> SECTION B: B. VERY GOOD RESULT</option>
+                <option value="SECTION C: GOOD RESULT" {% if principal_comment_code.category == 'SECTION C: GOOD RESULT' %} selected {% endif %}> SECTION C: GOOD RESULT</option>
+                <option value="SECTION D: CREDIT-LEVEL" {% if principal_comment_code.category == 'SECTION D: CREDIT-LEVEL' %} selected {% endif %}> SECTION D: CREDIT-LEVEL</option>
+                <option value="SECTION E: FAIR/POOR RESULT" {% if principal_comment_code.category == 'SECTION E: FAIR/POOR RESULT' %} selected {% endif %}> SECTION E: FAIR/POOR RESULT</option>
+                <option value="SECTION F: WEAK-PASS" {% if principal_comment_code.category == 'SECTION F: WEAK-PASS' %} selected {% endif %}> SECTION F: WEAK-PASS</option>
+                <option value="SECTION G: COMPLTETE FAILURE" {% if principal_comment_code.category == 'SECTION G: COMPLTETE FAILURE' %} selected {% endif %}> SECTION G: COMPLETE FAILURE</option>
+            </select>
+            <small id="category_help" class="form-text text-muted">Provide code section</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="code_number">Code number <em style="font-color:#ff0000;">*</em></label>
+            <input type="text" class="form-control" name="code_number" value="{{ principal_comment_code.code_number}}" required="">
+            <small id="code_number_help" class="form-text text-muted">Provide code number</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="code_description">Code description <em style="font-color:#ff0000;">*</em></label>
+            <input type="text" class="form-control" name="code_description" value="{{ principal_comment_code.code_description}}" required="">
+            <small id="code_description_help" class="form-text text-muted">Provide code description</small><br><em><strong>NB:</strong> replace any ______ with $${FEEDER}$$</em>
+        </div>
+
+        <div class="form-group  col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Create comment code</button>
+        </div>
+    </div>
+</form>
+
+
+<script>
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllPrincipalComments);
+});
+</script>

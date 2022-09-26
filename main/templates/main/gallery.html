@@ -1,0 +1,76 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+{% block head %} 
+
+<title>Gallery | Command Day Secondary School Enugu</title>
+<!--css-->
+<link href="{% static 'main/css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'main/css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
+<!--css-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="CDSSENUGU, Command Day Secondary School, Enugu" />
+<meta name="description" content="Command Day Secondary School Enugu is a school established and owned by the Nigerian Army.">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!--js-->
+<script src="{% static 'main/js/jquery.min.js' %}"></script>
+<script src="{% static 'main/js/bootstrap.min.js' %}"></script>
+<!--js-->
+<!--webfonts-->
+<link href='http://fonts.googleapis.com/css?family=Bookman' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<link rel="shortcut icon" href="{% static 'main/images/logo.png' %}" media="all">
+<!--webfonts-->
+
+{% endblock %}
+
+
+{% block body %}
+<div class="banner-w3agile">
+  <div class="container">
+    <h3><a href="/">Home</a> / <span style="color: #fff;">Gallery</span></h3>
+  </div>
+</div>
+<div class="content">
+  <!--contact-->
+  <div class="contact-w3l">
+      <div class="container">
+        <h2 class="tittle">Gallery</h2><hr>
+        <div class="col-md-12">
+          <div class="col-md-3 gall gall-cover"><a href="fetchgallery53e5.html?ID=5" title="Click to view in large scale" data-toggle="modal" data-target="#gallery"><img src="{% static 'main/admin/uploads/1629209733.html' %}" width="auto" height="120px" class="img-responsive img-thumbnail" alt="1629209733.jpg"></a><p style="background-color:#009746;padding:5px;color:white;text-align:center;">WAEC/Vatebra Merit Awards for Best Overall Male Candidate in Public Secondary in all Subjects in Nigeria</p></div>
+              <!-- Modal -->
+              <div class="modal fade col-lg-12" id="gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog">
+
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    
+                  </div>
+                </div>
+
+              </div>
+                    <!-- Modal -->
+          
+        </div>
+      </div>
+  </div>
+  <!--contact-->
+</div>
+
+
+   {% endblock %}
+
+{% block script %} 
+<script type="text/javascript">
+  $( document ).ready(function() {
+    $('#gallery').on('hidden.bs.modal', function () {
+          $(this).removeData('bs.modal');
+    });
+    });
+</script>
+{% endblock %}
+ 

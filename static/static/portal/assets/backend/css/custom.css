@@ -1,0 +1,524 @@
+.title_icon{
+  font-size: 25px;
+}
+.empty_box{
+  opacity: .8;
+  text-align: center;
+  width: 100%;
+  padding: 25px;
+}
+.modal_height{
+  height: 100%;
+}
+
+.modal-right {
+  min-width: 430px;
+  width: 430px;
+}
+@media (max-width: 576px){
+  .modal-right {
+    min-width: calc(100vw - 40px);
+    width: calc(100vw - 40px);
+  }
+}
+
+.modal-right form{
+  max-width: 400px;
+}
+
+.alignToTitle {
+  /* margin-top: 25px; */
+  float: right;
+}
+
+/* Custom file upload */
+@import "compass/css3";
+
+.custom-file-upload-hidden {
+  display: none;
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+}
+.custom-file-upload {
+  display: block;
+  width: auto;
+  font-size: 16px;
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+}
+
+.file-upload-wrapper {
+  position: relative;
+  margin-bottom: 5px;
+  //border: 1px solid #ccc;
+}
+.file-upload-input {
+  width: 275px;
+  color: #424242;
+  font-size: 13px;
+  padding: 11px 17px;
+  border: none;
+  background-color: #EEEEEE;
+  @include transition(all 0.2s ease-in);
+  float: left; /* IE 9 Fix */
+  &:hover, &:focus {
+    background-color: #BDBDBD;
+    outline: none;
+  }
+}
+.file-upload-button {
+  cursor: pointer;
+  display: inline-block;
+  color: #424242;
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 11px 20px;
+  padding-bottom: 12px;
+  border: none;
+  margin-left: -1px;
+  background-color: #E0E0E0;
+  float: left; /* IE 9 Fix */
+  @include transition(all 0.2s ease-in);
+  &:hover {
+    background-color: #BDBDBD;
+  }
+}
+
+/* JS-Image Previewer CSS STARTS */
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+// variables
+$base-color: cadetblue;
+$base-font: 'Raleway', sans-serif;
+
+.wrapper-image-preview{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.box {
+  display: block;
+  /* min-width: 300px; */
+  height: 245px;
+  margin: 10px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  overflow: hidden;
+}
+
+.upload-options {
+  cursor: pointer;
+  position: relative;
+  height: 50px;
+  background-color: $base-color;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: center;
+  transition: background-color ease-in-out 150ms;
+  &:hover {
+    background-color: lighten($base-color, 10%);
+  }
+  & input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  & label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    overflow: hidden;
+    &::after {
+      content: 'add';
+      font-family: 'Material Icons';
+      position: absolute;
+      font-size: 2.5rem;
+      color: rgba(230, 230, 230, 1);
+      top: calc(50% - 2.5rem);
+      left: calc(50% - 1.25rem);
+      z-index: 0;
+    }
+    & span {
+      display: inline-block;
+      width: 50%;
+      height: 100%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: middle;
+      text-align: center;
+      &:hover i.material-icons {
+        color: lightgray;
+      }
+    }
+  }
+}
+.js--image-preview {
+  height: 200px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-image: url('https://www.l-nutra.com/wp-content/uploads/2018/07/placeholder.png');
+  background-color: white;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  &::after {
+    content: "photo_size_select_actual";
+    font-family: 'Material Icons';
+    position: relative;
+    font-size: 4.5em;
+    color: rgba(230, 230, 230, 1);
+    top: calc(50% - 3rem);
+    left: calc(50% - 2.25rem);
+    z-index: 0;
+  }
+  &.js--no-default::after {
+    display: none;
+  }
+  &:nth-child(2) {
+    background-image: url('http://bastianandre.at/giphy.gif');
+  }
+}
+
+i.material-icons {
+  transition: color 100ms ease-in-out;
+  font-size: 2.25em;
+  line-height: 55px;
+  color: white;
+  display: block;
+}
+
+.drop {
+  display: block;
+  position: absolute;
+  background: transparentize($base-color, .8);
+  border-radius: 100%;
+  transform:scale(0);
+}
+
+.animate {
+  animation: ripple 0.4s linear;
+}
+
+.upload-options .btn {
+  cursor: pointer;
+}
+
+@keyframes ripple {
+  100% {opacity: 0; transform: scale(2.5);}
+}
+/* JS-Image Previewer CSS ENDS */
+
+.dropdown-btn:hover {
+  color: white !important;
+}
+.readonly {
+  pointer-events:none;
+  background: none;
+}
+.visit_website {
+  padding: calc(32px / 2) 0;
+  overflow: hidden;
+}
+
+/* FULL SCREEN LOADING CSS ON AJAX CALL */
+/* Absolute Center Spinner */
+.loading {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0, .8));
+
+  background: -webkit-radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0,.8));
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  -webkit-animation: spinner 150ms infinite linear;
+  -moz-animation: spinner 150ms infinite linear;
+  -ms-animation: spinner 150ms infinite linear;
+  -o-animation: spinner 150ms infinite linear;
+  animation: spinner 150ms infinite linear;
+  border-radius: 0.5em;
+  -webkit-box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
+  box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
+}
+
+/* Animation */
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.hidden {
+  display: none;
+}
+.show {
+  display: block;
+}
+/* @media print{
+  @page {size: landscape}
+} */
+
+@media print {
+  @page {
+    size: 310mm 215mm; /* landscape */
+    /* you can also specify margins here: */
+    margin: 5mm;
+  }
+}
+
+.notice-calendar-section .fc-body {
+  cursor: copy;
+}
+.ml--6{
+  margin-left: -6px;
+}
+.w-250{
+  width: 250px;
+}
+.bg-F5F5F5{
+  background-color: #F5F5F5;
+}
+.vb-hidden{
+  visibility:hidden;
+}
+.bg_course_thumbnail{
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+   height: 200px;
+}
+.h-5px{
+  height: 5px;
+}
+.bg-green-low{
+  background-color: #1ada9d;
+}
+.progress_value_count {
+  font-size: 12px;
+  margin-top: -6px;
+}
+.mw-50{
+  min-width: 50%;
+}
+.dv_none{
+  display: none;
+}
+.font-size-24{
+  font-size: 24px;
+}
+.font-size-20{
+  font-size: 20px;
+}
+.border-r-0{
+  border-radius: 0px;
+}
+.margin-m{
+  margin: 20px 0;
+}
+.margin-ms{
+  margin: 12px 10px;
+}
+.m-10-1{
+  margin: 12px -1px;
+}
+.bg-as-important{
+  background-color: #e2e2e2 !important;
+}
+.course-sidebar-td{
+  text-align: left;
+  padding:7px 10px;
+}
+.course-sidebar-td{
+  width: 100%;
+  padding: 5px 0px;
+}
+.h-fc{
+  color: #959aa2;
+  font-size: 13px;
+}
+.icon-st{
+  float: right;
+  font-weight: 100;
+}
+.lst{
+  font-size: 14px;
+  font-weight: 400;
+}
+.button-stk{
+  color: #535a66;
+  background: none;
+  border: none;
+  white-space: normal;
+}
+.ui-helper-hidden-accessible{
+  display: none;
+}
+.text-14{
+  font-size: 14px !important;
+}
+.text-20{
+  font-size: 20px;
+}
+.mr-3px{
+  margin-right: 3px;
+}
+.px-20{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.cursor-pointer{
+  cursor: pointer;
+}
+
+/*ADDED CUSTOM CSS HERE*/
+.topnav-navbar {
+  width: 100%;
+  background: url("../../../uploads/system/logo/hero-bg.jpg") top center;
+  background-attachment: scroll;
+  background-size: auto;
+  background-size: cover;
+  position: relative;
+  z-index: 9;
+}
+
+th.rotate {
+  /* Something you can count on */
+  height: 180px;
+  white-space: nowrap;
+}
+
+th.rotate > div {
+  transform: 
+    /* Magic Numbers */
+    translate(5px, 5px)
+    /* 45 is really 360 - 45 */
+    rotate(270deg);
+  width: 10px;
+  transform-origin: bottom left;
+}
+
+.deg90{
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+}
+
+.deg45{
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+}

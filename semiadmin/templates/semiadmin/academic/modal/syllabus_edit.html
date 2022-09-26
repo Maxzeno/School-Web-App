@@ -1,0 +1,83 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/syllabus/edit" enctype="multipart/form-data" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="form-row">
+                <input type="hidden" name="school_id" value="1">
+        <input type="hidden" name="session_id" value="2">
+        <div class="form-group col-md-12">
+            <label for="title">Tittle</label>
+            <input type="text" class="form-control" id="title" name="title" required="">
+        </div>
+        <div class="form-group col-md-12">
+            <label for="class_id_on_create">Class</label>
+            <select class="form-control select2 select2-hidden-accessible" data-toggle="select2" id="class_id_on_create" name="class_id" onchange="classWiseSectionOnCreate(this.value)" required="" data-select2-id="class_id_on_create" tabindex="-1" aria-hidden="true">
+                <option value="" data-select2-id="14">Select a class</option>
+                {% for class in the_classes %}
+                  <option value="{{ class.the_class }}">{{ class.the_class }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="section_id_on_create">Section</label>
+            <select class="form-control select2 select2-hidden-accessible" data-toggle="select2" id="section_id_on_create" name="section_id" required="" data-select2-id="section_id_on_create" tabindex="-1" aria-hidden="true">
+                <option value="" data-select2-id="16">Select a section</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="subject_id_on_create">Subject</label>
+            <select class="form-control select2 select2-hidden-accessible" data-toggle="select2" id="subject_id_on_create" name="subject_id" requied="" data-select2-id="subject_id_on_create" tabindex="-1" aria-hidden="true">
+                <option data-select2-id="18">Select a subject</option>
+            </select>
+        </div>
+        <div class="form-group col-md-12">
+            <label for="syllabus_file">Upload syllabus</label>
+            <div class="custom-file-upload">
+                    <input type="file" class="form-control" id="syllabus_file" name="syllabus_file" tabindex="-1" style="position: absolute; left: -9999px;">
+            </div>
+        </div>
+        </div>
+        <div class="form-group col-md-12 mt-2">
+            <button class="btn btn-block btn-primary" type="submit">Create syllabus</button>
+        </div>
+    }
+    
+</form>
+
+<script>
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, showAllSyllabuses);
+});
+
+$('document').ready(function(){
+    initSelect2(['#class_id_on_create',
+                '#section_id_on_create',
+                '#subject_id_on_create']);
+});
+
+function classWiseSectionOnCreate(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section_no/"+classId,
+        success: function(response){
+            $('#section_id_on_create').html(response);
+            classWiseSubjectOnCreate(classId);
+        }
+    });
+}
+
+function classWiseSubjectOnCreate(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_subject/"+classId,
+        success: function(response){
+            $('#subject_id_on_create').html(response);
+        }
+    });
+}
+</script>
+
+
+<script type="text/javascript">
+  initCustomFileUploader();
+</script>

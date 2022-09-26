@@ -1,0 +1,279 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Add Student | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                        <!--title-->
+<div class="row ">
+      <div class="col-xl-12">
+          <div class="card">
+              <div class="card-body">
+                  <h4 class="page-title">
+                      <i class="mdi mdi-account-multiple-plus title_icon"></i> Student admission form                  </h4>
+              </div> <!-- end card body-->
+          </div> <!-- end card -->
+      </div><!-- end col-->
+  </div>
+<div class="row">
+    <div class="col-12">
+        <div class="card pt-0">
+            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                <li class="nav-item">
+                    <a href="/portal/admin/student/create" class="nav-link rounded-0 active">
+                        <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
+                        <span class="d-none d-lg-block">Single student admission</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/portal/admin/student/create_bulk" class="nav-link rounded-0 ">
+                        <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                        <span class="d-none d-lg-block">Bulk student admission</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/portal/admin/student/create_excel" class="nav-link rounded-0 ">
+                        <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                        <span class="d-none d-lg-block">Excel upload</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    
+<form method="POST" class="col-12 d-block ajaxForm" action="/portal/admin/student/create" id="student_admission_form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="col-md-12">
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="name">Name</label>
+            <div class="col-md-9">
+                <input type="text" id="name" name="name" class="form-control" placeholder="name" required>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="email">Email</label>
+            <div class="col-md-9">
+                <input type="email" class="form-control" id="email" name="email" placeholder="email">
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="student_id">Student id</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" id="student_id" name="student_id" value="{{ new_id }}" placeholder="Student ID" required>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="password">Password</label>
+            <div class="col-md-9">
+                <input type="password" class="form-control" id="password" name="password" placeholder="password">
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="parent_id">Parent</label>
+            <div class="col-md-9">
+                <select id="parent_id" name="parent_id" class="form-control select2" data-toggle = "select2">
+                    <option value="">Select a parent</option>
+                    {% for parent in parents %}
+                        <option value="{{ parent.id }}">{{ parent.title }} {{ parent.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="class_id">Class</label>
+            <div class="col-md-9">
+                <select name="class_id" id="class_id" class="form-control select2" data-toggle = "select2" required onchange="classWiseSection(this.value)">
+                    <option value="">Select class</option>
+                    {% for the_class in the_classes %}
+                    <option value="{{ the_class.the_class }}">{{ the_class.the_class }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="section_id">Section</label>
+            <div class="col-md-9" id = "section_content">
+                <select name="section_id" id="section_id" class="form-control select2" data-toggle = "select2">
+                    <option value="">Select section</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="birthdatepicker">Birthday</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control date" id="birthdatepicker" data-toggle="date-picker" data-single-date-picker="true" name = "birthday" value="">
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="gender">Gender</label>
+            <div class="col-md-9">
+                <select name="gender" id="gender" class="form-control select2" data-toggle = "select2">
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="blood_group">Blood group</label>
+            <div class="col-md-9">
+                <select name="blood_group" id="blood_group" class="form-control select2" data-toggle = "select2">
+                    <option value="">Select a blood group</option>
+                    <option value="a+">A+</option>
+                    <option value="a-">A-</option>
+                    <option value="b+">B+</option>
+                    <option value="b-">B-</option>
+                    <option value="ab+">AB+</option>
+                    <option value="ab-">AB-</option>
+                    <option value="o+">O+</option>
+                    <option value="o-">O-</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="example-textarea">Address</label>
+            <div class="col-md-9">
+                <textarea class="form-control" id="example-textarea" rows="5" name = "address" placeholder="address"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="phone">Phone</label>
+            <div class="col-md-9">
+                <input type="text" id="phone" name="phone" class="form-control" placeholder="phone">
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label" for="example-fileinput">Student profile image</label>
+            <div class="col-md-9 custom-file-upload">
+                <div class="wrapper-image-preview" style="margin-left: -6px;">
+                    <div class="box" style="width: 250px;">
+                        <div class="js--image-preview" style="background-image: url(/static/portal/uploads/users/placeholder.jpg); background-color: #F5F5F5;"></div>
+                        <div class="upload-options">
+                            <label for="student_image" class="btn"> <i class="mdi mdi-camera"></i> Upload an image </label>
+                            <input id="student_image" style="visibility:hidden;" type="file" class="image-upload" name="student_image" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-secondary col-md-4 col-sm-12 mb-4">Add student</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+var form;
+
+function reload() {
+  setTimeout(
+    function()
+    {
+      location.reload();
+    }, 500);
+}
+
+$(".ajaxForm").submit(function(e) {
+  form = $(this);
+  ajaxSubmit(e, form, reload);
+});
+
+
+var refreshForm = function () {
+    // form.trigger("reset");
+    // $('#parent_id').val('').change();
+    // $('#class_id').val('').change();
+    // $('#section_id').val('').change();
+    // $('#gender').val('').change();
+    // $('#blood').val('').change();
+}
+</script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+var class_id = "";
+var section_id = "";
+$('document').ready(function(){
+    if (class_id != null) {
+        $('#class_id').each(function(index, element) {
+            $(this).find('option[value="'+class_id+'"]').prop('selected', true).change();
+        });
+        classWiseSection(class_id);
+    }
+
+    if (section_id != null) {
+        $('#section_id option').each(function(index, element) {
+            $(this).find('option[value="'+section_id+'"]').prop('selected', true).trigger('change');
+        });
+    }
+
+    if (class_id && section_id) {
+        filter_student(class_id,section_id);
+    }
+});
+
+function classWiseSection(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section_no/"+classId,
+        success: function(response){
+            $('#section_id').html(response);
+            $('#section_id').val(section_id).change();
+        }
+    });
+}
+
+function filter_student(class_id, section_id){
+    if (class_id == '')
+        var class_id = $('#class_id').val();
+
+    if (section_id == '')
+        var section_id = $('#section_id').val();
+
+    if(class_id != "" && section_id!= ""){
+        showAllStudents(class_id, section_id);
+    }else{
+        toastr.error('Please select a class and section');
+    }
+}
+
+var showAllStudents = function(class_id, section_id) {
+    if (class_id == '')
+        var class_id = $('#class_id').val();
+
+    if (section_id == '')
+        var section_id = $('#section_id').val();
+
+    if(class_id != "" && section_id!= ""){
+        $.ajax({
+            url: 'https://cdssenugu.org/portal/admin/student/filter/'+class_id+'/'+section_id,
+            success: function(response){
+                $('.student_content').html(response);
+            }
+        });
+    }
+}
+</script>
+{% endblock %}
+                    

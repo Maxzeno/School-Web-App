@@ -1,0 +1,53 @@
+<div class="row justify-content-md-center">
+            <div class="col-md-4 mt-2">
+                <div class="card text-white bg-secondary">
+                    <div class="card-body">
+                        <div class="toll-free-box text-center">
+                            <h4> <i class="mdi mdi-chart-bar-stacked"></i> Promote student</h4>
+                            <h5>Class from: {{ class_room_from.the_class.the_class|upper }} {{ class_room_from.the_section|upper }} To : {{ class_room_to.the_class.the_class|upper }} {{ class_room_to.the_section|upper }}</h5>
+                            <h5>Session from: {{ session_from.session }} To : {{ session_to.session}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-3 mb-lg-0">
+                <div class="table-responsive-sm">
+                    <table class="table table-bordered table-striped dt-responsive nowrap" width="100%">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Image</th>
+                            <th>Student name</th>
+                            <th>Section</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          {% for student in students %}
+                          <tr>
+                            <td class="text-center">
+                              <img src="{{ student.get_photo }}" height="50" alt="Student"><br>
+                            </td>
+                            <td>
+                              {{ student.name|upper }}<br>
+                              <small><b>Student code:</b>{{ student.student_id|upper }}</small>
+                            </td>
+                          <td>{{ student.student_class_room.the_section }}</td>
+                          <td style="text-align: center;">
+                            <span class="badge badge-info-lighten" id="success_{{ student.replace_slash_with_dash }}" style="display: none;">Promoted</span>
+                            <span class="badge badge-light" id="danger_{{ student.replace_slash_with_dash }}">Not promoted yet</span>
+                          </td>
+                          <td style="text-align: center;">
+                            <button type="button" class="btn btn-icon btn-success btn-sm" onclick="enrollStudent('{{ student.pk }}', '{{ class_room_from.pk }}', '{{ class_room_to.pk }}', '{{ session_from.pk }}', '{{ session_to.pk }}', '{{ student.replace_slash_with_dash }}')"> Enroll to <strong> {{ class_room_to.the_class.the_class|upper }} {{ class_room_to.the_section|upper }} </strong> </button>
+                            <button type="button" class="btn btn-icon btn-secondary btn-sm" onclick="enrollStudent('{{ student.pk }}', '{{ class_room_to.pk }}', '{{ class_room_from.pk }}', '{{ session_from.pk }}', '{{ session_to.pk }}', '{{ student.replace_slash_with_dash }}')"> Enroll to <strong> {{ class_room_from.the_class.the_class|upper }} {{ class_room_from.the_section }} </strong> </button>
+                          </td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>

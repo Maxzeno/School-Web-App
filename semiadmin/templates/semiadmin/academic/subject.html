@@ -1,0 +1,76 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Subject | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-book-open-page-variant title_icon"></i> Subject          <button type="button" class="btn btn-outline-primary btn-rounded alignToTitle" onclick="rightModal('/portal/admin/subject/create', 'Create subject')"> <i class="mdi mdi-plus"></i> Add subject</button>
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="row mt-3">
+                <div class="col-md-3"></div>
+                <div class="col-md-4">
+                    <select name="class_id" id="class_id" class="form-control select2" data-toggle = "select2" required>
+                        <option value="">Select a class</option>
+                            {% for class in classes %}
+                                <option value="{{ class.the_class }}">{{ class.the_class }}</option>
+                            {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-block btn-secondary" onclick="filter_class()" >Filter</button>
+                </div>
+            </div>
+            <div class="card-body subject_content">
+                  <div class="empty_box">
+  <img class="mb-1" width="120px" src="https://cdssenugu.org/portal/assets/backend/images/empty_box.png" />
+  <br>
+  <span class="">No data found</span>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+function filter_class(){
+    var class_id = $('#class_id').val();
+    if(class_id != ""){
+        showAllSubjects();
+    }else{
+        toastr.error('Please select a class');
+    }
+}
+
+var showAllSubjects = function () {
+    var class_id = $('#class_id').val();
+    if(class_id != ""){
+        $.ajax({
+            url: '/portal/admin/subject/filter/'+class_id,
+            success: function(response){
+                $('.subject_content').html(response);
+            }
+        });
+    }
+}
+</script>
+{% endblock %}
+                    

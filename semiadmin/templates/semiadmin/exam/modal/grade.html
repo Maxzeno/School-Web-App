@@ -1,0 +1,69 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/grade/create" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="grade">Grade</label>
+            <select name="grade" id="grade" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+                <option value="">Select grade</option>
+                <option value="A1">A1</option>
+                <option value="B2">B2</option>
+                <option value="B3">B3</option>
+                <option value="C4">C4</option>
+                <option value="C5">C5</option>
+                <option value="C6">C6</option>
+                <option value="D7">D7</option>
+                <option value="E8">E8</option>
+                <option value="F9">F9</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="grade_point">Grade point</label>
+            <input type="number" class="form-control" id="grade_point" name="grade_point" placeholder="Grade point" required="">
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="mark_from">Mark from</label>
+            <input type="number" class="form-control" id="mark_from" name="mark_from" placeholder="Mark from" required="">
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="mark_upto">Mark upto</label>
+            <input type="number" class="form-control" id="mark_upto" name="mark_upto" placeholder="Mark upto" required="">
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="remarks">Remarks <em style="font-color:#ff0000;">*</em></label>
+            <select name="remarks" id="remarks" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+                <option value="">Select remarks</option>
+                <option value="EXCELLENT">Excellent</option>
+                <option value="VERY GOOD">Very good</option>
+                <option value="GOOD">Good</option>
+                <option value="UPPER CREDIT">Upper credit</option>
+                <option value="CREDIT">Credit</option>
+                <option value="LOWER CREDIT">Lower credit</option>
+                <option value="PASS">Pass</option>
+                <option value="FAIL">Fail</option>
+            </select>
+            <small id="remarks_help" class="form-text text-muted">Provide remarks</small>
+        </div>
+
+        <div class="form-group  col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Create grade</button>
+        </div>
+    </div>
+</form>
+
+
+<script>
+
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllGrades);
+});
+
+$(document).ready(function () {
+  initSelect2(['#grade', '#remarks']);
+});
+</script>

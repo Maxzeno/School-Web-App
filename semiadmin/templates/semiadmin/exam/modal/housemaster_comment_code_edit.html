@@ -1,0 +1,41 @@
+
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/housemaster_comment_code/edit/{{ housemaster_comment_code.pk }}" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="form-row">
+
+        <div class="form-group col-md-12">
+            <label for="category">Code section</label>
+            <select name="category" class="form-control selectboxit" required="">
+                <option value="" selected=""> --Select section--</option>
+                <option value="SECTION A: POSITIVE COMMENTS" {% if housemaster_comment_code.category == 'SECTION A: POSITIVE COMMENTS' %} selected {% endif %}> SECTION A: POSITIVE COMMENTS</option>
+                <option value="SECTION B: POSITIVE COMMENTS WITH SOME NEGATIVITY" {% if housemaster_comment_code.category == 'SECTION B: POSITIVE COMMENTS WITH SOME NEGATIVITY' %} selected {% endif %}> SECTION B: POSITIVE COMMENTS WITH SOME NEGATIVITY</option>
+            </select>
+            <small id="category_help" class="form-text text-muted">Provide code section</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="code_number">Code number <em style="font-color:#ff0000;">*</em></label>
+            <input type="text" class="form-control" name="code_number" value="{{ housemaster_comment_code.code_number}}" required="">
+            <small id="code_number_help" class="form-text text-muted">Provide code number</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="code_description">Code description <em style="font-color:#ff0000;">*</em></label>
+            <input type="text" class="form-control" name="code_description" value="{{ housemaster_comment_code.code_description}}" required="">
+            <small id="code_description_help" class="form-text text-muted">Provide code description</small><br><em><strong>NB:</strong> replace any ______ with $${FEEDER}$$</em>
+        </div>
+
+        <div class="form-group  col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Create comment code</button>
+        </div>
+    </div>
+</form>
+
+
+<script>
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllHousemasterComments);
+});
+</script>

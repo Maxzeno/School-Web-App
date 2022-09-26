@@ -1,0 +1,52 @@
+<div class="row mb-3">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 toll-free-box text-center text-white py-2" style="background-color: #6c757d; border-radius: 10px;">
+        <h4>Subject permission for</h4>
+        <span>{{ the_exact_class }}</span><br>
+        <span>{{ subject }}</span><br>
+    <div class="col-md-4"></div>
+    </div>
+</div>
+<table id="basic-datatable" class="table table-striped" style="width:100%">
+        <thead>
+            <tr style="background-color: #313a46; color: #ababab;">
+            {% for thead in theads %}
+                <th>{{ thead }}</th>
+            {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for tbody in tbodys %}
+            <tr>
+                <td> {{ forloop.counter }} </td>    
+                <td>{{ tbody.1 }}</td>
+
+                <td>
+                    <input type="checkbox" value="{% if tbody.2 == 'checked' %}1{% else %}0{% endif %}" {{ tbody.2 }} id="{{ tbody.0 }}exam" data-switch="success" onchange="togglePermission(this.id, 'exam', '{{ tbody.0 }}')">
+                        <label for="{{ tbody.0 }}exam" data-on-label="Yes" data-off-label="No"></label>
+                </td>
+                <td>
+                    <input type="checkbox" value="{% if tbody.3 == 'checked' %}1{% else %}0{% endif %}" {{ tbody.3 }} id="{{ tbody.0 }}assignment" data-switch="success" onchange="togglePermission(this.id, 'assignment', '{{ tbody.0 }}')">
+                    <label for="{{ tbody.0 }}assignment" data-on-label="Yes" data-off-label="No"></label>
+                </td>
+                <td>
+                    <input type="checkbox" value="{% if tbody.4 == 'checked' %}1{% else %}0{% endif %}" {{ tbody.4 }} id="{{ tbody.0 }}mid_term" data-switch="success" onchange="togglePermission(this.id, 'mid_term', '{{ tbody.0 }}')">
+                    <label for="{{ tbody.0 }}mid_term" data-on-label="Yes" data-off-label="No"></label>
+                </td>
+                <td>
+                    <input type="checkbox" value="{% if tbody.5 == 'checked' %}1{% else %}0{% endif %}" {{ tbody.5 }} id="{{ tbody.0 }}attendance" data-switch="success" onchange="togglePermission(this.id, 'attendance', '{{ tbody.0 }}')">
+                    <label for="{{ tbody.0 }}attendance" data-on-label="Yes" data-off-label="No"></label>
+                </td>
+                <td>
+                    <input type="checkbox" value="{% if tbody.6 == 'checked' %}1{% else %}0{% endif %}" {{ tbody.6 }} id="{{ tbody.0 }}online_exam" data-switch="success" onchange="togglePermission(this.id, 'online_exam', '{{ tbody.0 }}')">
+                    <label for="{{ tbody.0 }}online_exam" data-on-label="Yes" data-off-label="No"></label>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+<script type="text/javascript">
+initDataTable('basic-datatable');
+</script>

@@ -1,0 +1,90 @@
+
+        <form method="POST" class="d-block ajaxForm" action="/portal/admin/exam/manage_exam/create" novalidate="novalidate">
+            {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="exam_name">Exam name <em style="font-color:#ff0000;">*</em></label>
+            <input type="text" class="form-control" id="exam_name" name="exam_name" placeholder="name" required="">
+            <small id="name_help" class="form-text text-muted">Provide exam name</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="exam_session">Exam session <em style="font-color:#ff0000;">*</em></label>
+            <select name="exam_session" id="exam_session" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+                <option value="">Select session</option>
+                {% for ses in sessions %}
+                    <option value="{{ ses.session }}">{{ ses.session }}</option>
+                {% endfor %}
+            </select>
+            <small id="session_help" class="form-text text-muted">Provide exam session</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="exam_term">Exam term <em style="font-color:#ff0000;">*</em></label>
+            <select name="exam_term" id="exam_term" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+                <option value="">Select term</option>
+                <option value="FIRST">First</option>
+                <option value="SECOND">Second</option>
+                <option value="THIRD">Third</option>
+                <!-- <option value="MID-TERM">Mid term</option> -->
+                <option value="ANNUAL">Annual</option>
+            </select>
+            <small id="term_help" class="form-text text-muted">Provide exam term</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="starting_date">Starting date <em style="font-color:#ff0000;">*</em></label>
+            <input type="text" class="form-control date" id="starting_date" data-toggle="date-picker" data-single-date-picker="true" name="starting_date" value="" required="">
+            <small id="name_help" class="form-text text-muted">Provide starting date</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="ending_date">Ending date <em style="font-color:#ff0000;">*</em></label>
+            <input type="text" class="form-control date" id="ending_date" data-toggle="date-picker" data-single-date-picker="true" name="ending_date" value="" required="">
+            <small id="name_help" class="form-text text-muted">Provide ending date</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="next_term_begins">Next term begins</label>
+            <input type="text" class="form-control date" id="next_term_begins" data-toggle="date-picker" data-single-date-picker="true" name="next_term_begins" value="" required="">
+            <small id="next_term_begins_help" class="form-text text-muted">Provide next term begins</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="next_term_ends">Next term ends</label>
+            <input type="text" class="form-control date" id="next_term_ends" data-toggle="date-picker" data-single-date-picker="true" name="next_term_ends" value="" required="">
+            <small id="next_term_ends_help" class="form-text text-muted">Provide next term ends</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="exam_comment">Comment</label>
+            <textarea class="form-control" id="exam_comment" name="exam_comment" placeholder="comment"></textarea>
+            <small id="comment_help" class="form-text text-muted">Provide comment</small>
+        </div>
+
+        <div class="form-group  col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Create exam</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(".ajaxForm").validate({}); // Jquery form validation initialization
+    $(".ajaxForm").submit(function(e) {
+        var form = $(this);
+        ajaxSubmit(e, form, showAllExams);
+    });
+
+    $(document).ready(function() {
+         $("#starting_date" ).daterangepicker();
+        $("#ending_date" ).daterangepicker();
+        $("#next_term_begins" ).daterangepicker();
+        $("#next_term_ends" ).daterangepicker();
+
+    });
+
+
+$(document).ready(function () {
+  initSelect2(['#exam_term', '#exam_session']);
+});
+</script>

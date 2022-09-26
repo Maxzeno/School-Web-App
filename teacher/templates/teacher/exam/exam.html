@@ -1,0 +1,50 @@
+{% extends 'teacher/base.html' %}
+{% load static %}
+
+{% block head %} <title>Exam | Command Day Secondary School</title> {% endblock %}
+
+
+{% block body %}
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-grease-pencil title_icon"></i> Exam
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body exam_content">
+              <table id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+    <thead>
+        <tr style="background-color: #313a46; color: #ababab;">
+            <th>No.</th>
+            <th>Exam name</th>
+            <th>Starting date</th>
+            <th>Ending date</th>
+        </tr>
+    </thead>
+    <tbody>
+    	{% for exam in exams %}
+		<tr>
+            <td>{{ forloop.counter }}</td>
+    	    <td>{{ exam.exam_name }}</td>
+    	    <td>{{ exam.exam_starts }}</td>
+    	    <td>{{ exam.exam_ends }}</td>
+	   </tr>
+    {% endfor %}
+	</tbody>
+</table>
+            </div>
+        </div>
+    </div>
+</div>
+
+                    <!-- END PLACE PAGE CONTENT HERE -->
+     {% endblock %}

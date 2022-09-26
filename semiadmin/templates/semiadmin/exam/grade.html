@@ -1,0 +1,88 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} <title>Grades | Command Day Secondary School</title> {% endblock %}
+
+
+{% block body %}
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-grease-pencil title_icon"></i> Grade          <button type="button" class="btn btn-outline-primary btn-rounded alignToTitle" onclick="rightModal('/portal/admin/grade/create', 'Add grade')"> <i class="mdi mdi-plus"></i> Add grade</button>
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body grade_content">
+              {% if grades %}
+
+              <table id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+                  <thead>
+                      <tr style="background-color: #313a46; color: #ababab;">
+                          <th>Srno.</th>
+                          <th>Grade</th>
+                          <th>Grade point</th>
+                          <th>Mark from</th>
+                          <th>Mark upto</th>
+                          <th>Remarks</th>
+                          <th>Options</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for grade in grades %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ grade.grade }}</td>
+                    <td>{{ grade.grade_point }}</td>
+                    <td>{{ grade.mark_from }}</td>
+                    <td>{{ grade.mark_upto }}</td>
+                    <td>{{ grade.remarks }}</td>
+                    <td>
+                      <div class="dropdown text-center">
+                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <!-- item-->
+                          <a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/grade/edit/{{ grade.pk }}', 'Update grade');">Edit</a>
+                          <!-- item-->
+                          <a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/grade/delete/{{ grade.pk }}', showAllGrades)">Delete</a>
+                        </div>
+                      </div>
+                    </td>
+                </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              {% else %}
+              <div class="empty_box">
+                <img class="mb-1" width="120px" src="https://cdssenugu.org/portal/assets/backend/images/empty_box.png" />
+                <br>
+                <span class="">No data found</span>
+              </div>
+              {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var showAllGrades = function () {
+        var url = '/portal/admin/grade/all';
+
+        $.ajax({
+            type : 'GET',
+            url: url,
+            success : function(response) {
+                $('.grade_content').html(response);
+                initDataTable('basic-datatable');
+            }
+        });
+    }
+</script>
+{% endblock %} 

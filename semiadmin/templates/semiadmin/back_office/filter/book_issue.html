@@ -1,0 +1,47 @@
+{% load static %}
+{% if book_issues %}
+    <table  id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+    <thead>
+        <tr style="background-color: #313a46; color: #ababab;" role="row">
+            <th>Srno.</th>
+            <th>Book name</th>
+            <th>Issue date</th>
+            <th>Student</th>
+            <th>Class</th>
+            <th>Status</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for book_issue in book_issues %} 
+            <tr>
+                <td></td>
+                <td>{{ book_issue.book.book_name }}</td>
+                <td>{{ book_issue.issue_date }}</td>
+                <td>{{ book_issue.student.name }}
+                    <br> <small style="font-size: 10px; color: #9E9E9E;">Student code: {{ book_issue.student.pk }}</small>
+                </td>
+                <td>{{ book_issue.the_class.the_class.the_class }}</td>
+                <td>{{ book_issue.status }}</td>
+                <td>
+                    <div class="dropdown text-center">
+                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/book_issue/edit/{{ book_issue.pk }}','Update book issue');">Edit</a>
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/book_issue/delete/{{ book_issue.pk }}', showAllBookIssues)">Delete</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+    </tbody>
+</table>
+{% else %}
+                      <div class="empty_box">
+  <img class="mb-1" width="120px" src="{% static 'portal/assets/backend/images/empty_box.png' %}" />
+  <br>
+  <span class="">No data found</span>
+</div>
+{% endif %}

@@ -1,0 +1,185 @@
+<table class="table table-striped table-bordered table-centered mb-0">
+        <tbody>
+            <tr>
+                <td style="font-weight: bold; width : 100px;">Saturday</td>
+                <td class="m-1">
+                    {% for i in dct.saturday %}
+
+                        <div class="btn-group text-left">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-book-open-variant"></i>
+                            	{{ i.subject.name }}                              </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-clock"></i>
+                            	{{ i.starting_hour }}:{{ i.starting_minute }} - {{ i.ending_hour }}:{{ i.ending_minute }} </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-account"></i>
+                            	{{ i.teacher.name }}  </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-home-automation"></i>
+                            	{{ i.the_class.the_class.the_class }}  {{ i.the_class.the_section }}</p>
+                            <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 100px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item" onclick="rightModal('/portal/admin/routine/edit/{{ i.pk }}', 'Update routine');">Edit</a>
+                                <a class="dropdown-item" onclick="confirmModal('/portal/admin/routine/delete/{{ i.pk }}', getFilteredClassRoutine)">Delete</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+            </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; width : 100px;">Sunday</td>
+                <td class="m-1">
+                    {% for i in dct.sunday %}
+
+                        <div class="btn-group text-left">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-book-open-variant"></i>
+                                {{ i.subject.name }}                              </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-clock"></i>
+                                {{ i.starting_hour }}:{{ i.starting_minute }} - {{ i.ending_hour }}:{{ i.ending_minute }} </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-account"></i>
+                                {{ i.teacher.name }}  </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-home-automation"></i>
+                                {{ i.the_class.the_class.the_class }}  {{ i.the_class.the_section }}</p>
+                            <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 100px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item" onclick="rightModal('/portal/admin/routine/edit/{{ i.pk }}', 'Update routine');">Edit</a>
+                                <a class="dropdown-item" onclick="confirmModal('/portal/admin/routine/delete/{{ i.pk }}', getFilteredClassRoutine)">Delete</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                        
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; width : 100px;">Monday</td>
+                <td class="m-1">
+                    {% for i in dct.monday %}
+
+                        <div class="btn-group text-left">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-book-open-variant"></i>
+                                {{ i.subject.name }}                              </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-clock"></i>
+                                {{ i.starting_hour }}:{{ i.starting_minute }} - {{ i.ending_hour }}:{{ i.ending_minute }} </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-account"></i>
+                                {{ i.teacher.name }}  </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-home-automation"></i>
+                                {{ i.the_class.the_class.the_class }}  {{ i.the_class.the_section }}</p>
+                            <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 100px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item" onclick="rightModal('/portal/admin/routine/edit/{{ i.pk }}', 'Update routine');">Edit</a>
+                                <a class="dropdown-item" onclick="confirmModal('/portal/admin/routine/delete/{{ i.pk }}', getFilteredClassRoutine)">Delete</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                        
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; width : 100px;">Tuesday</td>
+                <td class="m-1">
+                    {% for i in dct.tuesday %}
+
+                        <div class="btn-group text-left">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-book-open-variant"></i>
+                                {{ i.subject.name }}                              </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-clock"></i>
+                                {{ i.starting_hour }}:{{ i.starting_minute }} - {{ i.ending_hour }}:{{ i.ending_minute }} </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-account"></i>
+                                {{ i.teacher.name }}  </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-home-automation"></i>
+                                {{ i.the_class.the_class.the_class }}  {{ i.the_class.the_section }}</p>
+                            <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 100px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item" onclick="rightModal('/portal/admin/routine/edit/{{ i.pk }}', 'Update routine');">Edit</a>
+                                <a class="dropdown-item" onclick="confirmModal('/portal/admin/routine/delete/{{ i.pk }}', getFilteredClassRoutine)">Delete</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                        
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; width : 100px;">Wednesday</td>
+                <td class="m-1">
+                    {% for i in dct.wednesday %}
+
+                        <div class="btn-group text-left">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-book-open-variant"></i>
+                                {{ i.subject.name }}                              </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-clock"></i>
+                                {{ i.starting_hour }}:{{ i.starting_minute }} - {{ i.ending_hour }}:{{ i.ending_minute }} </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-account"></i>
+                                {{ i.teacher.name }}  </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-home-automation"></i>
+                                {{ i.the_class.the_class.the_class }}  {{ i.the_class.the_section }}</p>
+                            <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 100px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item" onclick="rightModal('/portal/admin/routine/edit/{{ i.pk }}', 'Update routine');">Edit</a>
+                                <a class="dropdown-item" onclick="confirmModal('/portal/admin/routine/delete/{{ i.pk }}', getFilteredClassRoutine)">Delete</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                        
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; width : 100px;">Thursday</td>
+                <td class="m-1">
+                    {% for i in dct.thursday %}
+
+                        <div class="btn-group text-left">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-book-open-variant"></i>
+                                {{ i.subject.name }}                              </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-clock"></i>
+                                {{ i.starting_hour }}:{{ i.starting_minute }} - {{ i.ending_hour }}:{{ i.ending_minute }} </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-account"></i>
+                                {{ i.teacher.name }}  </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-home-automation"></i>
+                                {{ i.the_class.the_class.the_class }}  {{ i.the_class.the_section }}</p>
+                            <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 100px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item" onclick="rightModal('/portal/admin/routine/edit/{{ i.pk }}', 'Update routine');">Edit</a>
+                                <a class="dropdown-item" onclick="confirmModal('/portal/admin/routine/delete/{{ i.pk }}', getFilteredClassRoutine)">Delete</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                        
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; width : 100px;">Friday</td>
+                <td class="m-1">
+                    {% for i in dct.friday %}
+
+                        <div class="btn-group text-left">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-book-open-variant"></i>
+                                {{ i.subject.name }}                              </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-clock"></i>
+                                {{ i.starting_hour }}:{{ i.starting_minute }} - {{ i.ending_hour }}:{{ i.ending_minute }} </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-account"></i>
+                                {{ i.teacher.name }}  </p>
+                            <p style="margin-bottom: 0px;"><i class="mdi mdi-home-automation"></i>
+                                {{ i.the_class.the_class.the_class }}  {{ i.the_class.the_section }}</p>
+                            <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 100px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item" onclick="rightModal('/portal/admin/routine/edit/{{ i.pk }}', 'Update routine');">Edit</a>
+                                <a class="dropdown-item" onclick="confirmModal('/portal/admin/routine/delete/{{ i.pk }}', getFilteredClassRoutine)">Delete</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                        
+                </td>
+            </tr>
+        </tbody>
+    </table>

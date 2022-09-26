@@ -1,0 +1,98 @@
+{% extends 'teacher/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Routine | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+					<i class="mdi mdi-calendar-today title_icon"></i> Class routine
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="row mt-3">
+				<div class="col-md-1 mb-1"></div>
+				<div class="col-md-4 mb-1">
+					<select name="class" id="class_id" class="form-control select2" data-toggle="select2" required onchange="classWiseSection(this.value)">
+						<option value="">Select a class</option>
+						{% for class in the_classes %}
+		                  <option value="{{ class.the_class }}">{{ class.the_class }}</option>
+		                {% endfor %}
+					<select>
+				</div>
+				<div class="col-md-4 mb-1">
+					<select name="section" id="section_id" class="form-control select2" data-toggle="select2" required>
+						<option value="">Select section</option>
+					</select>
+				</div>
+				<div class="col-md-2">
+					<button class="btn btn-block btn-secondary" onclick="filter_class_routine()" >Filter</button>
+				</div>
+			</div>
+			<div class="card-body class_routine_content">
+				    <div class="empty_box">
+  <img class="mb-1" width="120px" src="https://cdssenugu.org/portal/assets/backend/images/empty_box.png" />
+  <br>
+  <span class="">No data found</span>
+</div>
+
+
+<style>
+    .dropdown-toggle::after{
+        display: none;
+    }
+</style>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+function classWiseSection(classId) {
+	$.ajax({
+		url: "/portal/admin/student/other/student_section_no/"+classId,
+		success: function(response){
+			$('#section_id').html(response);
+		}
+	});
+}
+
+function filter_class_routine(){
+	var class_id = $('#class_id').val();
+	var section_id = $('#section_id').val();
+	if(class_id != "" && section_id!= ""){
+		getFilteredClassRoutine();
+	}else{
+		toastr.error('Please select a class and section');
+	}
+}
+
+var getFilteredClassRoutine = function() {
+	var class_id = $('#class_id').val();
+	var section_id = $('#section_id').val();
+	if(class_id != "" && section_id!= ""){
+		$.ajax({
+			url: '/portal/teacher/routine/filter/'+class_id+'/'+section_id,
+			success: function(response){
+				$('.class_routine_content').html(response);
+			}
+		});
+	}
+}
+</script>
+{% endblock %}
+                    

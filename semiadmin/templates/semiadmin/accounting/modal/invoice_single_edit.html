@@ -1,0 +1,78 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/invoice/edit/single/{{ invoice.pk }}" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="class_id_on_create">Class</label>
+            <select name="class_id" id="class_id_on_create" class="form-control select2" data-toggle="select2" required="" onchange="classWiseSectionOnCreate(this.value)" data-select2-id="class_id_on_create" tabindex="-1" aria-hidden="true">
+
+                    <option value="" data-select2-id="30">Select a class</option>
+                    {% for the_class in the_classes %}
+                    <option value="{{ the_class.the_class }}" {% if invoice.the_class.the_class.the_class == the_class.the_class %} selected {% endif %}>{{ the_class.the_class }}</option>
+                    {% endfor %}              
+            </select>
+
+        </div>
+
+        <div class="form-group  col-md-12">
+            <label for="section_id_on_create" class="col-md-3 col-form-label">Section</label>
+            <select name="section_id" id="section_id_on_create" class="form-control select2" data-toggle="select2" required="" data-select2-id="section_id_on_create" tabindex="-1" onchange="studentSectionOnCreate()" aria-hidden="true">
+                <option value="">Select section</option>
+                {% for the_section in the_sections %}
+                <option value="{{ the_section.the_section }}" {% if the_section.the_section == invoice.the_class.the_section %} selected {% endif %}>{{ the_section.the_section }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+    <div class="form-group  col-md-12">
+        <label for="student_id"> Student</label>
+            <select name="student_id" id="student_id_on_create" class="form-control select2" data-toggle = "select2" required tabindex="-1" aria-hidden="true">
+                  <option value="">Select a student</option>
+                  {% for student in students %}
+                    <option value="{{ student.pk }}" {% if student.pk == invoice.student.pk %} selected {% endif %}>{{ student.name }}</option>
+                   {% endfor %}
+            </select>
+    </div>
+
+        <div class="form-group col-md-12">
+            <label for="title">Invoice title</label>
+            <input type="text" class="form-control" id="title" value="{{ invoice.invoice_title }}" name="title" required="">
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="total_amount">Total amount (NGN)</label>
+            <input type="number" class="form-control" id="total_amount" value="{{ invoice.total_amount }}" name="total_amount" required="">
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="paid_amount">Paid amount (NGN)</label>
+            <input type="number" class="form-control" id="paid_amount" value="{{ invoice.paid_amount }}" name="paid_amount" required="">
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="status">Status</label>
+            <select name="status" id="status_id_on_create" class="form-control select2" data-toggle="select2" required="">
+                <option value="">Select a status</option>
+                <option value="paid"{% if invoice.status == 'paid' %} selected {% endif %}>Paid</option>
+                <option value="unpaid"{% if invoice.status == 'unpaid' %} selected {% endif %}>Unpaid</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group  col-md-12">
+        <button class="btn btn-block btn-primary" type="submit">Update mass invoice</button>
+    </div>
+</form>
+
+
+<script>
+
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllInvoices);
+});
+
+$(document).ready(function () {
+  initSelect2(['#class_id_on_create', '#section_id_on_create', '#student_id_on_create', '#status_id_on_create']);
+});
+</script>

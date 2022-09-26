@@ -1,0 +1,152 @@
+{% extends 'semiadmin/base.html' %}
+{% load static replacefilter %}
+
+{% block head %} 
+<title>Manage profile | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                    <!-- start page title -->
+<div class="row ">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="page-title"> <i class="mdi mdi-settings title_icon"></i>Manage profile</h4>
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div id = "profile_content" class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="row justify-content-md-center">
+    <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Update profile</h4>
+                <form method="POST" class="col-12 profileAjaxForm" action="/portal/admin/profile" id = "profileAjaxForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-12">
+                        <div class="form-group row mb-3">
+                            <label class="col-md-3 col-form-label" for="name"> Name</label>
+                            <div class="col-md-9">
+                                <input type="text" id="name" name="name" class="form-control"  value="{{ request.user.semiadmin.name }}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-md-3 col-form-label" for="email">Email</label>
+                            <div class="col-md-9">
+                                <input type="email" id="email" name="email" class="form-control"  value="{{ request.user.semiadmin.email }}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-md-3 col-form-label" for="phone"> Phone</label>
+                            <div class="col-md-9">
+                                <input type="text" id="phone" name="phone" class="form-control"  value="{{ request.user.semiadmin.phone }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-md-3 col-form-label" for="address"> Address</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="address" name = "address" rows="5">{{ request.user.semiadmin.address }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-md-3 col-form-label" for="example-fileinput">Profile image</label>
+                            <div class="col-md-9 custom-file-upload">
+                                <div class="wrapper-image-preview" style="margin-left: -6px;">
+                                    <div class="box" style="width: 250px;">
+                                        <div class="js--image-preview" style="background-image: url({{ request.user.semiadmin.get_photo }}); background-color: #F5F5F5;"></div>
+                                        <div class="upload-options">
+                                            <label for="profile_image" class="btn"> <i class="mdi mdi-camera"></i> Upload an image </label>
+                                            <input id="profile_image" style="visibility:hidden;" type="file" class="image-upload" name="profile_image" accept="image/*">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-secondary col-xl-4 col-lg-4 col-md-12 col-sm-12" onclick="updateProfileInfo()">Update profile</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div>
+
+    <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Change password</h4>
+                <form method="POST" class="col-12 changePasswordAjaxForm" action="/portal/admin/change_password" id = "changePasswordAjaxForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-12">
+                        <div class="form-group row mb-3">
+                            <label class="col-md-3 col-form-label" for="current_password"> Current password</label>
+                            <div class="col-md-9">
+                                <input type="password" id="current_password" name="current_password" class="form-control"  value="" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-md-3 col-form-label" for="new_password"> New password</label>
+                            <div class="col-md-9">
+                                <input type="password" id="new_password" name="new_password" class="form-control"  value="" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-md-3 col-form-label" for="confirm_password"> Confirm password</label>
+                            <div class="col-md-9">
+                                <input type="password" id="confirm_password" name="confirm_password" class="form-control"  value="" required>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-secondary col-xl-4 col-lg-4 col-md-12 col-sm-12" onclick="changePassword()">Change password</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div>
+</div>
+    </div>
+</div>
+
+<script>
+function updateProfileInfo() {
+    $(".profileAjaxForm").validate({});
+    $(".profileAjaxForm").submit(function(e) {
+        var form = $(this);
+        ajaxSubmit(e, form, reload);
+    });
+}
+
+function changePassword() {
+    $(".changePasswordAjaxForm").validate({});
+    $(".changePasswordAjaxForm").submit(function(e) {
+        var form = $(this);
+        ajaxSubmit(e, form, reload);
+    });
+}
+
+function reload() {
+    setTimeout(
+        function()
+        {
+            location.reload();
+        }, 1000);
+    }
+    </script>
+{% endblock %}
+                    

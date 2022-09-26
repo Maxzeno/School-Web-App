@@ -1,0 +1,171 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Add Student | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                        <!--title-->
+<div class="row ">
+      <div class="col-xl-12">
+          <div class="card">
+              <div class="card-body">
+                  <h4 class="page-title">
+                      <i class="mdi mdi-account-multiple-plus title_icon"></i> Student admission form                  </h4>
+              </div> <!-- end card body-->
+          </div> <!-- end card -->
+      </div><!-- end col-->
+  </div>
+<div class="row">
+    <div class="col-12">
+        <div class="card pt-0">
+            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                <li class="nav-item">
+                    <a href="/portal/admin/student/create" class="nav-link rounded-0 ">
+                        <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
+                        <span class="d-none d-lg-block">Single student admission</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/portal/admin/student/create_bulk" class="nav-link rounded-0 ">
+                        <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                        <span class="d-none d-lg-block">Bulk student admission</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/portal/admin/student/create_excel" class="nav-link rounded-0 active">
+                        <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                        <span class="d-none d-lg-block">Excel upload</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <form method="POST" class="col-md-12 ajaxForm" action="/portal/admin/student/create_excel" id = "student_admission_form" enctype="multipart/form-data">
+                        {% csrf_token %}
+    <div class="row justify-content-md-center">
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <select name="class_id" id="class_id" class="form-control select2" data-toggle = "select2" onchange="classWiseSection(this.value)" required>
+                <option value="">Select a class</option>
+               {% for the_class in the_classes %}
+                <option value="{{ the_class.the_class }}">{{ the_class.the_class }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3 mb-lg-0" id = "section_content">
+            <select name="section_id" id="section_id" class="form-control select2" data-toggle = "select2" required >
+                <option value="">Select section</option>
+            </select>
+        </div>
+        <div class="col-md-8 mt-4">
+            <div class="row">
+                <div class="col-12">
+                    <a href="/portal/admin/student/csv_student_generate.generate.csv" class="btn btn-success btn-sm mb-1" download>Generate csv file<i class="mdi mdi-download"></i></a>
+                    <button href="#" class="btn btn-dark btn-sm mb-1 mdi mdi-eye-outline" onclick="largeModal('/portal/admin/student/csv_student_generate.generate.csv', 'CSV Format');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Preview csv format"></button>
+
+                </div>
+            </div>
+            <br>
+            <div class="form-group">
+                <label class="m-0">UploadCSV</label>
+                <div class="custom-file-upload">
+                    <input type="file" id="csv_file" class="form-control" name="csv_file" required>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-secondary col-md-4 col-sm-12 mb-4 mt-3">Add students</button>
+    </div>
+</form>
+
+<script>
+$(document).ready(function(){
+    initCustomFileUploader();
+});
+
+var form;
+$(".ajaxForm").submit(function(e) {
+  form = $(this);
+  ajaxSubmit(e, form, refreshForm);
+});
+var refreshForm = function () {
+    form.trigger("reset");
+}
+</script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+var class_id = "";
+var section_id = "";
+$('document').ready(function(){
+    if (class_id != null) {
+        $('#class_id').each(function(index, element) {
+            $(this).find('option[value="'+class_id+'"]').prop('selected', true).change();
+        });
+        classWiseSection(class_id);
+    }
+
+    if (section_id != null) {
+        $('#section_id option').each(function(index, element) {
+            $(this).find('option[value="'+section_id+'"]').prop('selected', true).trigger('change');
+        });
+    }
+
+    if (class_id != "" && section_id != "") {
+        filter_student(class_id,section_id);
+    }
+});
+
+function classWiseSection(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section_no/"+classId,
+        success: function(response){
+            $('#section_id').html(response);
+            // $('#section_id').val(section_id).change();
+        }
+    });
+}
+
+function filter_student(class_id, section_id){
+    if (class_id == '')
+        var class_id = $('#class_id').val();
+
+    if (section_id == '')
+        var section_id = $('#section_id').val();
+
+    if(class_id != "" && section_id!= ""){
+        showAllStudents(class_id, section_id);
+    }else{
+        toastr.error('Please select a class and section');
+    }
+}
+
+var showAllStudents = function(class_id, section_id) {
+    if (class_id == '')
+        var class_id = $('#class_id').val();
+
+    if (section_id == '')
+        var section_id = $('#section_id').val();
+
+    if(class_id != "" && section_id!= ""){
+        $.ajax({
+            url: 'https://cdssenugu.org/portal/admin/student/filter/'+class_id+'/'+section_id,
+            success: function(response){
+                $('.student_content').html(response);
+            }
+        });
+    }
+}
+</script>
+
+{% endblock %}
+                    

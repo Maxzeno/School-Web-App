@@ -1,0 +1,77 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Manage principal subject codes | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                    <!--title-->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-library title_icon title_icon"></i> Principal subject codes          <button type="button" class="btn btn-outline-primary btn-rounded alignToTitle" onclick="rightModal('/portal/admin/principal_subject_code/create', 'Add subject code')"> <i class="mdi mdi-plus"></i> Add subject add</button>
+        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body subject_code_content">
+    <table id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+	    <thead>
+	        <tr style="background-color: #313a46; color: #ababab;">
+	            <th>Category</th>
+	            <th>Subject code</th>
+	            <th>Subject</th>
+	            <th>Options</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+			{% for principal_subject_code in principal_subject_codes %}
+			<tr>
+				<td>{{ principal_subject_code.category }}</td>
+				<td>{{ principal_subject_code.subject_code }}</td>
+				<td>{{ principal_subject_code.subject }}</td>
+		    <td>
+	        <div class="dropdown text-center">
+						<button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+						<div class="dropdown-menu dropdown-menu-right">
+							<!-- item-->
+							<a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/principal_subject_code/edit/{{ principal_subject_code.pk }}', 'Update domain');">Edit comment code</a>
+							<!-- item-->
+							<a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/principal_subject_code/delete/{{ principal_subject_code.pk }}', showAllSubjectCodes)">Delete</a>
+						</div>
+					</div>
+		    </td>
+		</tr>
+	    {% endfor %}
+				
+		</tbody>
+	</table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var showAllSubjectCodes = function () {
+        var url = '/portal/admin/principal_subject_code/all';
+
+        $.ajax({
+            type : 'GET',
+            url: url,
+            success : function(response) {
+                $('.subject_code_content').html(response);
+                initDataTable('basic-datatable');
+            }
+        });
+    }
+    
+</script>                   
+{% endblock %}

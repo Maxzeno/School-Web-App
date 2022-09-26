@@ -1,0 +1,42 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/subject/edit/{{ class_id }}/{{ subject.pk }}" novalidate="novalidate">
+  {% csrf_token %}
+  <div class="form-row">
+
+    <input type="hidden" name="school_id" value="1">
+    <input type="hidden" name="session" value="2">
+
+    <div class="form-group col-md-12">
+      <label for="class_id_on_create">Class</label>
+      <select name="class_id" id="class_id_on_modal" class="form-control select2" required>
+        <option value="">Select a class</option>
+        {% for class in classes %}
+            <option value="{{ class.the_class }}" {% if class.the_class == class_id %} selected {% endif %}>{{ class.the_class }}</option>
+        {% endfor %}
+              </select>
+      <small id="class_help" class="form-text text-muted">Select a class</small>
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="name">Subject name</label>
+      <input type="text" class="form-control" id="name" name="name" value="{{ subject.name }}" required="">
+      <small id="name_help" class="form-text text-muted">Provide subject name</small>
+    </div>
+
+    <div class="form-group  col-md-12">
+      <button class="btn btn-block btn-primary" type="submit">Update subject</button>
+    </div>
+  </div>
+</form>
+
+<script>
+  
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllSubjects);
+});
+
+$(document).ready(function () {
+  initSelect2(['#class_id_on_modal']);
+});
+</script>

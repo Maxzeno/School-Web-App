@@ -1,0 +1,77 @@
+
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/accountant/create">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name = "name" required>
+            <small id="" class="form-text text-muted">Provide name</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name = "email" required>
+            <small id="" class="form-text text-muted">Provide email</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name = "password" required>
+            <small id="" class="form-text text-muted">Provide password</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" id="phone" name = "phone" required>
+            <small id="" class="form-text text-muted">Provide phone number</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="gender">Gender</label>
+            <select name="gender" id="gender" class="form-control select2" data-toggle = "select2">
+                <option value="">Select a gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Others">Others</option>
+            </select>
+            <small id="" class="form-text text-muted">Provide gender</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="blood_group">Blood group</label>
+            <select name="blood_group" id="blood_group" class="form-control select2" data-toggle = "select2">
+                <option value="">Select a blood group</option>
+                <option value="a+">A+</option>
+                <option value="a-">A-</option>
+                <option value="b+">B+</option>
+                <option value="b-">B-</option>
+                <option value="ab+">AB+</option>
+                <option value="ab-">AB-</option>
+                <option value="o+">O+</option>
+                <option value="o-">O-</option>
+            </select>
+            <small id="" class="form-text text-muted">Provide blood group</small>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="address">Address</label>
+            <textarea class="form-control" id="address" name = "address" rows="5" required></textarea>
+            <small id="" class="form-text text-muted">Provide address</small>
+        </div>
+
+        <div class="form-group  col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Create parent</button>
+        </div>
+    </div>
+</form>
+
+<script>
+$(document).ready(function () {
+    initSelect2(['#gender', '#blood_group']);
+});
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+    var form = $(this);
+    ajaxSubmit(e, form, showAllAccountants);
+});
+</script>

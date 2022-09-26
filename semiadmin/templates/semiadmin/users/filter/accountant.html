@@ -1,0 +1,37 @@
+<table id="basic-datatable" class="table table-striped" style="width:100%">
+        <thead>
+            <tr style="background-color: #313a46; color: #ababab;">
+            {% for thead in theads %}
+                <th>{{ thead }}</th>
+            {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for tbody in tbodys %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+                {% for tb in tbody %}   
+                    {% if forloop.last %}
+                        <td>
+                           <div class="dropdown text-center">
+            <button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <!-- item-->
+              <a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/accountant/accountant_edit/{{ tb }}', 'Update accountant');">Edit</a>
+              <!-- item-->
+              <a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/accountant/delete/{{ tb }}', showAllAccountants )">Delete</a>
+            </div>
+          </div>
+                        </td>
+
+                      
+                    {% else %}
+                        <td>{{ tb }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+

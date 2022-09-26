@@ -1,0 +1,64 @@
+
+<!-- Right modal content -->
+<div id="right-modal" class="modal fade show" role="dialog" style="display: block; padding-right: 17px;" aria-modal="true">
+  <div class="modal-dialog modal-lg modal-right">
+    <div class="modal-content modal_height">
+
+      <div class="modal-header border-1">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Assigned permissions</h4>
+      </div>
+      <div class="modal-body" style="overflow-x:scroll;"><div class="row" style="min-width: 300px;">
+    <div class="col-md-12">
+        <h5 class="text-center">{{ teacher.name }}</h5>
+        {% if permissions %}
+        {% for permission in permissions %}
+                        <table class="table table-hover table-centered table-bordered mb-0" style="margin-bottom: 50px !important; background-color: #FAFAFA;">
+                    <tbody>
+                        <tr>
+                            <td>Class</td>
+                            <td>
+                                {{ permission.the_exact_class.the_class.the_class }}                            </td>
+                        </tr>
+                        <tr>
+                            <td>Section</td>
+                            <td>
+                                {{ permission.the_exact_class.the_section }}                            </td>
+                        </tr>
+                        <tr>
+                            <td>Marks</td>
+                            <td>
+                                <i class="mdi mdi-circle {% if permission.exam %} text-success {% else %} text-danger {% endif %}"></i>
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <td>Assignment</td>
+                            <td>
+                                <i class="mdi mdi-circle text-success"></i>
+                            </td>
+                        </tr> -->
+                        <tr>
+                            <td>Attendance</td>
+                            <td>
+                                <i class="mdi mdi-circle {% if permission.attendance %} text-success {% else %} text-danger {% endif %}"></i>
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <td>Online exam</td>
+                            <td>
+                                <i class="mdi mdi-circle text-success"></i>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+                {% endfor %}
+                {% else %}
+                <div class="text-center mb-2">No Permission yet.</div>
+                {% endif %}
+                        <a href="/portal/admin/permission" class="btn btn-info btn-block">Update permissions</a>
+    </div>
+</div>
+</div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

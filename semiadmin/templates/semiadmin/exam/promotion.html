@@ -1,0 +1,165 @@
+{% extends 'semiadmin/base.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Student promotion | Command Day Secondary School</title> 
+{% endblock %}
+
+
+{% block body %}
+                    <!-- start page title -->
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="page-title">
+          <i class="mdi mdi-account-switch title_icon"></i>Student promotion        </h4>
+      </div> <!-- end card body-->
+    </div> <!-- end card -->
+  </div><!-- end col-->
+</div>
+<!-- end page title -->
+
+<div class="row ">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="row justify-content-md-center d-print-none" style="margin-bottom: 10px;">
+          <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+            <label for="session_from">Current session</label>
+            <select class="form-control select2" data-toggle = "select2" id = "session_from" name="session_from">
+              <option value="">Session from</option>
+               {% for ses in sessions %}
+                    <option value="{{ ses.pk }}">{{ ses.session }}</option>
+                {% endfor %}
+                      </select>
+        </div>
+
+        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+          <label for="session_to">Next session</label>
+          <select class="form-control select2" data-toggle = "select2" id = "session_to" name="session_to">
+            <option value="">Session to</option>
+               {% for ses in sessions %}
+                    <option value="{{ ses.pk }}">{{ ses.session }}</option>
+                {% endfor %}
+                  </select>
+      </div>
+
+      <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+        <label for="class_id_from">Promoting from</label>
+        <select name="class_id_from select2" data-toggle = "select2" id="class_id_from" class="form-control" required onchange="classWiseSection(this.value)">
+          <option value="">Promoting from</option>
+          {% for the_class in the_classes %}
+          <option value="{{ the_class.the_class }}">{{ the_class.the_class }}</option>
+          {% endfor %}
+        </select>
+    </div>
+    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+        <label for="class_id_to">Promoting from</label>
+        <select name="section_id_from" data-toggle = "select2" id="section_id_from" class="form-control" required>
+          <option value="">Section from</option>
+        </select>
+    </div>
+
+    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+      <label for="class_id_to">Promoting to</label>
+      <select name="class_id_to" class="form-control select2" data-toggle = "select2" id="class_id_to" required onchange="classWiseSectionTo(this.value)">
+        <option value="">Promoting to</option>
+          {% for the_class in the_classes %}
+          <option value="{{ the_class.the_class }}">{{ the_class.the_class }}</option>
+          {% endfor %}
+        </select>
+  </div>
+  <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+      <label for="class_id_to">Promoting to</label>
+      <select name="section_id_to" data-toggle = "select2" id="section_id_to" class="form-control" required>
+        <option value="">Section to</option>
+      </select>
+  </div>
+
+  <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-3 mb-lg-0">
+    <label for="manage_student" style="color: white;">Manage button</label>
+    <button type="button" class="btn btn-icon btn-secondary form-control" id = "manage_student" onclick="manageStudent()">Manage promotion</button>
+  </div>
+</div>
+
+<div class="table-responsive-sm student_to_promote_content">
+    <div class="empty_box">
+  <img class="mb-1" width="120px" src="https://cdssenugu.org/portal/assets/backend/images/empty_box.png" />
+  <br>
+  <span class="">No data found</span>
+</div>
+</div>
+</div> <!-- end card body-->
+</div> <!-- end card -->
+</div><!-- end col-->
+</div>
+
+<script type="text/javascript">
+$('document').ready(function(){
+  initSelect2(['#session_from', '#session_to', '#class_id_from', '#class_id_to']);
+});
+
+function classWiseSection(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section_no/"+classId,
+        success: function(response){
+            $('#section_id_from').html(response);
+        }
+    });
+}
+
+function classWiseSectionTo(classId) {
+    $.ajax({
+        url: "/portal/admin/student/other/student_section_no/"+classId,
+        success: function(response){
+            $('#section_id_to').html(response);
+        }
+    });
+}
+
+function manageStudent() {
+  var session_from   = $('#session_from').val();
+  var session_to     = $('#session_to').val();
+  var class_id_from  = $('#class_id_from').val();
+  var class_id_to    = $('#class_id_to').val();
+  var section_id_from  = $('#section_id_from').val();
+  var section_id_to    = $('#section_id_to').val();
+  if(session_from != '' && session_to != '' && class_id_from != '' && class_id_to != '' ) {
+    var url = '/portal/admin/promotion/filter';
+    $.ajax({
+      type : 'POST',
+      url: url,
+      data : { session_from : session_from, session_to : session_to, class_id_from : class_id_from, class_id_to : class_id_to, section_id_from : section_id_from, section_id_to : section_id_to, csrfmiddlewaretoken : '{{ csrf_token }}' }, //{# it was {{ @csrf_token() }}' #}
+      success : function(response) {
+        $('.student_to_promote_content').html(response);
+      }
+    });
+  }else {
+    toastr.error('Please make sure to fill all the necessary fields');
+  }
+}
+
+
+function enrollStudent(student_id, class_room_from, class_room_to, session_from, session_to, enroll_id) {
+  $.ajax({
+    type : 'POST',
+    url: '/portal/admin/promotion/set',
+    data : { student_id : student_id, class_room_from : class_room_from, class_room_to : class_room_to, 
+      session_from : session_from, session_to : session_to, csrfmiddlewaretoken : '{{ csrf_token }}' },
+    success : function(response) {
+      if (response) {
+        $("#success_"+enroll_id).show();
+        $("#danger_"+enroll_id).hide();
+        toastr.success('Student promoted successfully');
+      }else{
+        toastr.error('An error occured');
+      }
+    }
+  });
+}
+</script>
+{% endblock %}
+
+

@@ -1,0 +1,108 @@
+<!-- Right modal content -->
+<div id="right-modal" class="modal fade show" role="dialog" style="display: block; padding-right: 17px;" aria-modal="true">
+  <div class="modal-dialog modal-lg modal-right">
+    <div class="modal-content modal_height">
+
+      <div class="modal-header border-1">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Edit notice</h4>
+      </div>
+      <div class="modal-body" style="overflow-x:scroll;" data-select2-id="9"><div class="notice-action-portion">
+  <div class="row">
+    <div class="form-group  col-md-6">
+      <button class="btn btn-block btn-primary" type="submit" onclick="showNoticeEditPortion()">Edit notice</button>
+    </div>
+    <div class="form-group  col-md-6">
+      <a href="javascript:void(0)" class="btn btn-block btn-danger" onclick="showNoticeDeleteModal()">Delete this notice</a>
+    </div>
+  </div>
+</div>
+<div class="notice-edit-portion hidden">
+  <form method="POST" class="d-block ajaxForm" action="/portal/admin/noticeboard/edit/{{ noticeboard.pk }}" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="form-row">
+
+      <div class="form-group col-md-12">
+        <label for="notice_title">Notice title</label>
+        <input type="text" class="form-control" id="notice_title" name="notice_title" value="{{ noticeboard.notice_title }}" required="">
+        <small id="name_help" class="form-text text-muted">Provide title name</small>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="date">Date</label>
+        <input type="text" value="{{ noticeboard.date_slash }}" class="form-control" id="date" name="date" data-provide="datepicker" required="">
+        <small id="name_help" class="form-text text-muted">Provide date</small>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="excerpts">Excerpts</label>
+        <textarea name="excerpts" class="form-control" rows="4" cols="80" required="">{{ noticeboard.excerpts }}</textarea>
+        <small id="name_help" class="form-text text-muted">Provide notice excerpts</small>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="notice">Notice</label>
+        <textarea name="notice" id="notice" class="form-control editor" rows="8" cols="80" required=""></textarea>
+        <small id="name_help" class="form-text text-muted">Provide notice details</small>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="show_on_website">Show on website</label>
+        <select name="show_on_website" id="show_on_website" class="form-control select2 select2-hidden-accessible" data-toggle="select2" tabindex="-1" aria-hidden="true">
+          <option value="1" {% if noticeboard.show_on_website == True %} selected {% endif %}>Show</option>
+          <option value="0" {% if noticeboard.show_on_website == False %} selected {% endif %}>Do not need to show</option>
+        </select>
+        <small id="" class="form-text text-muted">Notice status</small>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="notice_photo">Upload notice photo</label>
+        <div class="custom-file-upload">
+                    <input type="file" id="notice_photo" class="form-control" name="notice_photo">
+          </div>
+      </div>
+
+      <div class="form-group  col-md-12">
+        <button class="btn btn-block btn-primary" type="submit">Save notice</button>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+
+<script>
+$(document).ready(function() {
+  tinymce.init({ 
+      selector:'.editor',
+      theme: 'modern',
+      plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap emoticons',
+      imagetools_cors_hosts: ['picsum.photos'],
+      menubar: 'file edit view insert format tools table help',
+      toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+      height: 200
+  });
+});
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  $('#notice').html( tinymce.get('notice').getContent() );
+  var form = $(this);
+  ajaxSubmit(e, form, showAllNotices);
+});
+
+initSelect2(['#status', '#show_on_website']);
+initCustomFileUploader();
+
+function showNoticeEditPortion() {
+  $('.notice-edit-portion').show();
+  $('.notice-action-portion').hide();
+}
+
+function showNoticeDeleteModal() {
+  $('#right-modal').modal('hide');
+  confirmModal('/portal/admin/noticeboard/delete/{{ noticeboard.pk }}', showAllNotices);
+}
+</script>
+</div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

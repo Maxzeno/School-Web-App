@@ -1,0 +1,69 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/grade/edit/{{ grade.pk }}" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="grade">Grade</label>
+            <select name="grade" id="grade" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+                <option value="">Select grade</option>
+                <option value="A1"{% if grade.grade == 'A1' %} selected {% endif %}>A1</option>
+                <option value="B2"{% if grade.grade == 'B2' %} selected {% endif %}>B2</option>
+                <option value="B3"{% if grade.grade == 'B3' %} selected {% endif %}>B3</option>
+                <option value="C4"{% if grade.grade == 'C4' %} selected {% endif %}>C4</option>
+                <option value="C5"{% if grade.grade == 'C5' %} selected {% endif %}>C5</option>
+                <option value="C6"{% if grade.grade == 'C6' %} selected {% endif %}>C6</option>
+                <option value="D7"{% if grade.grade == 'D7' %} selected {% endif %}>D7</option>
+                <option value="E8"{% if grade.grade == 'E8' %} selected {% endif %}>E8</option>
+                <option value="F9"{% if grade.grade == 'F9' %} selected {% endif %}>F9</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="grade_point">Grade point</label>
+            <input type="number" class="form-control" id="grade_point" value="{{ grade.grade_point }}" name="grade_point" placeholder="Grade point" required="">
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="mark_from">Mark from</label>
+            <input type="number" class="form-control" id="mark_from" name="mark_from" value="{{ grade.mark_from }}" placeholder="Mark from" required="">
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="mark_upto">Mark upto</label>
+            <input type="number" class="form-control" id="mark_upto" name="mark_upto" value="{{ grade.mark_upto }}" placeholder="Mark upto" required="">
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="remarks">Remarks <em style="font-color:#ff0000;">*</em></label>
+            <select name="remarks" id="remarks" class="form-control select2" style="width:100%;" data-validate="required" data-message-required="Value required" required="">
+                <option value="">Select remarks</option>
+                <option value="EXCELLENT"{% if grade.remarks.upper == 'EXCELLENT' %} selected {% endif %}>Excellent</option>
+                <option value="VERY GOOD"{% if grade.remarks.upper == 'VERY GOOD' %} selected {% endif %}>Very good</option>
+                <option value="GOOD"{% if grade.remarks.upper == 'GOOD' %} selected {% endif %}>Good</option>
+                <option value="UPPER CREDIT"{% if grade.remarks.upper == 'UPPER CREDIT' %} selected {% endif %}>Upper credit</option>
+                <option value="CREDIT"{% if grade.remarks.upper == 'CREDIT' %} selected {% endif %}>Credit</option>
+                <option value="LOWER CREDIT"{% if grade.remarks.upper == 'LOWER CREDIT' %} selected {% endif %}>Lower credit</option>
+                <option value="PASS"{% if grade.remarks.upper == 'PASS' %} selected {% endif %}>Pass</option>
+                <option value="FAIL"{% if grade.remarks.upper == 'FAIL' %} selected {% endif %}>Fail</option>
+            </select>
+            <small id="remarks_help" class="form-text text-muted">Provide remarks</small>
+        </div>
+
+        <div class="form-group  col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Update grade</button>
+        </div>
+    </div>
+</form>
+
+
+<script>
+
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllGrades);
+});
+
+$(document).ready(function () {
+  initSelect2(['#grade', '#remarks']);
+});
+</script>

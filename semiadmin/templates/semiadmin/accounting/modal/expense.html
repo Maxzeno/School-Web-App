@@ -1,0 +1,45 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/expense/create" novalidate="novalidate" data-select2-id="8">
+  {% csrf_token %}
+  <div class="form-row" data-select2-id="7">
+    <div class="form-group col-md-12">
+      <label for="date">Date</label>
+      <input type="text" class="form-control date" id="date" data-toggle="date-picker" data-single-date-picker="true" name="date" value="" required="">
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="amount">Amount (NGN)</label>
+      <input type="text" class="form-control" id="amount" name="amount" required="">
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="expense_category_id">Expense category</label>
+        <select class="form-control select2" data-toggle = "select2" name="expense_category_id" id="expense_category_id_on_create" required=""tabindex="-1" aria-hidden="true">
+          <option value="">Select an expense category</option>
+          {% for expense_category in expense_categorys %}
+          <option value="{{ expense_category.pk }}">{{ expense_category.name }}</option>
+          {% endfor %}
+        </select>
+    </div>
+
+  <div class="form-group  col-md-12">
+    <button class="btn btn-block btn-primary" type="submit">Create expense</button>
+  </div>
+</div>
+</form>
+
+<script>
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllExpenses);
+});
+
+$(document).ready(function() {
+    $('#date').daterangepicker();
+});
+
+$(document).ready(function () {
+  initSelect2(['#expense_category_id_on_create']);
+});
+</script>
+

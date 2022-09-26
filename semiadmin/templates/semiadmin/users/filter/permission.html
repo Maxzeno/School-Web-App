@@ -1,0 +1,79 @@
+<div class="row mb-3">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 toll-free-box text-center text-white pb-2" style="background-color: #6c757d; border-radius: 10px;">
+        <h4>Permission for</h4>
+        <span>{{ the_exact_class }}</span><br>
+    </div>
+</div>
+
+<table id="basic-datatable" class="table table-striped" width="100%">
+        <thead>
+            <tr style="background-color: #313a46; color: #ababab;">
+                <th>Srno</th>
+                <th>Teacher</th>
+                <th>Marks</th>
+                <th>Assignment</th>            
+                <th>Mid term</th>
+                <th>Attendance</th>
+                <th>Online exam</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tbody in tbodys %}
+            <tr>
+                <td> {{ forloop.counter }} </td>  
+                <td>{{ tbody.1 }}</td>
+
+                <td>
+                    <input type="checkbox" value="{% if tbody.2 == 'checked' %}1{% else %}0{% endif %}" {{ tbody.2 }} id="{{ tbody.0 }}exam" data-switch="success" onchange="togglePermission(this.id, 'exam', '{{ tbody.0 }}')">
+                        <label for="{{ tbody.0 }}exam" data-on-label="Yes" data-off-label="No"></label>
+                </td>
+                <td>
+                    <input type="checkbox" value="{% if tbody.3 == 'checked' %}1{% else %}0{% endif %}" {{ tbody.3 }} id="{{ tbody.0 }}assignment" data-switch="success" onchange="togglePermission(this.id, 'assignment', '{{ tbody.0 }}')">
+                    <label for="{{ tbody.0 }}assignment" data-on-label="Yes" data-off-label="No"></label>
+                </td>
+                <td>
+                    <input type="checkbox" value="{% if tbody.4 == 'checked' %}1{% else %}0{% endif %}" {{ tbody.4 }} id="{{ tbody.0 }}mid_term" data-switch="success" onchange="togglePermission(this.id, 'mid_term', '{{ tbody.0 }}')">
+                    <label for="{{ tbody.0 }}mid_term" data-on-label="Yes" data-off-label="No"></label>
+                </td>
+                <td>
+                    <input type="checkbox" value="{% if tbody.5 == 'checked' %}1{% else %}0{% endif %}" {{ tbody.5 }} id="{{ tbody.0 }}attendance" data-switch="success" onchange="togglePermission(this.id, 'attendance', '{{ tbody.0 }}')">
+                    <label for="{{ tbody.0 }}attendance" data-on-label="Yes" data-off-label="No"></label>
+                </td>
+                <td>
+                    <input type="checkbox" value="{% if tbody.6 == 'checked' %}1{% else %}0{% endif %}" {{ tbody.6 }} id="{{ tbody.0 }}online_exam" data-switch="success" onchange="togglePermission(this.id, 'online_exam', '{{ tbody.0 }}')">
+                    <label for="{{ tbody.0 }}online_exam" data-on-label="Yes" data-off-label="No"></label>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<!-- 
+<script>
+$(document).ready(function () {
+  $('basic-datatable').DataTable({
+        keys: !0,
+        language: {
+            paginate: {
+                previous: "<i class='mdi mdi-chevron-left'>",
+                next: "<i class='mdi mdi-chevron-right'>"
+            }
+        },
+        drawCallback: function() {
+            $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+        },
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            var info = $(this).DataTable().page.info();
+            $("td:nth-child(1)", nRow).html(info.start + iDisplayIndex + 1);
+            return nRow;
+        }
+    });
+</script>
+ -->
+
+                                                                                                                                                                                                                                                                                                                                                                    
+
+<script type="text/javascript">
+initDataTable('basic-datatable');
+</script>

@@ -1,0 +1,427 @@
+{% load replacefilter static %}
+
+{% for less_heavy in heavy %}
+
+{% if less_heavy.0.1 == 'annual' %}
+<div class="row mt-3" style="overflow-x: scroll;"> 
+    <a href="javascript:void(0);" class="btn pull-right" onclick="return hideChart('exam_chart_{{ forloop.counter }}');">Hide Chart</a> <a href="javascript:void(0);" class="btn pull-right" onclick="return showChart('exam_chart_{{ forloop.counter }}');">Show Chart</a>
+    <div class="col-md-12">
+        <div class="panel panel-primary panel-shadow" data-collapsed="0">
+            <div class="panel-heading">
+                <div class="panel-title">2020/2021 Examination: ANNUAL</div>
+            </div>
+            <div class="panel-body"> 
+                <div class="col-md-12">
+                    <table id="subject" class="table table-bordered" width="100%">
+   <thead>
+    <tr>
+        <td style="text-align: left; font-weight: bold;">SUBJECT</td>
+        <td style="text-align: center; font-weight: bold;">IST TERM SCORE</td>
+        <td style="text-align: center; font-weight: bold;">2ND TERM SCORE</td>
+        <td style="text-align: center; font-weight: bold;">3RD TERM SCORE</td>
+        <td style="text-align: center; font-weight: bold;">TOTAL</td>
+        <td style="text-align: center; font-weight: bold;">AVERAGE</td>
+        <td style="text-align: center; font-weight: bold;">CLASS AVERAGE</td>
+        <td style="text-align: center; font-weight: bold;">POSITION</td>
+        <td style="text-align: center; font-weight: bold;">GRADE</td>
+        <td style="text-align: center; font-weight: bold;">Teacher's Remarks</td>
+    </tr>
+    <tr>
+        <td style="text-align: left; font-weight: bold;"></td>
+        <td style="text-align: center; font-weight: bold;">100</td>
+        <td style="text-align: center; font-weight: bold;">100</td>
+        <td style="text-align: center; font-weight: bold;">100</td>
+        <td style="text-align: center; font-weight: bold;">300</td>
+        <td style="text-align: center; font-weight: bold;"></td>
+        <td style="text-align: center; font-weight: bold;"></td>
+        <td style="text-align: center; font-weight: bold;"></td>
+        <td style="text-align: center; font-weight: bold;"></td>
+        <td style="text-align: center; font-weight: bold;"></td>
+    </tr>
+</thead>
+<tbody>
+    {% for data in less_heavy.1 %}
+    <tr>
+        <td style="text-align: left;">{{ data.0 }}</td>
+        <td style="text-align: center;">{{ data.1 }}</td>
+        <td style="text-align: center;">{{ data.2 }}</td>
+        <td style="text-align: center;">{{ data.3 }}</td>
+        <td style="text-align: center;">{{ data.4 }}</td>
+        <td style="text-align: center;">{{ data.5 }}</td>
+        <td style="text-align: center;">{{ data.6 }}</td>
+        <td style="text-align: center;">{{ data.7 }}</td>
+        <td style="text-align: center;">{{ data.8 }}</td>
+        <td style="text-align: center;">{{ data.9 }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table> 
+<hr>
+Total marks : 
+{{ less_heavy.1|total_by_index_three:4 }}
+<br>
+Average grade point : 
+{{ less_heavy.1|avg_by_index_three:4 }}%
+<br> <br>
+<!--<a href="" 
+class="btn btn-primary" target="_blank">
+</a>                    
+
+<a href="" 
+class="btn btn-primary" target="_blank">
+</a>-->
+<a href="/portal/teacher/student/result/filter/{{ student_id }}/{{ less_heavy.0.0 }}" class="btn btn-primary" target="_blank">
+Print marksheet                        </a>                    
+
+<!--<a href="" 
+class="btn btn-primary" target="_blank">
+</a>-->
+</div>
+
+<div class="col-md-12">
+    <div id="chartdiv{{ forloop.counter }}" class="exam_chart_{{ forloop.counter }}">
+    </div>
+                           <script type="text/javascript">
+                            var chart5 = AmCharts.makeChart("chartdiv5", {
+                                "theme": "none",
+                                "type": "serial",
+                                "dataProvider": [
+                                                                {
+                                    "subject": "English Language",
+                                    "mark_obtained": 
+                                    62,
+                                    "mark_highest": 
+                                    170                                },
+                                                                {
+                                    "subject": "General Mathematics",
+                                    "mark_obtained": 
+                                    55,
+                                    "mark_highest": 
+                                    83                                },
+                                                                {
+                                    "subject": "Basic Science",
+                                    "mark_obtained": 
+                                    26,
+                                    "mark_highest": 
+                                    88                                },
+                                                                {
+                                    "subject": "Basic Technology",
+                                    "mark_obtained": 
+                                    34,
+                                    "mark_highest": 
+                                    81                                },
+                                                                {
+                                    "subject": "Social Studies",
+                                    "mark_obtained": 
+                                    59,
+                                    "mark_highest": 
+                                    87                                },
+                                                                {
+                                    "subject": "Business Studies",
+                                    "mark_obtained": 
+                                    55,
+                                    "mark_highest": 
+                                    85                                },
+                                                                {
+                                    "subject": "Agricultural Science",
+                                    "mark_obtained": 
+                                    67,
+                                    "mark_highest": 
+                                    166                                },
+                                                                {
+                                    "subject": "C.C.A (Arts)",
+                                    "mark_obtained": 
+                                    71,
+                                    "mark_highest": 
+                                    88                                },
+                                                                {
+                                    "subject": "French",
+                                    "mark_obtained": 
+                                    42,
+                                    "mark_highest": 
+                                    77                                },
+                                                                {
+                                    "subject": "Civic Education",
+                                    "mark_obtained": 
+                                    63,
+                                    "mark_highest": 
+                                    89                                },
+                                                                {
+                                    "subject": "C.C.A (Music)",
+                                    "mark_obtained": 
+                                    66,
+                                    "mark_highest": 
+                                    85                                },
+                                                                {
+                                    "subject": "P.H.E",
+                                    "mark_obtained": 
+                                    74,
+                                    "mark_highest": 
+                                    88                                },
+                                                                {
+                                    "subject": "Igbo Language",
+                                    "mark_obtained": 
+                                    37,
+                                    "mark_highest": 
+                                    85                                },
+                                                                {
+                                    "subject": "Computer Science",
+                                    "mark_obtained": 
+                                    47,
+                                    "mark_highest": 
+                                    75                                },
+                                                                {
+                                    "subject": "History",
+                                    "mark_obtained": 
+                                    29,
+                                    "mark_highest": 
+                                    92                                },
+                                                                {
+                                    "subject": "C.R.S",
+                                    "mark_obtained": 
+                                    54,
+                                    "mark_highest": 
+                                    93                                },
+                                                                    
+                                ],
+                                "valueAxes": [{
+                                    "stackType": "3d",
+                                    "unit": "%",
+                                    "position": "left",
+                                    "title": "Obtained Mark vs Highest Mark"
+                                }],
+                                "startDuration": 1,
+                                "graphs": [{
+                                    "balloonText": "Obtained Mark in [[category]]: <b>[[value]]</b>",
+                                    "fillAlphas": 0.9,
+                                    "lineAlpha": 0.2,
+                                    "title": "2004",
+                                    "type": "column",
+                                    "fillColors":"#7f8c8d",
+                                    "valueField": "mark_obtained"
+                                }, {
+                                    "balloonText": "Highest Mark in [[category]]: <b>[[value]]</b>",
+                                    "fillAlphas": 0.9,
+                                    "lineAlpha": 0.2,
+                                    "title": "2005",
+                                    "type": "column",
+                                    "fillColors":"#34495e",
+                                    "valueField": "mark_highest"
+                                }],
+                                "plotAreaFillAlphas": 0.1,
+                                "depth3D": 20,
+                                "angle": 45,
+                                "categoryField": "subject",
+                                "categoryAxis": {
+                                    "gridPosition": "start"
+                                },
+                                "exportConfig":{
+                                    "menuTop":"20px",
+                                    "menuRight":"20px",
+                                    "menuItems": [{
+                                        "format": 'png'   
+                                    }]  
+                                }
+                            });
+                    </script>
+               </div>            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% else %}
+
+<div class="row mt-3"> 
+    <a href="javascript:void(0);" class="btn pull-right" onclick="return hideChart('exam_chart_{{ forloop.counter }}');">Hide Chart</a> <a href="javascript:void(0);" class="btn pull-right" onclick="return showChart('exam_chart_{{ forloop.counter }}');">Show Chart</a>
+    <div class="col-md-12">
+        <div class="panel panel-primary panel-shadow" data-collapsed="0">
+            <div class="panel-heading">
+                <div class="panel-title">2020/2021 Examination: FIRST</div>
+            </div>
+<div class="panel-body"> 
+<div class="col-md-12">
+<table id="subject" class="table table-bordered">
+   <thead>
+    <tr class="header_color">
+        {% for thead in less_heavy.1 %}
+        <td style="text-align: {% if forloop.first or forloop.last %}left{% else %}center{% endif %};">{{ thead }}</td>
+        {% endfor %}
+    </tr>
+</thead>
+<tbody>
+    {% for data in less_heavy.2 %}
+    <tr>
+    {% for item in data %}
+        <td style="text-align: {% if forloop.first or forloop.last %}left{% else %}center{% endif %};">{{ item|none_dash }}</td>
+    {% endfor %}
+    </tr>
+    {% endfor %}
+
+</tbody>
+</table>
+<hr>
+
+Total marks : 
+{{ less_heavy.2|total_by_index:-3 }}<br>
+Average grade point : 
+{{ less_heavy.2|avg_by_index:-3 }}%<br> <br>
+<!--<a href="" 
+class="btn btn-primary" target="_blank">
+</a>                    
+
+<a href="" 
+class="btn btn-primary" target="_blank">
+</a>-->
+<a href="/portal/teacher/student/result/filter/{{ student_id }}/{{ less_heavy.0.0 }}" class="btn btn-primary" target="_blank">
+Print marksheet
+</a>                    
+
+<!--<a href="" 
+class="btn btn-primary" target="_blank">
+</a>-->
+</div>
+
+
+<!-- I WILL REMOVE THIS PART AND FETCH IT FROM DB (THE CHART DATA JSON) -->
+
+               <div class="col-md-12">
+                   <div id="chartdiv{{ forloop.counter }}" class="exam_chart_{{ forloop.counter }}" style="overflow: hidden; text-align: left;">
+                    </div>
+                       <script type="text/javascript">
+                            var chart2 = AmCharts.makeChart("chartdiv{{ forloop.counter }}", {
+                                "theme": "none",
+                                "type": "serial",
+                                "dataProvider": [
+                                                                {
+                                    "subject": "English Language",
+                                    "mark_obtained": 
+                                    0,
+                                    "mark_highest": 
+                                    70                                },
+                                                                {
+                                    "subject": "Government",
+                                    "mark_obtained": 
+                                    69,
+                                    "mark_highest": 
+                                    83                                },
+                                                                {
+                                    "subject": "Civic Education",
+                                    "mark_obtained": 
+                                    0,
+                                    "mark_highest": 
+                                    '-'                                },
+                                                                {
+                                    "subject": "Civic Education",
+                                    "mark_obtained": 
+                                    0,
+                                    "mark_highest": 
+                                    83                                },
+                                                                {
+                                    "subject": "C.R.S",
+                                    "mark_obtained": 
+                                    0,
+                                    "mark_highest": 
+                                    72                                },
+                                                                {
+                                    "subject": "Commerce",
+                                    "mark_obtained": 
+                                    0,
+                                    "mark_highest": 
+                                    75                                },
+                                                                {
+                                    "subject": "Igbo Language",
+                                    "mark_obtained": 
+                                    0,
+                                    "mark_highest": 
+                                    84                                },
+                                                                {
+                                    "subject": "General Mathematics",
+                                    "mark_obtained": 
+                                    0,
+                                    "mark_highest": 
+                                    78                                },
+                                                                {
+                                    "subject": "Computer Science",
+                                    "mark_obtained": 
+                                    0,
+                                    "mark_highest": 
+                                    91                                },
+                                                                {
+                                    "subject": "Cisco",
+                                    "mark_obtained": 
+                                    0,
+                                    "mark_highest": 
+                                    '-'                                },
+                                                                    
+                                ],
+                                "valueAxes": [{
+                                    "stackType": "3d",
+                                    "unit": "%",
+                                    "position": "left",
+                                    "title": "Obtained Mark vs Highest Mark"
+                                }],
+                                "startDuration": 1,
+                                "graphs": [{
+                                    "balloonText": "Obtained Mark in [[category]]: <b>[[value]]</b>",
+                                    "fillAlphas": 0.9,
+                                    "lineAlpha": 0.2,
+                                    "title": "2004",
+                                    "type": "column",
+                                    "fillColors":"#7f8c8d",
+                                    "valueField": "mark_obtained"
+                                }, {
+                                    "balloonText": "Highest Mark in [[category]]: <b>[[value]]</b>",
+                                    "fillAlphas": 0.9,
+                                    "lineAlpha": 0.2,
+                                    "title": "2005",
+                                    "type": "column",
+                                    "fillColors":"#34495e",
+                                    "valueField": "mark_highest"
+                                }],
+                                "plotAreaFillAlphas": 0.1,
+                                "depth3D": 20,
+                                "angle": 45,
+                                "categoryField": "subject",
+                                "categoryAxis": {
+                                    "gridPosition": "start"
+                                },
+                                "exportConfig":{
+                                    "menuTop":"20px",
+                                    "menuRight":"20px",
+                                    "menuItems": [{
+                                        "format": 'png'   
+                                    }]  
+                                }
+                            });
+                    </script>
+               </div>               
+            </div>
+        </div>  
+    </div>
+</div>
+</div>
+
+{% endif %}
+{% endfor %}
+
+<script>
+function showChart(id){
+    $('.exam_chart_'+id).show('fadein');
+}
+
+function hideChart(id){
+    $('.exam_chart_'+id).hide('fadeout');
+}
+
+</script>

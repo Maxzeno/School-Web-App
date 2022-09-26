@@ -1,0 +1,31 @@
+<table id="basic-datatable" class="table table-striped dt-responsive nowrap" width="100%">
+	    <thead>
+	        <tr style="background-color: #313a46; color: #ababab;">
+	            <th>Category</th>
+	            <th>Subject code</th>
+	            <th>Subject</th>
+	            <th>Options</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+			{% for principal_subject_code in principal_subject_codes %}
+			<tr>
+				<td>{{ principal_subject_code.category }}</td>
+				<td>{{ principal_subject_code.subject_code }}</td>
+				<td>{{ principal_subject_code.subject }}</td>
+		    <td>
+	        <div class="dropdown text-center">
+						<button type="button" class="btn btn-sm btn-icon btn-rounded btn-outline-secondary dropdown-btn dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></button>
+						<div class="dropdown-menu dropdown-menu-right">
+							<!-- item-->
+							<a href="javascript:void(0);" class="dropdown-item" onclick="rightModal('/portal/admin/principal_subject_code/edit/{{ principal_subject_code.pk }}', 'Update domain');">Edit comment code</a>
+							<!-- item-->
+							<a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/principal_subject_code/delete/{{ principal_subject_code.pk }}', showAllSubjectCodes)">Delete</a>
+						</div>
+					</div>
+		    </td>
+		</tr>
+	    {% endfor %}
+				
+		</tbody>
+	</table>

@@ -1,0 +1,23 @@
+<form method="POST" class="d-block ajaxForm" action="/portal/admin/department/create" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="form-row">
+        <input type="hidden" name="school_id" value="1">
+        <div class="form-group col-md-12">
+            <label for="name">Department name</label>
+            <input type="text" class="form-control" id="name" name="name" required="">
+            <small id="name_help" class="form-text text-muted">Provide department name</small>
+        </div>
+
+        <div class="form-group  col-md-12">
+            <button class="btn btn-block btn-primary" type="submit">Create department</button>
+        </div>
+    </div>
+</form>
+
+<script>
+$(".ajaxForm").validate({}); // Jquery form validation initialization
+$(".ajaxForm").submit(function(e) {
+  var form = $(this);
+  ajaxSubmit(e, form, showAllDepartments);
+});
+</script>
