@@ -280,6 +280,7 @@ class Mark(models.Model):
 		total += self.test30 if self.test30 else 0
 		total += self.exam70 if self.exam70 else 0
 		total += self.exam60 if self.exam60 else 0
+		total += self.exam100 if self.exam100 else 0
 		return total
 
 	def missed_subject(self):
@@ -300,6 +301,8 @@ class Mark(models.Model):
 		elif self.exam70 is not None:
 			return False
 		elif self.exam60 is not None:
+			return False
+		elif self.exam100 is not None:
 			return False
 		else:
 			return True

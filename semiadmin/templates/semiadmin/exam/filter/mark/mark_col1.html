@@ -47,14 +47,13 @@
         var subject_id = '{{ subject }}';
         var exam_id = '{{ exam.pk }}';
         var mark = $('#mark-' + student_id).val();
-        var ca1 = $('#ca1-' + student_id).val();
         var comment = $('#comment-' + student_id).val();
 
         if(subject_id != ""){
             $.ajax({
                 type : 'POST',
                 url : '/portal/admin/exam/filter/mark_set',
-                data : {student_id : student_id, class_id : class_id, section_id : section_id, subject_id : subject_id, exam_id : exam_id, test30 : ca1, exam70 : mark, comment : comment,
+                data : {student_id : student_id, class_id : class_id, section_id : section_id, subject_id : subject_id, exam_id : exam_id, exam100 : mark, comment : comment,
                     session_id : session_id, csrfmiddlewaretoken : '{{ csrf_token }}'},
                 success : function(response){
                     toastr.success('Mark has been updated successfully');
@@ -67,18 +66,13 @@
 
     function get_total_score_no_midterm(id) {
         var mark = $('#mark-' + id).val() * 1;
-        var ca1 = $('#ca1-' + id).val() * 1;
-
-        var total_mark = mark + ca1;
-        
+        var total_mark = mark;
         $('#total-for-mark-'+id).text(total_mark);
     }
 
     function get_grade_no_midterm(id) {
         var mark = $('#mark-' + id).val() * 1;
-        var ca1 = $('#ca1-' + id).val() * 1;
-
-        total_mark = mark + ca1;
+        total_mark = mark;
 
         $.ajax({
             url : '/portal/admin/exam/filter/get_grade/'+total_mark,
@@ -90,9 +84,7 @@
 
     function get_grade_remark_no_midterm(id) {
         var mark = $('#mark-' + id).val() * 1;
-        var ca1 = $('#ca1-' + id).val() * 1;
-
-        total_mark = mark + ca1;
+        total_mark = mark;
 
         $.ajax({
             url : '/portal/admin/exam/filter/get_grade_remark/'+total_mark,

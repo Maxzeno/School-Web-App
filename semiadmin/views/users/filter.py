@@ -310,21 +310,35 @@ class ResultFilter(View):
 		pass_or_fail = help_tools.pass_or_fail(arr_mark, subjects_to_pass, index_prime_subjects)
 
 
-		if mark_format == 'five_column_format':
-			data_keys = ['subject_id', 'resumption_test10', 'mid_test10', 'project10', 'assignment10', 'exam60']
-			theads = ['Subject', 'Resumption Test (10)', 'Mid-Term Test (10)', 'Project (10)', 'Assignment (10)', 'Exam.']
 
-		elif mark_format == 'four_column_format':
-			data_keys = ['subject_id', 'resumption_test10', 'mid_test10', 'project10', 'exam70']
-			theads = ['Subject', 'Resumption Test (10)', 'Mid-Term Test (10)', 'Project (10)', 'Exam.']
+		""" ADDED LOGIC TO SS2 SS3/JSS3"""
 
-		elif mark_format == 'three_column_format':
-			data_keys = ['subject_id', 'resumption_test15', 'mid_test15', 'exam70']
-			theads = ['Subject', 'Resumption Test (15)', 'Mid-Term Test (15)', 'Exam.']
-
-		elif mark_format == 'two_column_format':
+		if student.student_class_room.the_class.the_class.lower() == 'ss2' and exam.exam_term.lower() == 'second':
 			data_keys = ['subject_id', 'test30', 'exam70']
 			theads = ['Subject', 'Test (30)', 'Exam.']
+
+		elif student.student_class_room.the_class.the_class.lower() in {'ss3', 'jss3', 'js3'} and exam.exam_term.lower() == 'third':
+			data_keys = ['subject_id', 'exam100']
+			theads = ['Subject', 'Exam.']
+
+		else:
+			if mark_format == 'five_column_format':
+				data_keys = ['subject_id', 'resumption_test10', 'mid_test10', 'project10', 'assignment10', 'exam60']
+				theads = ['Subject', 'Resumption Test (10)', 'Mid-Term Test (10)', 'Project (10)', 'Assignment (10)', 'Exam.']
+
+			elif mark_format == 'four_column_format':
+				data_keys = ['subject_id', 'resumption_test10', 'mid_test10', 'project10', 'exam70']
+				theads = ['Subject', 'Resumption Test (10)', 'Mid-Term Test (10)', 'Project (10)', 'Exam.']
+
+			elif mark_format == 'three_column_format':
+				data_keys = ['subject_id', 'resumption_test15', 'mid_test15', 'exam70']
+				theads = ['Subject', 'Resumption Test (15)', 'Mid-Term Test (15)', 'Exam.']
+
+			elif mark_format == 'two_column_format':
+				data_keys = ['subject_id', 'test30', 'exam70']
+				theads = ['Subject', 'Test (30)', 'Exam.']
+
+
 
 		marks = student.mark_set.filter(exam=exam).values_list(*data_keys)
 		marks = self.get_tot_grade_term(marks, exam, student)
@@ -444,25 +458,41 @@ class ResultFilter(View):
 		mark_format = semiadmin_model.MarkSheetFormat.objects.filter(session=exam.exam_session, 
 			category=student.student_class_room.the_class.the_class[:-1]).first().mark_format
 
-		if mark_format == 'five_column_format':
-			data_keys = ['subject_id', 'resumption_test10', 'mid_test10', 'project10', 'assignment10', 'exam60']
-			theads = ['Subject', 'Resumption Test (10)', 'Mid-Term Test (10)', 'Project (10)', 'Assignment (10)', 'Exam.', 
-			'Total (100)', 'Grade', 'Remark']
 
-		elif mark_format == 'four_column_format':
-			data_keys = ['subject_id', 'resumption_test10', 'mid_test10', 'project10', 'exam70']
-			theads = ['Subject', 'Resumption Test (10)', 'Mid-Term Test (10)', 'Project (10)', 'Exam.', 
-			'Total (100)', 'Grade', 'Remark']
 
-		elif mark_format == 'three_column_format':
-			data_keys = ['subject_id', 'resumption_test15', 'mid_test15', 'exam70']
-			theads = ['Subject', 'Resumption Test (15)', 'Mid-Term Test (15)', 'Exam.', 
-			'Total (100)', 'Grade', 'Remark']
+		""" ADDED LOGIC TO SS2 SS3/JSS3"""
 
-		elif mark_format == 'two_column_format':
+		if student.student_class_room.the_class.the_class.lower() == 'ss2' and exam.exam_term.lower() == 'second':
 			data_keys = ['subject_id', 'test30', 'exam70']
 			theads = ['Subject', 'Test (30)', 'Exam.', 
-			'Total (100)', 'Grade', 'Remark']
+				'Total (100)', 'Grade', 'Remark']
+
+		elif student.student_class_room.the_class.the_class.lower() in {'ss3', 'jss3', 'js3'} and exam.exam_term.lower() == 'third':
+			data_keys = ['subject_id', 'exam100']
+			theads = ['Subject', 'Exam.', 
+				'Total (100)', 'Grade', 'Remark']
+
+		else:
+			if mark_format == 'five_column_format':
+				data_keys = ['subject_id', 'resumption_test10', 'mid_test10', 'project10', 'assignment10', 'exam60']
+				theads = ['Subject', 'Resumption Test (10)', 'Mid-Term Test (10)', 'Project (10)', 'Assignment (10)', 'Exam.', 
+					'Total (100)', 'Grade', 'Remark']
+
+			elif mark_format == 'four_column_format':
+				data_keys = ['subject_id', 'resumption_test10', 'mid_test10', 'project10', 'exam70']
+				theads = ['Subject', 'Resumption Test (10)', 'Mid-Term Test (10)', 'Project (10)', 'Exam.', 
+					'Total (100)', 'Grade', 'Remark']
+
+			elif mark_format == 'three_column_format':
+				data_keys = ['subject_id', 'resumption_test15', 'mid_test15', 'exam70']
+				theads = ['Subject', 'Resumption Test (15)', 'Mid-Term Test (15)', 'Exam.', 
+					'Total (100)', 'Grade', 'Remark']
+
+			elif mark_format == 'two_column_format':
+				data_keys = ['subject_id', 'test30', 'exam70']
+				theads = ['Subject', 'Test (30)', 'Exam.', 
+					'Total (100)', 'Grade', 'Remark']
+
 
 		marks = student.mark_set.filter(exam=exam).values_list(*data_keys)
 		marks = self.get_tot_grade_term_light(marks, exam, student)
