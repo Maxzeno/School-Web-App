@@ -57,24 +57,6 @@
 <script>
 var class_id = "";
 var section_id = "";
-$('document').ready(function(){
-    if (class_id != null) {
-        $('#class_id').each(function(index, element) {
-            $(this).find('option[value="'+class_id+'"]').prop('selected', true).change();
-        });
-        classWiseSection(class_id);
-    }
-
-    if (section_id != null) {
-        $('#section_id option').each(function(index, element) {
-            $(this).find('option[value="'+section_id+'"]').prop('selected', true).trigger('change');
-        });
-    }
-
-    if (class_id != '' && section_id != '') {
-        filter_student(class_id,section_id);
-    }
-});
 
 function classWiseSection(classId) {
     $.ajax({
@@ -87,46 +69,46 @@ function classWiseSection(classId) {
 }
 
 function filter_student(class_id, section_id){
-    if (class_id == '')
-        var class_id = $('#class_id').val();
-
-    if (section_id == '')
-        var section_id = $('#section_id').val();
+    var class_id = $('#class_id').val();
+    var section_id = $('#section_id').val();
 
     if(class_id != "" && section_id!= ""){
-        console.log("hola");
-        // showAllStudents(class_id, section_id);
-        $.ajax({
-            url: '/portal/admin/student/filter/student_filter/'+class_id+'/'+section_id,
-            // url: '/portal/admin/student/filter/student_filter/5/A',
-            success: function(response){
-                $('.student_content').html(response);
-            }
-        });
+        showAllStudents(class_id, section_id);
+        // $.ajax({
+        //     url: '/portal/admin/student/filter/student_filter/'+class_id+'/'+section_id,
+        //     success: function(response){
+        //         $('.student_content').html(response);
+        //     }
+        // });
     }else{
         toastr.error('Please select a class and section');
     }
 }
 
+
 var showAllStudents = function(class_id, section_id) {
-    if (class_id == '')
+    console.log('fddff', class_id, section_id)
+    if (!class_id)
         var class_id = $('#class_id').val();
 
-    if (section_id == '')
+    if (!section_id)
         var section_id = $('#section_id').val();
 
-    if(class_id != "" && section_id!= ""){
-        console.log("hola hola");
+    if(class_id != "" && section_id != ""){
+    console.log('mmmmm')
 
         $.ajax({
-            // url: 'https://cdssenugu.org/portal/admin/student/filter/'+class_id+'/'+section_id,
             url: '/portal/admin/student/filter/student_filter/'+class_id+'/'+section_id,
             success: function(response){
                 $('.student_content').html(response);
+
             }
         });
+        console.log('mmmmm33333')
+
     }
 }
+
 </script>
 
 {% endblock %}

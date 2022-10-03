@@ -180,6 +180,11 @@ def replace_with_dash(value):
 
 
 @register.filter
+def replace_with_slash(value):
+	return value.replace('-', '/')
+
+
+@register.filter
 def select_if_class(value):
 	just_class = student_model.JustClass.objects.filter(pk=value).first()
 	the_class = student_model.JustClass.objects.filter(the_class=just_class).first().pk

@@ -217,7 +217,7 @@ class TabulationSheetFilter(View):
 		exam_id = request.POST.get('exam_id')
 		return self.result(request, class_id, section_id, session_id, exam_id)
 
-	def result(self, request, class_id, section_id, session_id, exam_id):
+	def result(self, request, class_id, section_id, session_id, exam_id, template_path='/filter/tabulation_sheet.html'):
 		exact_class = student_model.Class.objects.filter(the_class=class_id, the_section=section_id).first()
 
 		exam = student_model.Exam.objects.filter(pk=exam_id).first()
@@ -229,7 +229,7 @@ class TabulationSheetFilter(View):
 			marks_obtainable = 100
 
 
-		html = render(request, 'semiadmin/exam/filter/tabulation_sheet.html', {'class_id':class_id, 
+		html = render(request, f'semiadmin/exam{template_path}', {'class_id':class_id, 
 			'section_id': section_id, 'exam_id': exam_id,
 			'exact_class': exact_class,
 			'data': data, 'marks_obtainable': marks_obtainable,
@@ -245,7 +245,8 @@ class TabulationSheetPrintView(TabulationSheetFilter):
 		self.extra_context['school_setting'] = school_setting
 		exam = student_model.Exam.objects.filter(pk=exam_id).first()
 
-		return self.result(request, class_id, section_id, exam.exam_session.pk, exam_id)
+		return self.result(request, class_id, section_id, exam.exam_session.pk, exam_id,
+			template_path='/tabulation_sheet_print_view.html')
 
 		
 
@@ -264,31 +265,31 @@ class GetGrade(View):
 		grade = None
 		
 		if total_mark >= 80:
-			grade = 'A1(1)'
+			grade = 'A1'
 
 		elif total_mark >= 75:
-			grade = 'B2(2)'
+			grade = 'B2'
 
 		elif total_mark >= 70:
-			grade = 'B3(3)'
+			grade = 'B3'
 
 		elif total_mark >= 65:
-			grade = 'C4(4)'
+			grade = 'C4'
 
 		elif total_mark >= 60:
-			grade = 'C5(5)'
+			grade = 'C5'
 
 		elif total_mark >= 50:
-			grade = 'C6(6)'
+			grade = 'C6'
 
 		elif total_mark >= 45:
-			grade = 'D7(7)'
+			grade = 'D7'
 
 		elif total_mark >= 40:
-			grade = 'E8(8)'
+			grade = 'E8'
 
 		else:
-			grade = 'F9(9)'
+			grade = 'F9'
 
 		return grade
 
@@ -363,20 +364,28 @@ class MarkFilter(View):
 
 		students_pk = student_model.Student.objects.filter(student_class_room=class_room).values_list('pk')
 		students_pk = [i[0] for i in students_pk]
-		try:
-			format_values = self.formart_of_values(mark_sheet_format.mark_format)
-			marks_list = []
+		# try:
+		format_values = self.formart_of_values(mark_sheet_format.mark_format, class_room, exam)
+		print(format_values, 'eee'*100)
+		marks_list = []
 
-			for student in students:
-				mark = semiadmin_model.Mark.objects.filter(exam=exam, class_room=class_room, subject=subject,
-					mark_sheet_format=mark_sheet_format, student=student).values_list(*format_values).first()
-				if mark:
-					fnd = list(mark)
-					fnd.insert(0, student)
-					marks_list.append(fnd+self.calc(mark))
-				else:
-					marks_list.append(self.empties_in_list(len(format_values), student))
+		for student in students:
+			mark = semiadmin_model.Mark.objects.filter(exam=exam, class_room=class_room, subject=subject,
+				mark_sheet_format=mark_sheet_format, student=student).values_list(*format_values).first()
+			if mark:
+				fnd = list(mark)
+				fnd.insert(0, student)
+				marks_list.append(fnd+self.calc(mark))
+			else:
+				marks_list.append(self.empties_in_list(len(format_values), student))
 
+		if class_room.the_class.the_class.lower() == 'ss2' and exam.exam_term.lower() == 'second':
+			mark_sheet = ['Test (30)', 'Examination (70)']
+
+		elif class_room.the_class.the_class.lower() in {'ss3', 'jss3', 'js3'} and exam.exam_term.lower() == 'third':
+			mark_sheet = ['Examination (100)']
+
+		else:
 			if mark_sheet_format.mark_format == 'five_column_format':
 				mark_sheet = ['Resumption test (10)', 'Midterm** test (10)', 'Project** (10)', 'Assignment (10)', 'Examination (60)']
 
@@ -391,25 +400,25 @@ class MarkFilter(View):
 
 
 
-			theads = ['Student name', *mark_sheet, 'Total score', 'Grade point', 'Comment', 'Action']
+		theads = ['Student name', *mark_sheet, 'Total score', 'Grade point', 'Comment', 'Action']
 
 
 
-			tbodys = ''
-			html = render(request, self.template(len(format_values)), {'tbodys':tbodys, 'theads': theads, 
-				'the_format': mark_sheet_format.mark_format, 'the_class': class_id, 'the_section': section_id,
-				'subject': subject.name, 'exam': exam, 'exam_year_slash': exam.exam_session.session.replace('-', '/'),
-				'marks_list': marks_list
-				})
-		except:
-			html = """
-			<div class="col-md-12 text-center">
-			    <div class="alert alert-danger" role="alert">
-					<h4 class="alert-heading">No Mark Format!</h4>
-					<hr>
-					<p class="mb-0">Sorry you have to create mark format <br>In settings.</p>
-			    </div>
-			</div>"""
+		tbodys = ''
+		html = render(request, self.template(len(format_values)), {'tbodys':tbodys, 'theads': theads, 
+			'the_format': mark_sheet_format.mark_format, 'the_class': class_id, 'the_section': section_id,
+			'subject': subject.name, 'exam': exam, 'exam_year_slash': exam.exam_session.session.replace('-', '/'),
+			'marks_list': marks_list
+			})
+		# except:
+		# 	html = """
+		# 	<div class="col-md-12 text-center">
+		# 	    <div class="alert alert-danger" role="alert">
+		# 			<h4 class="alert-heading">No Mark Format!</h4>
+		# 			<hr>
+		# 			<p class="mb-0">Sorry you have to create mark format <br>In settings.</p>
+		# 	    </div>
+		# 	</div>"""
 		return HttpResponse(html)
 
 	def template(self, num_of_col):
@@ -423,18 +432,25 @@ class MarkFilter(View):
 		return [total_mark, GetGrade().get_grade(total_mark), GetGradeRemark().get_grade_remark(total_mark)]
 
 
-	def formart_of_values(self, mark_format):
-		if mark_format == 'five_column_format':
-			mark_sheet = ['resumption_test10', 'mid_test10', 'project10', 'assignment10', 'exam60']
-
-		elif mark_format == 'four_column_format':
-			mark_sheet = ['resumption_test10', 'mid_test10', 'project10', 'exam70']
-
-		elif mark_format == 'three_column_format':
-			mark_sheet = ['resumption_test15', 'mid_test15', 'exam70']
-
-		elif mark_format == 'two_column_format':
+	def formart_of_values(self, mark_format, class_room, exam):
+		if class_room.the_class.the_class.lower() == 'ss2' and exam.exam_term.lower() == 'second':
 			mark_sheet = ['test30', 'exam70']
+
+		elif class_room.the_class.the_class.lower() in {'ss3', 'jss3', 'js3'} and exam.exam_term.lower() == 'third':
+			mark_sheet = ['exam100']
+
+		else:
+			if mark_format == 'five_column_format':
+				mark_sheet = ['resumption_test10', 'mid_test10', 'project10', 'assignment10', 'exam60']
+
+			elif mark_format == 'four_column_format':
+				mark_sheet = ['resumption_test10', 'mid_test10', 'project10', 'exam70']
+
+			elif mark_format == 'three_column_format':
+				mark_sheet = ['resumption_test15', 'mid_test15', 'exam70']
+
+			elif mark_format == 'two_column_format':
+				mark_sheet = ['test30', 'exam70']
 
 		return mark_sheet
 

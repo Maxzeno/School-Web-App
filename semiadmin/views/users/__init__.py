@@ -87,6 +87,7 @@ class StudentEdit(View):
 			'phone':request.POST.get('phone'),
 			'address':request.POST.get('address'),
 			'passport_photo':request.FILES.get('student_image')
+
 		}
 
 		student_class = request.POST.get('class_id').upper()
@@ -120,41 +121,41 @@ class AdmissionExcel(View):
 
 
 	def post(self, request):
-		# try:
-		myfile = request.FILES['csv_file']
-		file = myfile.read().decode('utf-8')
-		reader = csv.DictReader(io.StringIO(file))
-		class_id = request.POST.get('class_id').upper()
-		section_id = request.POST.get('section_id').upper()
+		try:
+			myfile = request.FILES['csv_file']
+			file = myfile.read().decode('utf-8')
+			reader = csv.DictReader(io.StringIO(file))
+			class_id = request.POST.get('class_id').upper()
+			section_id = request.POST.get('section_id').upper()
 
-		for row in reader:
-			vals = list(row.values())
-			data = {
-				'name':vals[0],
-				# 'email':vals[1],
-				'phone':vals[3],
-				'gender':vals[5],
-				'student_id':vals[6],
-				# 'student_class': class_id,
-				# 'student_class_room': section_id
-			}
+			for row in reader:
+				vals = list(row.values())
+				data = {
+					'name':vals[0],
+					# 'email':vals[1],
+					'phone':vals[3],
+					'gender':vals[5],
+					'student_id':vals[6],
+					# 'student_class': class_id,
+					# 'student_class_room': section_id
+				}
 
-			student_class = request.POST.get('class_id').upper()
-			student_class_room = request.POST.get('section_id').upper()
-			class_room = student_model.Class.objects.filter(the_class=student_class, 
-				the_section=student_class_room).first()
-			if class_room:
-				data['student_class_room'] = class_room
+				student_class = request.POST.get('class_id').upper()
+				student_class_room = request.POST.get('section_id').upper()
+				class_room = student_model.Class.objects.filter(the_class=student_class, 
+					the_section=student_class_room).first()
+				if class_room:
+					data['student_class_room'] = class_room
 
-			parent = student_model.Parent.objects.filter(pk=vals[4]).first()
-			if parent:
-				data['parent'] = parent
+				parent = student_model.Parent.objects.filter(pk=vals[4]).first()
+				if parent:
+					data['parent'] = parent
 
-			user = user_model.User(is_student=True, email=vals[1], password=vals[2])
-			student = student_model.Student.objects.create(user=user, **data)
-		return JsonResponse({"status":True,"notification":"Student added successfully"})
-		# except:
-		# 	return JsonResponse({"status":False,"notification":"Student not added"})
+				user = user_model.User(is_student=True, email=vals[1], password=vals[2])
+				student = student_model.Student.objects.create(user=user, **data)
+			return JsonResponse({"status":True,"notification":"Student added successfully"})
+		except:
+			return JsonResponse({"status":False,"notification":"Student not added"})
 
 
 class AdmissionBulk(View):
@@ -166,36 +167,39 @@ class AdmissionBulk(View):
 			'new_id': new_id})
 
 	def post(self, request):
-		student_class = request.POST.get('class_id').upper()
-		student_class_room = request.POST.get('section_id').upper()
+		try:
+			student_class = request.POST.get('class_id').upper()
+			student_class_room = request.POST.get('section_id').upper()
 
-		names = request.POST.getlist('name[]')
-		emails = request.POST.getlist('email[]')
-		student_ids = request.POST.getlist('student_id[]')
-		passwords = request.POST.getlist('password[]')
-		genders = request.POST.getlist('gender[]')
-		parent_ids = request.POST.getlist('parent_id[]')
+			names = request.POST.getlist('name[]')
+			emails = request.POST.getlist('email[]')
+			student_ids = request.POST.getlist('student_id[]')
+			passwords = request.POST.getlist('password[]')
+			genders = request.POST.getlist('gender[]')
+			parent_ids = request.POST.getlist('parent_id[]')
 
-		class_room = student_model.Class.objects.filter(the_class=student_class, 
-			the_section=student_class_room).first()
+			class_room = student_model.Class.objects.filter(the_class=student_class, 
+				the_section=student_class_room).first()
 
 
-		for i in range(len(names)):
-			user = user_model.User.objects.create(email=emails[i], password=passwords[i], is_student=True)
+			for i in range(len(names)):
+				user = user_model.User.objects.create(email=emails[i], password=passwords[i], is_student=True)
 
-			if class_room:
-				student = student_model.Student(user=user, name=names[i], student_id=student_ids[i].upper(),
-					gender=genders[i], student_class_room=class_room)
-			else:
-				student = student_model.Student(user=user, name=names[i], student_id=student_ids[i].upper(),
-				 gender=genders[i])
+				if class_room:
+					student = student_model.Student(user=user, name=names[i], student_id=student_ids[i].upper(),
+						gender=genders[i], student_class_room=class_room)
+				else:
+					student = student_model.Student(user=user, name=names[i], student_id=student_ids[i].upper(),
+					 gender=genders[i])
 
-			if parent_ids[i]:
-				parent = student_model.Parent.objects.filter(pk=parent_ids[i]).first()
-				if parent:
-					student.parent = parent
-			student.save()
-		return JsonResponse({"status":True,"notification":"Students added Successfully"})
+				if parent_ids[i]:
+					parent = student_model.Parent.objects.filter(pk=parent_ids[i]).first()
+					if parent:
+						student.parent = parent
+				student.save()
+			return JsonResponse({"status":True,"notification":"Students added Successfully"})
+		except:
+			return JsonResponse({"status":False,"notification":"Students Not added"})
 
 
 
@@ -234,6 +238,8 @@ class Admission(View):
 					data['parent'] = parent
 
 			user = user_model.User.objects.create(email=request.POST.get('email'), password=request.POST.get('password'), is_student=True)
+			print(data)
+
 			student = student_model.Student.objects.create(user=user, **data)
 			return JsonResponse({"status":True,"notification":"Student added successfully"})
 		except:

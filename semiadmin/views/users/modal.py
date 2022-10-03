@@ -572,6 +572,13 @@ class TeacherDelete(View):
 
 """ END Teacher SECTION """
 
+""" Student SECTION """
+class StudentDelete(View):
+	def post(self, request, id):
+		student_model.Student.objects.filter(pk=id.replace('-', '/')).delete()
+		return JsonResponse({"status":True,"notification": "Student Deleted"})
+
+""" END Student SECTION """
 
 """ SubjectPermission SECTION """
 

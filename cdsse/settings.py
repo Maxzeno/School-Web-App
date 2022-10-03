@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 try:
-    from .secret_data import SecretDatas # this is were i set important keys
+    from .secret_data import SecretData # this is were i set important keys
 except ImportError:
     class SecretData:
         DATABASE = {} 

@@ -7,7 +7,7 @@ from ..views import (
     SubjectPermission, Student, Admission, Teacher, ManagementTeam, TeacherPermission, Parent, Accountant, Librarian, Marksheet,
     StudentFilter, StudentSection, StudentSectionModal, StudentSectionNo, StudentSectionNoLeft, StudentSubject, 
     SubjectPermissionFilter, SubjectPermissionSet,ClassPermissionFilter, ClassPermissionSet,
-    AdmissionBulk, AdmissionExcel, StudentEdit, CSVAdmissionGenerate, StudentProfile, 
+    AdmissionBulk, AdmissionExcel, StudentEdit, StudentDelete, CSVAdmissionGenerate, StudentProfile, 
     TeacherFilter, TeacherCreate, TeacherDelete, TeacherEdit, TeacherUpdatePassword, TeacherPermissionModal,
     CreateTeacherExcel, CSVTeacherGenerate,
     ReturnStudent, ManagementTeamFilter, ManagementTeamCreate, ManagementTeamEdit, ManagementTeamDelete, ManagementTeamUpdatePassword, 
@@ -55,6 +55,7 @@ other = [
     path('portal/admin/student/filter/student_filter/<str:student_class>/<str:student_class_room>', semiadmin_required(StudentFilter.as_view(), login_url=login_url), name='student_class'),
     path('portal/admin/student/student_profile/<str:id>', login_required(StudentProfile.as_view(), login_url=login_url), name='student_profile'),
     path('portal/admin/student/csv_student_generate.generate.csv', semiadmin_required(CSVAdmissionGenerate.as_view(), login_url=login_url), name='csv_student_generate'),
+    path('portal/admin/student/delete/<str:id>', semiadmin_required(StudentDelete.as_view(), login_url=login_url), name='student_delete'),
     
     path('portal/admin/teacher/permission/<int:id>', semiadmin_required(TeacherPermissionModal.as_view(), login_url=login_url), name='teacher_permission'),
     path('portal/admin/teacher/filter', semiadmin_required(TeacherFilter.as_view(), login_url=login_url), name='teacher_filter'),

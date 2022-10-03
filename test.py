@@ -1,3 +1,106 @@
+# # import xlsxwriter module
+# import xlsxwriter
+
+# workbook = xlsxwriter.Workbook('Example3.xls')
+
+# # By default worksheet names in the spreadsheet will be
+# # Sheet1, Sheet2 etc., but we can also specify a name.
+# worksheet = workbook.add_worksheet("My sheet")
+
+# # Some data we want to write to the worksheet.
+# scores = (
+# 	['ankit', 1000],
+# 	['rahul', 100],
+# 	['priya', 300],
+# 	['harshita', 50],
+# )
+
+# # Start from the first cell. Rows and
+# # columns are zero indexed.
+# row = 0
+# col = 0
+
+# # Iterate over the data and write it out row by row.
+# for name, score in (scores):
+# 	worksheet.write(row, col, name)
+# 	worksheet.write(row, col + 1, score)
+# 	row += 1
+
+# workbook.close()
+
+
+# from excel import OpenExcel
+# f = OpenExcel('Example3.xls')
+# f.read() # read all
+
+import pandas as pd
+data = pd.read_excel('grades.xlsx')
+print(data)
+
+
+
+
+
+# # import xlsxwriter module
+# import xlsxwriter
+
+# # Workbook() takes one, non-optional, argument
+# # which is the filename that we want to create.
+# workbook = xlsxwriter.Workbook('hello.xlsx')
+
+# # The workbook object is then used to add new
+# # worksheet via the add_worksheet() method.
+# worksheet = workbook.add_worksheet()
+
+# # Use the worksheet object to write
+# # data via the write() method.
+# worksheet.write('A1', 'Hello..')
+# worksheet.write('B1', 'Geeks')
+# worksheet.write('C1', 'For')
+# worksheet.write('D1', 'Geeks')
+
+# # Finally, close the Excel file
+# # via the close() method.
+# workbook.close()
+
+
+
+# import pandas as pd
+# data = pd.read_excel('path/input.xlsx')
+# print (data)
+
+
+
+
+# from excel import OpenExcel
+# f = OpenExcel('test.xls')
+# f.read() # read all
+# f.read('A') # read 'A' row
+# f.read(1) # f.read('1'), read '1' column
+# f.read('A5') # read 'A5' position
+
+
+
+# import xlrd
+# book = xlrd.open_workbook("myfile.xls")
+# print("The number of worksheets is {0}".format(book.nsheets))
+# print("Worksheet name(s): {0}".format(book.sheet_names()))
+# sh = book.sheet_by_index(0)
+# print("{0} {1} {2}".format(sh.name, sh.nrows, sh.ncols))
+# print("Cell D30 is {0}".format(sh.cell_value(rowx=29, colx=3)))
+# for rx in range(sh.nrows):
+#     print(sh.row(rx))
+
+
+
+
+
+
+
+
+
+
+
 # import requests
 # from bs4 import BeautifulSoup as soup
 # import os

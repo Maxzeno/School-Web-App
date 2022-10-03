@@ -31,6 +31,7 @@ class Noticeboard(models.Model):
 			return f'{the_date.month}/{the_date.day}/{the_date.year}'
 		return ''
 
+
 class Attendance(models.Model):
 	attended = models.BooleanField(default=True, null=True, blank=True)
 	the_class = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
@@ -266,6 +267,7 @@ class Mark(models.Model):
 	test30 = models.IntegerField(null=True, blank=True)
 	exam70 = models.IntegerField(null=True, blank=True)
 	exam60 = models.IntegerField(null=True, blank=True)
+	exam100 = models.IntegerField(null=True, blank=True)
 
 	def total_mark(self):
 		total = 0
@@ -306,31 +308,31 @@ class Mark(models.Model):
 		grade = None
 		total_mark = self.total_mark()
 		if total_mark >= 80:
-			grade = 'A1(1)'
+			grade = 'A1'
 
 		elif total_mark >= 75:
-			grade = 'B2(2)'
+			grade = 'B2'
 
 		elif total_mark >= 70:
-			grade = 'B3(3)'
+			grade = 'B3'
 
 		elif total_mark >= 65:
-			grade = 'C4(4)'
+			grade = 'C4'
 
 		elif total_mark >= 60:
-			grade = 'C5(5)'
+			grade = 'C5'
 
 		elif total_mark >= 50:
-			grade = 'C6(6)'
+			grade = 'C6'
 
 		elif total_mark >= 45:
-			grade = 'D7(7)'
+			grade = 'D7'
 
 		elif total_mark >= 40:
-			grade = 'E8(8)'
+			grade = 'E8'
 
 		else:
-			grade = 'F9(9)'
+			grade = 'F9'
 
 		return grade
 

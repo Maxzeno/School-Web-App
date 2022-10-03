@@ -192,7 +192,7 @@ class ResultFilter(View):
 			subjects_to_pass = 7
 
 		pass_or_fail = help_tools.pass_or_fail(arr_mark, subjects_to_pass, index_prime_subjects, 
-			ret_pass='PROMOTED', ret_fail='REPEAT')
+			ret_pass='PROMOTED', ret_fail='NOT PROMOTED')
 		
 		scores_list = list(scores)
 		scores_list.sort()
@@ -420,7 +420,7 @@ class ResultFilter(View):
 				mat1d.extend([GetGrade().get_grade(total), GetGradeRemark().get_grade_remark(total)])
 				mat2d.append(mat1d)
 
-		return [the_exam.pk, the_exam.exam_term.lower()], mat2d
+		return [the_exam.pk, the_exam.exam_term.lower(), the_exam], mat2d
 
 	def get_tot_grade_term_light(self, marks, exam, student):
 		marks = list(marks)
@@ -467,7 +467,7 @@ class ResultFilter(View):
 		marks = student.mark_set.filter(exam=exam).values_list(*data_keys)
 		marks = self.get_tot_grade_term_light(marks, exam, student)
 
-		return [exam.pk, exam.exam_term.lower()], theads, marks
+		return [exam.pk, exam.exam_term.lower(), exam], theads, marks
 
 
 
@@ -558,10 +558,8 @@ class StudentFilter(View):
 			students = student_model.Student.objects.all()
 		new_students = []
 		for student in students:
-			try:
-				img_url = student.get_photo()
-			except:
-				img_url = DEFAULT_IMAGE_THE_URL
+			img_url = student.get_photo()
+
 			new_students.append([student.student_id, img_url, student.name, student.mark_set.count() > 0, student.student_id.replace('/', '-')])
 
 		theads = ['Srno.', 'Student id', 'Photo', 'Name', 'Result', 'Options']

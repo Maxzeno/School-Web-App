@@ -1,4 +1,4 @@
-<table id="example" class="table table-striped" style="width:100%">
+<table id="basic-datatable" class="table table-striped" style="width:100%">
         <thead>
             <tr style="background-color: #313a46; color: #ababab;">
             {% for thead in theads %}
@@ -38,6 +38,8 @@
                             </a>
                             <a href="javascript:void(0);" class="dropdown-item" onclick="largeModal('/portal/admin/student/student_profile/{{ tb }}', 'Command Day Secondary School')">Profile</a>
                             <a href="/portal/admin/student/student_update/{{ student_class }}/{{ student_class_room }}/{{ tb }}" class="dropdown-item">Edit</a>
+                            <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item" onclick="confirmModal('/portal/admin/student/delete/{{ tb }}', () => showAllStudents('{{ student_class }}', '{{ student_class_room }}') )">Delete</a>
                             </div>
                         </div>
                         </td>
@@ -62,5 +64,5 @@ $(document).ready(function () {
 
 
 <script type="text/javascript">
-initDataTable('example');
+initDataTable('basic-datatable');
 </script>
