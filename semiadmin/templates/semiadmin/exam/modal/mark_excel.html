@@ -1,0 +1,40 @@
+
+<form method="POST" class="col-md-12 ajaxForm" action="/portal/admin/exam/filter/mark_excel_create" enctype="multipart/form-data">
+    {% csrf_token %}
+        
+        <div class="col-md-12 mt-2">
+            <div class="form-group">
+                <label class="m-0">Upload EXCEL</label>
+                <div class="custom-file-upload">
+                    <input type="file" id="excel_file" class="form-control" name="excel_file" required>
+                </div>
+            </div>
+            <input type="hidden" name="exam_id" value="{{ exam_id }}">
+            <input type="hidden" name="class_id" value="{{ class_id }}">
+            <input type="hidden" name="section_id" value="{{ section_id }}">
+            <input type="hidden" name="subject_id" value="{{ subject_id }}">
+            <input type="hidden" name="session_id" value="{{ session_id }}">
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-secondary col-md-12 col-sm-12 mb-4 mt-3">Upload marks excel</button>
+    </div>
+</form>
+
+<script>
+$(document).ready(function(){
+    initCustomFileUploader();
+});
+
+var form;
+$(".ajaxForm").submit(function(e) {
+  form = $(this);
+  ajaxSubmit(e, form, filter_attendance);
+});
+var refreshForm = function () {
+    form.trigger("reset");
+}
+
+
+</script>

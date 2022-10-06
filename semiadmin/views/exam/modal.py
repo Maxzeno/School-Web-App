@@ -16,6 +16,89 @@ import mimetypes
 import os
 import datetime
 from datetime import date
+import xlrd
+import xlrd
+
+"""  MarkExcel SECTION """
+
+class MarkExcelCreate(View):
+	def get(self, request):
+		exam_id = request.GET.get('exam_id')
+		class_id = request.GET.get('class_id')
+		section_id = request.GET.get('section_id')
+		subject_id = request.GET.get('subject_id')
+		session_id = request.GET.get('session_id')
+
+		html = render(request, 'semiadmin/exam/modal/mark_excel.html', {
+			'exam_id': exam_id,
+			'class_id': class_id,
+			'section_id': section_id,
+			'subject_id': subject_id,
+			'session_id': session_id,
+		})
+		return HttpResponse(html)
+
+	def post(self, request):
+		exam_id = request.POST.get('exam_id')
+		class_id = request.POST.get('class_id')
+		section_id = request.POST.get('section_id')
+		subject_id = request.POST.get('subject_id')
+		session_id = request.POST.get('session_id')
+
+		class_room = student_model.Class.objects.filter(the_class=class_id, the_section=section_id).first()
+		subject = student_model.Subject.objects.filter(name=subject_id).first()
+		exam = student_model.Exam.objects.filter(pk=exam_id).first()
+
+		excel_file = request.FILES["excel_file"]
+		book = xlrd.open_workbook(excel_file.name, file_contents=excel_file.read())
+
+		if excel_file:
+			sh = book.sheet_by_index(0)
+
+			# Iterate through rows, returning each as a list that you can index:
+			first_row = sh.row_values(0)
+			head = self.map_head(first_row[1:])
+
+			for rownum in range(1, sh.nrows):
+				student_data = sh.row_values(rownum)
+				update_data = self.wrap(head, student_data[1:])
+				if update_data:
+					student = student_model.Student.objects.filter(name=student_data[0]).first()
+					semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
+					.update(**update_data)
+
+		return JsonResponse({"status":True,"notification": "Marked Successfully"})
+
+	def map_head(self, head):
+		len_head = len(head)
+
+		if len_head == 5:
+			mark_sheet = ['resumption_test10', 'mid_test10', 'project10', 'assignment10', 'exam60']
+
+		elif len_head == 4:
+			mark_sheet = ['resumption_test10', 'mid_test10', 'project10', 'exam70']
+
+		elif len_head == 3:
+			mark_sheet = ['resumption_test15', 'mid_test15', 'exam70']
+
+		elif len_head == 2:
+			mark_sheet = ['test30', 'exam70']
+
+		elif len_head == 1:
+			mark_sheet = ['exam100']
+
+		return mark_sheet
+
+
+	def wrap(self, a, b):
+		new = {}
+		for i in range(len(a)):
+			if b[i]:
+				new[a[i]] = b[i]
+		return new
+
+"""  MarkExcel SECTION """
+
 
 """ PromotionSet """
 
@@ -64,6 +147,7 @@ class MarkSet(View):
 		session_id = data.pop('session_id')
 		comment = data.pop('comment')
 		del data['csrfmiddlewaretoken']
+		
 
 		new_data = {}
 		emptys = []
@@ -88,7 +172,6 @@ class MarkSet(View):
 			for empty in emptys:
 				if isinstance(upt[empty], (int, float)):
 					new_data[empty] = 0
-				print(upt, emptys)
 			found_mark.update(exam=exam, class_room=class_room, subject=subject,
 				mark_sheet_format=mark_sheet_format, student=student, comment=comment, **new_data)
 			return JsonResponse({'status': 'ok'})

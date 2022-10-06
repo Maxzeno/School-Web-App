@@ -8,7 +8,7 @@
     <div class="col-md-12">
         <div class="panel panel-primary panel-shadow" data-collapsed="0">
             <div class="panel-heading">
-                <div class="panel-title">2020/2021 Examination: ANNUAL</div>
+                <div class="panel-title">{{ less_heavy.0.2.exam_session.session|replace_with_slash }} Examination: {{ less_heavy.0.2.exam_name|upper }}</div>
             </div>
             <div class="panel-body"> 
                 <div class="col-md-12">
@@ -77,7 +77,7 @@ Print marksheet                        </a>
 class="btn btn-primary" target="_blank">
 </a>-->
 </div>
-
+<!-- 
 <div class="col-md-12">
     <div id="chartdiv{{ forloop.counter }}" class="exam_chart_{{ forloop.counter }}">
     </div>
@@ -226,7 +226,7 @@ class="btn btn-primary" target="_blank">
                     </script>
                </div>            
 
-
+ -->
 
 
 
@@ -247,7 +247,7 @@ class="btn btn-primary" target="_blank">
     <div class="col-md-12">
         <div class="panel panel-primary panel-shadow" data-collapsed="0">
             <div class="panel-heading">
-                <div class="panel-title">2020/2021 Examination: FIRST</div>
+                <div class="panel-title">{{ less_heavy.0.2.exam_session.session|replace_with_slash }} Examination: {{ less_heavy.0.2.exam_name|upper }}</div>
             </div>
 <div class="panel-body"> 
 <div class="col-md-12">

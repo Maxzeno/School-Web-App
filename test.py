@@ -1,3 +1,97 @@
+
+# import excel21jsonapi
+
+# excel21jsonapi.xlrd.open_workbook("grades (1).xlsx")
+
+
+
+# from excel2json import convert_from_file
+# import excel2json
+# print(dir(excel2json))
+# help(convert_from_file)
+# data = convert_from_file('grades.xls')
+# print(data)
+# from excel import OpenExcel
+
+# f = OpenExcel('excel.xlsx')
+# print(dir(f))
+# print(dir(f.data))
+# quit()
+
+
+
+
+
+import xlrd
+book = xlrd.open_workbook("excel.xlsx")
+
+sh = book.sheet_by_index(0)
+
+# Iterate through rows, returning each as a list that you can index:
+for rownum in range(sh.nrows):
+    print(sh.row_values(rownum))
+
+print('\n emmm \n')
+# If you just want the first column:
+first_column = sh.row_values(0)
+print(first_column)
+
+
+# print(dir(book))
+# # print("The number of worksheets is {0}".format(book.nsheets))
+# # print("Worksheet name(s): {0}".format(book.sheet_names()))
+# sh = book.sheet_by_index(0)
+# # print("{0} {1} {2}".format(sh.name, sh.nrows, sh.ncols))
+# # print("Cell D30 is {0}".format(sh.cell_value(rowx=29, colx=3)))
+# for rx in range(sh.nrows):
+#     print(sh.row(rx))
+
+
+
+
+
+
+
+
+# from openpyxl import Workbook, load_workbook
+
+# book = Workbook('excel.xlsx')
+# sheet = book.active
+
+# for i in sheet.values:
+# 	print(i)
+
+# book = Workbook()
+# sheet = book.active
+
+# d = [list('abcd'), list('ghsd')]
+
+# # for i, line in enumerate(d):
+# # 	for j, val in enumerate(line):
+# # 		print(val)
+# # 		sheet.cell(row=i+1, column=j+1).value = val
+
+# # print(dir(sheet))
+
+
+# for i in d:
+# 	sheet.append(i)
+
+# for i in sheet.values:
+# 	print(i)
+
+
+# import xlrd
+
+# print(dir(xlrd))
+
+# help(xlrd.open_workbook)
+
+# book = xlrd.open_workbook('aa.xls')
+# print(dir(book))
+
+
+
 # # import xlsxwriter module
 # import xlsxwriter
 
@@ -30,12 +124,13 @@
 
 
 # from excel import OpenExcel
-# f = OpenExcel('Example3.xls')
+# f = OpenExcel('grades.xlsx')
+# f = OpenExcel('grades.xlsx')
 # f.read() # read all
 
-import pandas as pd
-data = pd.read_excel('grades.xlsx')
-print(data)
+# import pandas as pd
+# data = pd.read_excel('grades.xlsx')
+# print(data)
 
 
 
@@ -78,18 +173,6 @@ print(data)
 # f.read('A') # read 'A' row
 # f.read(1) # f.read('1'), read '1' column
 # f.read('A5') # read 'A5' position
-
-
-
-# import xlrd
-# book = xlrd.open_workbook("myfile.xls")
-# print("The number of worksheets is {0}".format(book.nsheets))
-# print("Worksheet name(s): {0}".format(book.sheet_names()))
-# sh = book.sheet_by_index(0)
-# print("{0} {1} {2}".format(sh.name, sh.nrows, sh.ncols))
-# print("Cell D30 is {0}".format(sh.cell_value(rowx=29, colx=3)))
-# for rx in range(sh.nrows):
-#     print(sh.row(rx))
 
 
 

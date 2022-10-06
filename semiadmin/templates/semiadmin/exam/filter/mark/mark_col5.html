@@ -8,6 +8,13 @@
         <span>Subject : {{ subject }}</span>
     </div>
 </div>
+
+<div class="m-3 text-center">
+  <a href="/portal/admin/exam/filter/mark_json?session_id={{ exam.exam_session.pk }}&class_id={{ the_class }}&section_id={{ the_section }}&subject_id={{ subject }}&exam_id={{ exam.pk }}" 
+  class="btn btn-dark" download>Download excel</a>
+  <button class="btn btn-dark" onclick="rightModal('/portal/admin/exam/filter/mark_excel_create?session_id={{ exam.exam_session.pk }}&class_id={{ the_class }}&section_id={{ the_section }}&subject_id={{ subject }}&exam_id={{ exam.pk }}', 'Upload Excel')">Upload excel</button>
+</div>
+
     <div class="table-responsive">
         <table class="table table-bordered table-responsive-sm" width="100%">
             <thead class="thead-dark">
@@ -48,8 +55,26 @@
 
 
 <script>
+
+/*    function downloadExcel() {
+        var session_id = '{{ exam.exam_session.pk }}';
+        var class_id = '{{ the_class }}';
+        var section_id = '{{ the_section }}';
+        var subject_id = '{{ subject }}';
+        var exam_id = '{{ exam.pk }}';
+        $.ajax({
+          type : 'POST',
+          url : '/portal/admin/exam/filter/mark_json',
+          data : {class_id : class_id, section_id : section_id, subject_id : subject_id, exam_id : exam_id,
+            session_id : session_id, csrfmiddlewaretoken : '{{ csrf_token }}'},
+            success : function(response){
+              console.log('yes')
+            }
+
+        });
+    }
+*/
     function mark_update_no_midterm(student_id) {
-        console.log('init bros', student_id);
         var session_id = '{{ exam.exam_session.pk }}';
         var class_id = '{{ the_class }}';
         var section_id = '{{ the_section }}';
@@ -61,7 +86,6 @@
         var ca3 = $('#ca3-' + student_id).val();
         var ca4 = $('#ca4-' + student_id).val();
         var comment = $('#comment-' + student_id).val();
-        console.log('init bros', student_id);
 
         if(subject_id != ""){
             $.ajax({

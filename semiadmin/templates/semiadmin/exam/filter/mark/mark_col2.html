@@ -8,6 +8,14 @@
         <span>Subject : {{ subject }}</span>
     </div>
 </div>
+
+<div class="m-3 text-center">
+  <a href="/portal/admin/exam/filter/mark_json?session_id={{ exam.exam_session.pk }}&class_id={{ the_class }}&section_id={{ the_section }}&subject_id={{ subject }}&exam_id={{ exam.pk }}" 
+  class="btn btn-dark" download>Download excel</a>
+  <button class="btn btn-dark">Upload excel</button>
+</div>
+
+
     <div class="table-responsive">
         <table class="table table-bordered table-responsive-sm" width="100%">
             <thead class="thead-dark">

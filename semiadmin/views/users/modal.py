@@ -369,6 +369,7 @@ class CSVManagementTeamGenerate(View):
 		filepath = 'semiadmin/templates/semiadmin/users/asset/' + filename
 		path = open(filepath, 'r')
 		mime_type, _ = mimetypes.guess_type(filepath)
+		print(mime_type)
 		response = HttpResponse(path, content_type=mime_type)
 		response['Content-Disposition'] = "attachment; filename=%s" % filename
 		return response

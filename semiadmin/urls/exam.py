@@ -18,7 +18,9 @@ from ..views import (
     CognitiveKeyDomainScoreCreate, CognitiveKeyDomainScoreEdit, CognitiveKeyDomainScoreDelete, CognitiveKeyDomainScoreAll,
     HousemasterCommentCodeCreate, HousemasterCommentCodeEdit, HousemasterCommentCodeDelete, HousemasterCommentCodeAll,
     ExamTerm, ExamTermNoAnnual,
-    MarkFilter, MarkSet, GetGrade, GetGradeRemark, GradeAll, GradeDelete, GradeEdit, GradeCreate,
+    MarkFilter, 
+    MarkJson, MarkExcelCreate,
+    MarkSet, GetGrade, GetGradeRemark, GradeAll, GradeDelete, GradeEdit, GradeCreate,
     TabulationSheetFilter, TabulationSheetPrintView, 
     )
 
@@ -87,6 +89,8 @@ filter_ = [
     path('portal/admin/exam/filter/mark_filter', semiadmin_required(MarkFilter.as_view(), login_url=login_url), name='mark_filter'),
     path('portal/admin/exam/filter/exam_term_no_annual/<str:session_id>', login_required(ExamTermNoAnnual.as_view(), login_url=login_url), name='exam_term_no_annual'),
     path('portal/admin/exam/filter/exam_term/<str:session_id>', login_required(ExamTerm.as_view(), login_url=login_url), name='exam_term'),
+    path('portal/admin/exam/filter/mark_excel_create', semiadmin_required(MarkExcelCreate.as_view(), login_url=login_url), name='mark_excel_create'),
+    path('portal/admin/exam/filter/mark_json', semiadmin_required(MarkJson.as_view(), login_url=login_url), name='mark_json'),
     path('portal/admin/exam/filter/mark_set', semiadmin_required(MarkSet.as_view(), login_url=login_url), name='mark_set'),
     path('portal/admin/exam/filter/get_grade/<int:total_mark>', login_required(GetGrade.as_view(), login_url=login_url), name='get_grade'),
     path('portal/admin/exam/filter/get_grade_remark/<int:total_mark>', login_required(GetGradeRemark.as_view(), login_url=login_url), name='get_grade_remark'),

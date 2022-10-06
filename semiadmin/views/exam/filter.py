@@ -16,6 +16,8 @@ import io
 import mimetypes
 import os
 from collections import defaultdict
+# from openpyxl import Workbook, load_workbook
+from xlwt import Workbook
 
 
 class PromotionFilter(View):
@@ -331,6 +333,114 @@ class GetGradeRemark(View):
 		return remark
 
 
+class MarkJson(View):
+	def get(self, request):
+		exam_id = request.GET.get('exam_id')
+		class_id = request.GET.get('class_id')
+		section_id = request.GET.get('section_id')
+		subject_id = request.GET.get('subject_id')
+		session_id = request.GET.get('session_id')
+		html = ''
+		try:
+			exam = student_model.Exam.objects.filter(pk=exam_id).first()
+		except:
+			return HttpResponse(html)
+		else:
+			if exam:
+				pass
+			else:
+				return HttpResponse(html)
+
+		class_room = student_model.Class.objects.filter(the_class=class_id, the_section=section_id).first()
+		subject = student_model.Subject.objects.filter(name=subject_id).first()
+		session = semiadmin_model.Session.objects.filter(pk=session_id).first()
+		mark_sheet_format = semiadmin_model.MarkSheetFormat.objects.filter(category=class_id[:-1], session=session).first()
+		students = student_model.Student.objects.filter(student_class_room=class_room).all()
+
+		students_pk = student_model.Student.objects.filter(student_class_room=class_room).values_list('pk')
+		students_pk = [i[0] for i in students_pk]
+		# try:
+		format_values = self.formart_of_values(mark_sheet_format.mark_format, class_room, exam)
+		marks_list = []
+
+		for student in students:
+			mark = semiadmin_model.Mark.objects.filter(exam=exam, class_room=class_room, subject=subject,
+				mark_sheet_format=mark_sheet_format, student=student).values_list(*format_values).first()
+			if mark:
+				fnd = list(mark)
+				fnd.insert(0, student.name)
+				marks_list.append(fnd)
+			else:
+				marks_list.append(self.empties_in_list(len(format_values), student.name))
+
+		if class_room.the_class.the_class.lower() == 'ss2' and exam.exam_term.lower() == 'second':
+			mark_sheet = ['Test (30)', 'Examination (70)']
+
+		elif class_room.the_class.the_class.lower() in {'ss3', 'jss3', 'js3'} and exam.exam_term.lower() == 'third':
+			mark_sheet = ['Examination (100)']
+
+		else:
+			if mark_sheet_format.mark_format == 'five_column_format':
+				mark_sheet = ['Resumption test (10)', 'Midterm** test (10)', 'Project** (10)', 'Assignment (10)', 'Examination (60)']
+
+			elif mark_sheet_format.mark_format == 'four_column_format':
+				mark_sheet = ['Resumption test (10)', 'Midterm** test (10)', 'Project** (10)', 'Examination (70)']
+
+			elif mark_sheet_format.mark_format == 'three_column_format':
+				mark_sheet = ['Resumption test (15)', 'Midterm** test (15)', 'Examination (70)']
+
+			elif mark_sheet_format.mark_format == 'two_column_format':
+				mark_sheet = ['Test (30)', 'Examination (70)']
+
+
+
+		theads = ['Student name', *mark_sheet]
+
+		book = Workbook(encoding='utf-8')
+		sheet = book.add_sheet('User data')
+		row = 0
+		for col in range(len(theads)):
+			sheet.write(row, col, theads[col])
+
+		for i, line in enumerate(marks_list):
+			for j, ms in enumerate(line):
+				sheet.write(i+1, j, marks_list[i][j])
+
+		response = HttpResponse(content_type='application/ms-excel')
+		response['Content-Disposition'] = 'attachment; filename="student_mark_excel.xls"'
+		book.save(response)
+		return response
+
+
+	def formart_of_values(self, mark_format, class_room, exam):
+		if class_room.the_class.the_class.lower() == 'ss2' and exam.exam_term.lower() == 'second':
+			mark_sheet = ['test30', 'exam70']
+
+		elif class_room.the_class.the_class.lower() in {'ss3', 'jss3', 'js3'} and exam.exam_term.lower() == 'third':
+			mark_sheet = ['exam100']
+
+		else:
+			if mark_format == 'five_column_format':
+				mark_sheet = ['resumption_test10', 'mid_test10', 'project10', 'assignment10', 'exam60']
+
+			elif mark_format == 'four_column_format':
+				mark_sheet = ['resumption_test10', 'mid_test10', 'project10', 'exam70']
+
+			elif mark_format == 'three_column_format':
+				mark_sheet = ['resumption_test15', 'mid_test15', 'exam70']
+
+			elif mark_format == 'two_column_format':
+				mark_sheet = ['test30', 'exam70']
+
+		return mark_sheet
+
+	def empties_in_list(self, num, insert_before=None):
+		return [insert_before, *['']*num]
+
+
+
+
+
 class MarkFilter(View):
 	def post(self, request):
 		exam_id = request.POST.get('exam')
@@ -338,6 +448,7 @@ class MarkFilter(View):
 		section_id = request.POST.get('section_id')
 		subject_id = request.POST.get('subject')
 		session_id = request.POST.get('session')
+
 		html = """
 			<div class="col-md-12 text-center">
 			    <div class="alert alert-danger" role="alert">
@@ -364,61 +475,59 @@ class MarkFilter(View):
 
 		students_pk = student_model.Student.objects.filter(student_class_room=class_room).values_list('pk')
 		students_pk = [i[0] for i in students_pk]
-		# try:
-		format_values = self.formart_of_values(mark_sheet_format.mark_format, class_room, exam)
-		print(format_values, 'eee'*100)
-		marks_list = []
+		try:
+			format_values = self.formart_of_values(mark_sheet_format.mark_format, class_room, exam)
+			marks_list = []
 
-		for student in students:
-			mark = semiadmin_model.Mark.objects.filter(exam=exam, class_room=class_room, subject=subject,
-				mark_sheet_format=mark_sheet_format, student=student).values_list(*format_values).first()
-			if mark:
-				fnd = list(mark)
-				fnd.insert(0, student)
-				marks_list.append(fnd+self.calc(mark))
-			else:
-				marks_list.append(self.empties_in_list(len(format_values), student))
+			for student in students:
+				mark = semiadmin_model.Mark.objects.filter(exam=exam, class_room=class_room, subject=subject,
+					mark_sheet_format=mark_sheet_format, student=student).values_list(*format_values).first()
+				if mark:
+					fnd = list(mark)
+					fnd.insert(0, student)
+					marks_list.append(fnd+self.calc(mark))
+				else:
+					marks_list.append(self.empties_in_list(len(format_values), student))
 
-		if class_room.the_class.the_class.lower() == 'ss2' and exam.exam_term.lower() == 'second':
-			mark_sheet = ['Test (30)', 'Examination (70)']
-
-		elif class_room.the_class.the_class.lower() in {'ss3', 'jss3', 'js3'} and exam.exam_term.lower() == 'third':
-			mark_sheet = ['Examination (100)']
-
-		else:
-			if mark_sheet_format.mark_format == 'five_column_format':
-				mark_sheet = ['Resumption test (10)', 'Midterm** test (10)', 'Project** (10)', 'Assignment (10)', 'Examination (60)']
-
-			elif mark_sheet_format.mark_format == 'four_column_format':
-				mark_sheet = ['Resumption test (10)', 'Midterm** test (10)', 'Project** (10)', 'Examination (70)']
-
-			elif mark_sheet_format.mark_format == 'three_column_format':
-				mark_sheet = ['Resumption test (15)', 'Midterm** test (15)', 'Examination (70)']
-
-			elif mark_sheet_format.mark_format == 'two_column_format':
+			if class_room.the_class.the_class.lower() == 'ss2' and exam.exam_term.lower() == 'second':
 				mark_sheet = ['Test (30)', 'Examination (70)']
 
+			elif class_room.the_class.the_class.lower() in {'ss3', 'jss3', 'js3'} and exam.exam_term.lower() == 'third':
+				mark_sheet = ['Examination (100)']
+
+			else:
+				if mark_sheet_format.mark_format == 'five_column_format':
+					mark_sheet = ['Resumption test (10)', 'Midterm** test (10)', 'Project** (10)', 'Assignment (10)', 'Examination (60)']
+
+				elif mark_sheet_format.mark_format == 'four_column_format':
+					mark_sheet = ['Resumption test (10)', 'Midterm** test (10)', 'Project** (10)', 'Examination (70)']
+
+				elif mark_sheet_format.mark_format == 'three_column_format':
+					mark_sheet = ['Resumption test (15)', 'Midterm** test (15)', 'Examination (70)']
+
+				elif mark_sheet_format.mark_format == 'two_column_format':
+					mark_sheet = ['Test (30)', 'Examination (70)']
 
 
-		theads = ['Student name', *mark_sheet, 'Total score', 'Grade point', 'Comment', 'Action']
+
+			theads = ['Student name', *mark_sheet, 'Total score', 'Grade point', 'Comment', 'Action']
 
 
-
-		tbodys = ''
-		html = render(request, self.template(len(format_values)), {'tbodys':tbodys, 'theads': theads, 
-			'the_format': mark_sheet_format.mark_format, 'the_class': class_id, 'the_section': section_id,
-			'subject': subject.name, 'exam': exam, 'exam_year_slash': exam.exam_session.session.replace('-', '/'),
-			'marks_list': marks_list
-			})
-		# except:
-		# 	html = """
-		# 	<div class="col-md-12 text-center">
-		# 	    <div class="alert alert-danger" role="alert">
-		# 			<h4 class="alert-heading">No Mark Format!</h4>
-		# 			<hr>
-		# 			<p class="mb-0">Sorry you have to create mark format <br>In settings.</p>
-		# 	    </div>
-		# 	</div>"""
+			tbodys = ''
+			html = render(request, self.template(len(format_values)), {'tbodys':tbodys, 'theads': theads, 
+				'the_format': mark_sheet_format.mark_format, 'the_class': class_id, 'the_section': section_id,
+				'subject': subject.name, 'exam': exam, 'exam_year_slash': exam.exam_session.session.replace('-', '/'),
+				'marks_list': marks_list
+				})
+		except:
+			html = """
+			<div class="col-md-12 text-center">
+			    <div class="alert alert-danger" role="alert">
+					<h4 class="alert-heading">No Mark Format!</h4>
+					<hr>
+					<p class="mb-0">Sorry you have to create mark format <br>In settings.</p>
+			    </div>
+			</div>"""
 		return HttpResponse(html)
 
 	def template(self, num_of_col):
