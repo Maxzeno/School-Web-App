@@ -22,19 +22,19 @@
 
 
 
-import xlrd
-book = xlrd.open_workbook("excel.xlsx")
+# import xlrd
+# book = xlrd.open_workbook("excel.xlsx")
 
-sh = book.sheet_by_index(0)
+# sh = book.sheet_by_index(0)
 
-# Iterate through rows, returning each as a list that you can index:
-for rownum in range(sh.nrows):
-    print(sh.row_values(rownum))
+# # Iterate through rows, returning each as a list that you can index:
+# for rownum in range(sh.nrows):
+#     print(sh.row_values(rownum))
 
-print('\n emmm \n')
-# If you just want the first column:
-first_column = sh.row_values(0)
-print(first_column)
+# print('\n emmm \n')
+# # If you just want the first column:
+# first_column = sh.row_values(0)
+# print(first_column)
 
 
 # print(dir(book))
@@ -53,13 +53,15 @@ print(first_column)
 
 
 
-# from openpyxl import Workbook, load_workbook
+from openpyxl import Workbook, load_workbook
 
-# book = Workbook('excel.xlsx')
-# sheet = book.active
+book = load_workbook('student_mark_excel sheet.xlsx')
+sheet = book.active
 
-# for i in sheet.values:
-# 	print(i)
+print(next(sheet.values))
+
+for i in sheet.values:
+	print(i)
 
 # book = Workbook()
 # sheet = book.active

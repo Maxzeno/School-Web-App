@@ -339,6 +339,41 @@ class Mark(models.Model):
 
 		return grade
 
+
+	def get_grade_remark(self):
+		remark = None
+		total_mark = self.total_mark()
+		
+		if total_mark >= 80:
+			remark = 'EXCELLENT'
+
+		elif total_mark >= 75:
+			remark = 'VERY GOOD'
+
+		elif total_mark >= 70:
+			remark = 'GOOD'
+
+		elif total_mark >= 65:
+			remark = 'UPPER CREDIT'
+
+		elif total_mark >= 60:
+			remark = 'CREDIT'
+
+		elif total_mark >= 50:
+			remark = 'LOWER CREDIT'
+
+		elif total_mark >= 45:
+			remark = 'PASS'
+
+		elif total_mark >= 40:
+			remark = 'PASS'
+
+		else:
+			remark = 'FAIL'
+
+		return remark
+
+
 	def __str__(self):
 		return f"{self.exam.exam_session.session} {self.exam.exam_term} {self.class_room.the_class} {self.total_mark()}"
 

@@ -12,7 +12,7 @@
 <div class="m-3 text-center">
   <a href="/portal/admin/exam/filter/mark_json?session_id={{ exam.exam_session.pk }}&class_id={{ the_class }}&section_id={{ the_section }}&subject_id={{ subject }}&exam_id={{ exam.pk }}" 
   class="btn btn-dark" download>Download excel</a>
-  <button class="btn btn-dark">Upload excel</button>
+  <button class="btn btn-dark" onclick="rightModal('/portal/admin/exam/filter/mark_excel_create?session_id={{ exam.exam_session.pk }}&class_id={{ the_class }}&section_id={{ the_section }}&subject_id={{ subject }}&exam_id={{ exam.pk }}', 'Upload Excel')">Upload excel</button>
 </div>
 
 

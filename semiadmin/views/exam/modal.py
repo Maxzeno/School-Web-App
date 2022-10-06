@@ -9,14 +9,14 @@ from ... import models as semiadmin_model
 from ...utils import DEFAULT_IMAGE_THE_URL
 from utils.html import HTML
 from utils import help as help_tool
-
+from .filter import GetGradeRemark
 import csv
 import io
 import mimetypes
 import os
 import datetime
 from datetime import date
-import xlrd
+import openpyxl
 import xlrd
 
 """  MarkExcel SECTION """
@@ -45,32 +45,71 @@ class MarkExcelCreate(View):
 		subject_id = request.POST.get('subject_id')
 		session_id = request.POST.get('session_id')
 
-		class_room = student_model.Class.objects.filter(the_class=class_id, the_section=section_id).first()
-		subject = student_model.Subject.objects.filter(name=subject_id).first()
-		exam = student_model.Exam.objects.filter(pk=exam_id).first()
+		try:
+			class_room = student_model.Class.objects.filter(the_class=class_id, the_section=section_id).first()
+			subject = student_model.Subject.objects.filter(name=subject_id).first()
+			exam = student_model.Exam.objects.filter(pk=exam_id).first()
+			mark_sheet_format = semiadmin_model.MarkSheetFormat.objects.filter(category=class_id[:-1], session=session_id).first()
 
-		excel_file = request.FILES["excel_file"]
-		book = xlrd.open_workbook(excel_file.name, file_contents=excel_file.read())
+			excel_file = request.FILES["excel_file"]
 
-		if excel_file:
-			sh = book.sheet_by_index(0)
+			try:
+				book = xlrd.open_workbook(excel_file.name, file_contents=excel_file.read())
 
-			# Iterate through rows, returning each as a list that you can index:
-			first_row = sh.row_values(0)
-			head = self.map_head(first_row[1:])
+				if excel_file:
+					sh = book.sheet_by_index(0)
 
-			for rownum in range(1, sh.nrows):
-				student_data = sh.row_values(rownum)
-				update_data = self.wrap(head, student_data[1:])
-				if update_data:
-					student = student_model.Student.objects.filter(name=student_data[0]).first()
-					semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
-					.update(**update_data)
+					# Iterate through rows, returning each as a list that you can index:
+					first_row = sh.row_values(0)
+					head, head_valid_len = self.map_head(first_row[1:])
 
-		return JsonResponse({"status":True,"notification": "Marked Successfully"})
+					for rownum in range(1, sh.nrows):
+						student_data = sh.row_values(rownum)
+						update_data = self.wrap(head, student_data[1:])
+						if update_data:
+							student = student_model.Student.objects.filter(name=student_data[0]).first()
+							semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
+							.update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject, 
+								'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
+									self.total(student_data[1:]))}, **update_data)
+
+			except:
+				book = openpyxl.load_workbook(excel_file)
+				sheet = book.active
+
+				val = list(sheet.values)
+				first_row = val[0]
+				head, head_valid_len = self.map_head(first_row[1:])
+
+				for student_data in val[1:]:
+					update_data = self.wrap(head, student_data[1:])
+					if update_data:
+						student = student_model.Student.objects.filter(name=student_data[0]).first()
+						semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
+						.update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject,
+								'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
+									self.total(student_data[1:]))}, **update_data)
+
+
+			return JsonResponse({"status": True, "notification": "Marked Successfully"})
+		except:
+			return JsonResponse({"status": False, "notification": "Either excel didn't match student format or something is empty"})
+
+
+	def total(self, arr):
+		summer = 0
+		for i in arr:
+			try:
+				summer += float(i)
+			except:
+				continue
+		return summer
+
 
 	def map_head(self, head):
 		len_head = len(head)
+		# if head[-2].lower() == 'optional':
+		# 	len_head-2
 
 		if len_head == 5:
 			mark_sheet = ['resumption_test10', 'mid_test10', 'project10', 'assignment10', 'exam60']
@@ -87,11 +126,12 @@ class MarkExcelCreate(View):
 		elif len_head == 1:
 			mark_sheet = ['exam100']
 
-		return mark_sheet
+		return mark_sheet, len_head
 
 
 	def wrap(self, a, b):
 		new = {}
+		print(a, b)
 		for i in range(len(a)):
 			if b[i]:
 				new[a[i]] = b[i]
