@@ -31,13 +31,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = SecretData.SECRET_KEY
 
 # WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # This makes the app to use local db eg sqlite instead of production postgresql created by me
 DEV_MODE_SET_ = True
 
 # Upload local create be me
-TRY_LOCAL_ = True
+TRY_LOCAL_ = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cdsse.herokuapp.com']
 
