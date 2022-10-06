@@ -18,7 +18,7 @@ except ImportError:
         DATABASE = {} 
         CLOUDINARY_STORAGE = {}
         EMAIL = {}
-        SECRET_KEY = ''
+        SECRET_KEY = 'nbcsnmcsmnscmnsmnsmnsdmnsdnmm2j23'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -37,7 +37,7 @@ DEBUG = False
 DEV_MODE_SET_ = True
 
 # Upload local create be me
-TRY_LOCAL_ = False
+TRY_LOCAL_ = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cdsse.herokuapp.com']
 
