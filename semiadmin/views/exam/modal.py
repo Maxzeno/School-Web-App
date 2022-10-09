@@ -76,20 +76,23 @@ class MarkExcelCreate(View):
 		# except:
 		# book = openpyxl.load_workbook(excel_file)
 		# sheet = book.active
-		print(dir(excel_file))
+		########################
+
 		sheet = help_tool.read_excel(excel_file.read())
 		val = list(sheet)
+		print(val)
+		print(val)
 		first_row = val[0]
-		head, head_valid_len = self.map_head(first_row[1:])
+		head, head_valid_len = self.map_head(first_row[2:])
 
 		for student_data in val[1:]:
-			update_data = self.wrap(head, student_data[1:])
+			update_data = self.wrap(head, student_data[2:])
 			if update_data:
-				student = student_model.Student.objects.filter(name=student_data[0]).first()
+				student = student_model.Student.objects.filter(pk=student_data[1]).first()
 				semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
 				.update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject,
 						'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
-							self.total(student_data[1:]))}, **update_data)
+							self.total(student_data[2:]))}, **update_data)
 
 
 		return JsonResponse({"status": True, "notification": "Marked Successfully"})
@@ -132,7 +135,6 @@ class MarkExcelCreate(View):
 
 	def wrap(self, a, b):
 		new = {}
-		print(a, b)
 		for i in range(len(a)):
 			if b[i]:
 				new[a[i]] = b[i]

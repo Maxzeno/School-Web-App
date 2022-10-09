@@ -18,14 +18,11 @@ def read_excel(path: str, sheet: str=None):
 		book = pl.readxl(path)
 		sheet = book.ws(sheet or book.ws_names[0])
 		gen = sheet.rows
-		print(next(gen))
-		print(next(gen))
 		return gen
 	except:
 		book = load_workbook(filename=path)
 		sheet = book.active
 		gen = sheet.values
-		print(list(gen))
 		return gen
 
 

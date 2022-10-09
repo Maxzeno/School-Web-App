@@ -370,6 +370,7 @@ class MarkJson(View):
 			if mark:
 				fnd = list(mark)
 				fnd.insert(0, student.name)
+				fnd.insert(1, student.pk)
 				marks_list.append(fnd)
 			else:
 				marks_list.append(self.empties_in_list(len(format_values), student.name))
@@ -395,7 +396,7 @@ class MarkJson(View):
 
 
 
-		theads = ['Student name', *mark_sheet]
+		theads = ['Student name', 'Student id', *mark_sheet]
 
 		# book = Workbook(encoding='utf-8')
 		# sheet = book.add_sheet('User data')
@@ -416,7 +417,7 @@ class MarkJson(View):
 
 		marks_list.insert(0, theads)
 		print(marks_list)
-		return ExcelResponse(marks_list, 'ssss')
+		return ExcelResponse(marks_list, 'student_result_data')
 
 		# name = 'aaaa.xlsx'
 		# help_tools.write_excel(name, marks_list)
