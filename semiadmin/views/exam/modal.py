@@ -16,8 +16,8 @@ import mimetypes
 import os
 import datetime
 from datetime import date
-import openpyxl
-import xlrd
+# import openpyxl
+# import xlrd
 
 """  MarkExcel SECTION """
 
