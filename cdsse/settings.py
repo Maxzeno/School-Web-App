@@ -48,7 +48,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = SecretData.SECRET_KEY
 
 # WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # This makes the app to use local db eg sqlite instead of production postgresql created by me
 DEV_MODE_SET_ = True

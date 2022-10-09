@@ -17,16 +17,18 @@ def read_excel(path: str, sheet: str=None):
 	try:
 		book = pl.readxl(path)
 		sheet = book.ws(sheet or book.ws_names[0])
-		print(next(sheet.rows))
-		return sheet.rows
+		gen = sheet.rows
+		print(next(gen))
+		print(next(gen))
+		return gen
 	except:
 		book = load_workbook(filename=path)
 		sheet = book.active
-		sheet = sheet.values
-		print(next(sheet))
-		return sheet
+		gen = sheet.values
+		print(list(gen))
+		return gen
 
-		
+
 def write_excel(name: str, data: dict, sheet: str='sheet 1') -> bool:
 	""" data = {'A1': {'v':10,'f':'','s':'', 'c': ''}, 'A2': {'v':20,'f':'','s':'', 'c': ''}} """
 	def format_data(data):

@@ -412,14 +412,9 @@ class MarkJson(View):
 		# print(response)
 		# book.save(response)
 		# return response
-
+ 
 
 		marks_list.insert(0, theads)
-		# marks_list = [
-		# 	['aaa', 'bbb'],
-		# 	[2, 3],
-		# 	[9, 8]
-		# ]
 		print(marks_list)
 		return ExcelResponse(marks_list, 'ssss')
 
@@ -430,8 +425,8 @@ class MarkJson(View):
 		# print([i for i in help_tools.read_excel(name)])
 		# print([i for i in help_tools.read_excel(name)])
 
-		# response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-		# # response = HttpResponse(content_type='application/ms-excel')
+		#### response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+		# response = HttpResponse(content_type='application/ms-excel')
 
 		# response['Content-Disposition'] = f'attachment; filename="{name}"'
 		
