@@ -15,9 +15,26 @@ try:
     from .secret_data import SecretData # this is were i set important keys
 except ImportError:
     class SecretData:
-        DATABASE = {} 
-        CLOUDINARY_STORAGE = {}
-        EMAIL = {}
+        DATABASE = {
+            'ENGINE': '',
+            'NAME': '',
+            'HOST': '',
+            'PORT': '',
+            'USER': '',
+            'PASSWORD': '',
+        }
+
+        CLOUDINARY_STORAGE = {
+            'CLOUD_NAME': '',
+            'API_KEY': '',
+            'API_SECRET': ''
+        }
+
+        EMAIL = {
+            'EMAIL_HOST_USER': '',
+            'EMAIL_HOST_PASSWORD': ''
+        }
+
         SECRET_KEY = 'nbcsnmcsmnscmnsmnsmnsdmnsdnmm2j23'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -31,7 +48,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = SecretData.SECRET_KEY
 
 # WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # This makes the app to use local db eg sqlite instead of production postgresql created by me
 DEV_MODE_SET_ = True
@@ -52,6 +69,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'excel_response',
     'adminuser',
     'semiadmin',
     'main',

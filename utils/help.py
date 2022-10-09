@@ -6,6 +6,52 @@ from management import models as user_model
 from student import models as student_model
 from teacher import models as teacher_model
 from semiadmin import models as semiadmin_model
+import pylightxl as pl
+from openpyxl import Workbook, load_workbook
+from io import BytesIO
+
+
+def read_excel(path: str, sheet: str=None):
+	""" Return 2D array -- inform of Generator"""
+	path = BytesIO(path)
+	try:
+		book = pl.readxl(path)
+		sheet = book.ws(sheet or book.ws_names[0])
+		print(next(sheet.rows))
+		return sheet.rows
+	except:
+		book = load_workbook(filename=path)
+		sheet = book.active
+		sheet = sheet.values
+		print(next(sheet))
+		return sheet
+
+		
+def write_excel(name: str, data: dict, sheet: str='sheet 1') -> bool:
+	""" data = {'A1': {'v':10,'f':'','s':'', 'c': ''}, 'A2': {'v':20,'f':'','s':'', 'c': ''}} """
+	def format_data(data):
+		# formated_data1 = {}
+		# for c, line in enumerate(data, 65):
+		# 	for i, val in enumerate(line, 1):
+		# 		formated_data1[f'{chr(c)}{i}'] = {'v': line[i-1],'f': '','s': '', 'c': ''}
+		# print(formated_data1)
+		# return formated_data1
+
+		formated_data = {}
+		A = 65
+		for i in range(A, A+len(data[0])):
+			for index, arr in enumerate(data, 1):
+				formated_data[f'{chr(i)}{index}'] = {'v': arr[i-A],'f': '','s': '', 'c': ''}
+		print(formated_data)
+		return formated_data
+
+	# try:
+	db = pl.Database()
+	db.add_ws(sheet, format_data(data))
+	res = pl.writexl(db, name)
+	return True
+	# except:
+	# 	return False
 
 
 def subject_perm(request, the_exact_class, subject):

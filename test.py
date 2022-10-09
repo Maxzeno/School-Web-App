@@ -1,3 +1,87 @@
+import pylightxl as pl
+
+def write_excel(name: str, data: dict, sheet: str='sheet 1') -> bool:
+	""" data = {'A1': {'v':10,'f':'','s':'', 'c': ''}, 'A2': {'v':20,'f':'','s':'', 'c': ''}} """
+	def format_data(data):
+		# formated_data1 = {}
+		# for c, line in enumerate(data, 65):
+		# 	for i, val in enumerate(line, 1):
+		# 		formated_data1[f'{chr(c)}{i}'] = {'v': line[i-1],'f': '','s': '', 'c': ''}
+		# # print(formated_data1)
+
+		formated_data = {}
+		A = 65
+		for i in range(A, A+len(data[0])):
+			for index, arr in enumerate(data, 1):
+				formated_data[f'{chr(i)}{index}'] = {'v': arr[i-A],'f': '','s': '', 'c': ''}
+		return formated_data
+
+	# try:
+	db = pl.Database()
+	db.add_ws(sheet, format_data(data))
+	res = pl.writexl(db, name)
+	return True
+	# except:
+	# 	return False
+
+def read_excel(path: str, sheet: str=None):
+	""" Return 2D array -- inform of Generator"""
+	book = pl.readxl(path)
+	sheet = book.ws(sheet or book.ws_names[0])
+	return sheet.rows
+
+# from random import randint
+# # data = {}
+# # for c in range(65, 65+10):
+# # 	for i in range(1, 11):
+# # 		data[f'{chr(c)}{i}'] = {'v': ''.join([chr(randint(65, 65+26)) for i in range(randint(2, 10))]),'f': '','s': '', 'c': ''}
+
+# ## data = {'A1': {'v':5,'f':'','s':'', 'c': ''}, 'A2': {'v':20,'f':'','s':'', 'c': ''}}
+# data = [[2,3,4], [4,5,6], [5,6,7], [1,1,1]]
+
+name = 'ssss (1).xlsx'
+# # write_excel(name, data)
+
+# print([i for i in read_excel(name)])
+
+
+
+
+
+
+
+# import pyexcel as pe
+
+# data = {'sheet 1': [[2,4,5], [4,5,6]]}
+
+
+# data = pe.iget_records(file_name='grades.xlsx')
+# # help(pe.get_records)
+# print([i for i in data])
+
+# # # book = pe.Book()
+# # # print(dir(pe))
+
+
+
+
+
+
+
+
+
+# import xls2xlsx as xl 
+
+# xls = xl('student_mark_excel.xls')
+# xlsx = xls.to_xlsx()
+# print(xlsx)
+
+
+
+
+
+
+
 
 # import excel21jsonapi
 
@@ -55,7 +139,7 @@
 
 from openpyxl import Workbook, load_workbook
 
-book = load_workbook('student_mark_excel sheet.xlsx')
+book = load_workbook(name)
 sheet = book.active
 
 print(next(sheet.values))
@@ -175,6 +259,11 @@ for i in sheet.values:
 # f.read('A') # read 'A' row
 # f.read(1) # f.read('1'), read '1' column
 # f.read('A5') # read 'A5' position
+
+
+
+
+
 
 
 

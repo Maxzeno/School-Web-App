@@ -45,55 +45,56 @@ class MarkExcelCreate(View):
 		subject_id = request.POST.get('subject_id')
 		session_id = request.POST.get('session_id')
 
-		try:
-			class_room = student_model.Class.objects.filter(the_class=class_id, the_section=section_id).first()
-			subject = student_model.Subject.objects.filter(name=subject_id).first()
-			exam = student_model.Exam.objects.filter(pk=exam_id).first()
-			mark_sheet_format = semiadmin_model.MarkSheetFormat.objects.filter(category=class_id[:-1], session=session_id).first()
+		# try:
+		class_room = student_model.Class.objects.filter(the_class=class_id, the_section=section_id).first()
+		subject = student_model.Subject.objects.filter(name=subject_id).first()
+		exam = student_model.Exam.objects.filter(pk=exam_id).first()
+		mark_sheet_format = semiadmin_model.MarkSheetFormat.objects.filter(category=class_id[:-1], session=session_id).first()
 
-			excel_file = request.FILES["excel_file"]
+		excel_file = request.FILES["excel_file"]
 
-			try:
-				book = xlrd.open_workbook(excel_file.name, file_contents=excel_file.read())
+		# try:
+		# 	book = xlrd.open_workbook(excel_file.name, file_contents=excel_file.read())
 
-				if excel_file:
-					sh = book.sheet_by_index(0)
+		# 	if excel_file:
+		# 		sh = book.sheet_by_index(0)
 
-					# Iterate through rows, returning each as a list that you can index:
-					first_row = sh.row_values(0)
-					head, head_valid_len = self.map_head(first_row[1:])
+		# 		# Iterate through rows, returning each as a list that you can index:
+		# 		first_row = sh.row_values(0)
+		# 		head, head_valid_len = self.map_head(first_row[1:])
 
-					for rownum in range(1, sh.nrows):
-						student_data = sh.row_values(rownum)
-						update_data = self.wrap(head, student_data[1:])
-						if update_data:
-							student = student_model.Student.objects.filter(name=student_data[0]).first()
-							semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
-							.update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject, 
-								'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
-									self.total(student_data[1:]))}, **update_data)
+		# 		for rownum in range(1, sh.nrows):
+		# 			student_data = sh.row_values(rownum)
+		# 			update_data = self.wrap(head, student_data[1:])
+		# 			if update_data:
+		# 				student = student_model.Student.objects.filter(name=student_data[0]).first()
+		# 				semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
+		# 				.update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject, 
+		# 					'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
+		# 						self.total(student_data[1:]))}, **update_data)
 
-			except:
-				book = openpyxl.load_workbook(excel_file)
-				sheet = book.active
+		# except:
+		# book = openpyxl.load_workbook(excel_file)
+		# sheet = book.active
+		print(dir(excel_file))
+		sheet = help_tool.read_excel(excel_file.read())
+		val = list(sheet)
+		first_row = val[0]
+		head, head_valid_len = self.map_head(first_row[1:])
 
-				val = list(sheet.values)
-				first_row = val[0]
-				head, head_valid_len = self.map_head(first_row[1:])
-
-				for student_data in val[1:]:
-					update_data = self.wrap(head, student_data[1:])
-					if update_data:
-						student = student_model.Student.objects.filter(name=student_data[0]).first()
-						semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
-						.update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject,
-								'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
-									self.total(student_data[1:]))}, **update_data)
+		for student_data in val[1:]:
+			update_data = self.wrap(head, student_data[1:])
+			if update_data:
+				student = student_model.Student.objects.filter(name=student_data[0]).first()
+				semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
+				.update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject,
+						'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
+							self.total(student_data[1:]))}, **update_data)
 
 
-			return JsonResponse({"status": True, "notification": "Marked Successfully"})
-		except:
-			return JsonResponse({"status": False, "notification": "Either excel didn't match student format or something is empty"})
+		return JsonResponse({"status": True, "notification": "Marked Successfully"})
+		# except:
+		# 	return JsonResponse({"status": False, "notification": "Either excel didn't match student format or something is empty"})
 
 
 	def total(self, arr):

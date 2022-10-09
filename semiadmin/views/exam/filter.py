@@ -18,6 +18,7 @@ import os
 from collections import defaultdict
 # from openpyxl import Workbook, load_workbook
 from xlwt import Workbook
+from excel_response import ExcelResponse
 
 
 class PromotionFilter(View):
@@ -396,20 +397,47 @@ class MarkJson(View):
 
 		theads = ['Student name', *mark_sheet]
 
-		book = Workbook(encoding='utf-8')
-		sheet = book.add_sheet('User data')
-		row = 0
-		for col in range(len(theads)):
-			sheet.write(row, col, theads[col])
+		# book = Workbook(encoding='utf-8')
+		# sheet = book.add_sheet('User data')
+		# row = 0
+		# for col in range(len(theads)):
+		# 	sheet.write(row, col, theads[col])
 
-		for i, line in enumerate(marks_list):
-			for j, ms in enumerate(line):
-				sheet.write(i+1, j, marks_list[i][j])
+		# for i, line in enumerate(marks_list):
+		# 	for j, ms in enumerate(line):
+		# 		sheet.write(i+1, j, marks_list[i][j])
 
-		response = HttpResponse(content_type='application/ms-excel')
-		response['Content-Disposition'] = 'attachment; filename="student_mark_excel.xls"'
-		book.save(response)
-		return response
+		# response = HttpResponse(content_type='application/ms-excel')
+		# response['Content-Disposition'] = 'attachment; filename="student_mark_excel.xls"'
+		# print(response)
+		# book.save(response)
+		# return response
+
+
+		marks_list.insert(0, theads)
+		# marks_list = [
+		# 	['aaa', 'bbb'],
+		# 	[2, 3],
+		# 	[9, 8]
+		# ]
+		print(marks_list)
+		return ExcelResponse(marks_list, 'ssss')
+
+		# name = 'aaaa.xlsx'
+		# help_tools.write_excel(name, marks_list)
+
+		# print([i for i in help_tools.read_excel(name)])
+		# print([i for i in help_tools.read_excel(name)])
+		# print([i for i in help_tools.read_excel(name)])
+
+		# response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+		# # response = HttpResponse(content_type='application/ms-excel')
+
+		# response['Content-Disposition'] = f'attachment; filename="{name}"'
+		
+		# return response
+
+		
 
 
 	def formart_of_values(self, mark_format, class_room, exam):
