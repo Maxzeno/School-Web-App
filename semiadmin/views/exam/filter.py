@@ -387,13 +387,13 @@ class MarkJson(View):
 
 		else:
 			if mark_sheet_format.mark_format == 'five_column_format':
-				mark_sheet = ['Resumption test (10)', 'Midterm** test (10)', 'Project** (10)', 'Assignment (10)', 'Examination (60)']
+				mark_sheet = ['Resumption test (10)', 'Midterm test (10)', 'Project (10)', 'Assignment (10)', 'Examination (60)']
 
 			elif mark_sheet_format.mark_format == 'four_column_format':
-				mark_sheet = ['Resumption test (10)', 'Midterm** test (10)', 'Project** (10)', 'Examination (70)']
+				mark_sheet = ['Resumption test (10)', 'Midterm test (10)', 'Project (10)', 'Examination (70)']
 
 			elif mark_sheet_format.mark_format == 'three_column_format':
-				mark_sheet = ['Resumption test (15)', 'Midterm** test (15)', 'Examination (70)']
+				mark_sheet = ['Resumption test (15)', 'Midterm test (15)', 'Examination (70)']
 
 			elif mark_sheet_format.mark_format == 'two_column_format':
 				mark_sheet = ['Test (30)', 'Examination (70)']
