@@ -81,44 +81,27 @@ class MarkExcelCreate(View):
 		sheet = help_tool.read_excel(excel_file.read())
 		val = list(sheet)
 		print(val)
+		# aaaaaaaaaaaaaaaaaaaa
 		first_row = val[0]
-		stop = len(first_row)
-		if first_row[-1] == "dateformat":
-			first_row = val[1][:-2]
-			stop = len(first_row)
-			val = val[1:]
 
 		head, head_valid_len = self.map_head(first_row[2:])
 
 		for student_data in val[1:]:
-			print(student_data[2:stop])
-			update_data = self.wrap(head, student_data[2:stop])
-			print(update_data)
+			update_data = self.wrap(head, student_data[2:])
 			if update_data:
 				student = student_model.Student.objects.filter(pk=student_data[1]).first()
-				print(student)
-				print()
-				print({'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject,
-						'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
-							self.total(student_data[2:stop]))}, update_data)
-				print()
-				print()
-				print(student, '-'*10, exam, '-'*10, class_room,'-'*10, subject)
-				print()
-
-				print(semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject))
 				found = semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)
 				if found:
 					found.update(**update_data)
 				else:
 					semiadmin_model.Mark.objects.create(student=student, exam=exam, class_room=class_room, subject=subject,
 						mark_sheet_format=mark_sheet_format, comment=GetGradeRemark().get_grade_remark(
-							self.total(student_data[2:stop])))
+							self.total(student_data[2:])))
 
 				# semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
 				# .update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject,
 				# 		'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
-				# 			self.total(student_data[2:stop]))}, **update_data)
+				# 			self.total(student_data[2:]))}, **update_data)
 
 		return JsonResponse({"status": True, "notification": "Marked Successfully"})
 		# except:

@@ -20,6 +20,9 @@ from collections import defaultdict
 # from xlwt import Workbook
 from excel_response import ExcelResponse
 
+from openpyxl import Workbook
+from openpyxl.writer.excel import save_virtual_workbook
+
 
 class PromotionFilter(View):
 	def post(self, request):
@@ -398,40 +401,65 @@ class MarkJson(View):
 
 		theads = ['Student name', 'Student id', *mark_sheet]
 
-		# book = Workbook(encoding='utf-8')
-		# sheet = book.add_sheet('User data')
-		# row = 0
-		# for col in range(len(theads)):
-		# 	sheet.write(row, col, theads[col])
+		workbook = Workbook()
+		worksheet = workbook.active
+		worksheet.append(theads)
 
-		# for i, line in enumerate(marks_list):
-		# 	for j, ms in enumerate(line):
-		# 		sheet.write(i+1, j, marks_list[i][j])
+		print(marks_list)
 
-		# response = HttpResponse(content_type='application/ms-excel')
-		# response['Content-Disposition'] = 'attachment; filename="student_mark_excel.xls"'
-		# print(response)
-		# book.save(response)
-		# return response
+		for mark in marks_list:
+			worksheet.append(mark)
+
+		worksheet.column_dimensions['A'].width = 30
+		A = ord('A')
+		for i in range(1, len(theads)): 
+			print(chr(A+i))
+			worksheet.column_dimensions[chr(A+i)].width = 20
+
+		response = HttpResponse(content=save_virtual_workbook(workbook), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+		response['Content-Disposition'] = 'attachment; filename=student_grade_data.xlsx'
+		return response
+
+		# # book = Workbook(encoding='utf-8')
+		# # sheet = book.add_sheet('User data')
+		# # row = 0
+		# # for col in range(len(theads)):
+		# # 	sheet.write(row, col, theads[col])
+
+		# # for i, line in enumerate(marks_list):
+		# # 	for j, ms in enumerate(line):
+		# # 		sheet.write(i+1, j, marks_list[i][j])
+
+		# # response = HttpResponse(content_type='application/ms-excel')
+		# # response['Content-Disposition'] = 'attachment; filename="student_mark_excel.xls"'
+		# # print(response)
+		# # book.save(response)
+		# # return response
  
 
-		marks_list.insert(0, theads)
-		print(marks_list)
-		return ExcelResponse(marks_list, 'student_result_data')
 
-		# name = 'aaaa.xlsx'
-		# help_tools.write_excel(name, marks_list)
 
-		# print([i for i in help_tools.read_excel(name)])
-		# print([i for i in help_tools.read_excel(name)])
-		# print([i for i in help_tools.read_excel(name)])
 
-		#### response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-		# response = HttpResponse(content_type='application/ms-excel')
+		# marks_list.insert(0, theads)
+		# print(marks_list)
+		# return ExcelResponse(marks_list, 'student_result_data')
 
-		# response['Content-Disposition'] = f'attachment; filename="{name}"'
+
+
+
+		# # name = 'aaaa.xlsx'
+		# # help_tools.write_excel(name, marks_list)
+
+		# # print([i for i in help_tools.read_excel(name)])
+		# # print([i for i in help_tools.read_excel(name)])
+		# # print([i for i in help_tools.read_excel(name)])
+
+		# #### response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+		# # response = HttpResponse(content_type='application/ms-excel')
+
+		# # response['Content-Disposition'] = f'attachment; filename="{name}"'
 		
-		# return response
+		# # return response
 
 		
 

@@ -14,16 +14,10 @@ from io import BytesIO
 def read_excel(path: str, sheet: str=None):
 	""" Return 2D array -- inform of Generator"""
 	path = BytesIO(path)
-	try:
-		book = pl.readxl(path)
-		sheet = book.ws(sheet or book.ws_names[0])
-		gen = sheet.rows
-		return gen
-	except:
-		book = load_workbook(filename=path)
-		sheet = book.active
-		gen = sheet.values
-		return gen
+	book = load_workbook(filename=path)
+	sheet = book.active
+	gen = sheet.values
+	return gen
 
 
 def write_excel(name: str, data: dict, sheet: str='sheet 1') -> bool:
