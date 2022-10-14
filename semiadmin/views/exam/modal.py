@@ -93,12 +93,32 @@ class MarkExcelCreate(View):
 		for student_data in val[1:]:
 			print(student_data[2:stop])
 			update_data = self.wrap(head, student_data[2:stop])
+			print(update_data)
 			if update_data:
 				student = student_model.Student.objects.filter(pk=student_data[1]).first()
-				semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
-				.update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject,
+				print(student)
+				print()
+				print({'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject,
 						'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
-							self.total(student_data[2:stop]))}, **update_data)
+							self.total(student_data[2:stop]))}, update_data)
+				print()
+				print()
+				print(student, '-'*10, exam, '-'*10, class_room,'-'*10, subject)
+				print()
+
+				print(semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject))
+				found = semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)
+				if found:
+					found.update(**update_data)
+				else:
+					semiadmin_model.Mark.objects.create(student=student, exam=exam, class_room=class_room, subject=subject,
+						mark_sheet_format=mark_sheet_format, comment=GetGradeRemark().get_grade_remark(
+							self.total(student_data[2:stop])))
+
+				# semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
+				# .update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject,
+				# 		'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
+				# 			self.total(student_data[2:stop]))}, **update_data)
 
 		return JsonResponse({"status": True, "notification": "Marked Successfully"})
 		# except:
