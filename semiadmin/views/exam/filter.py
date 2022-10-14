@@ -376,7 +376,8 @@ class MarkJson(View):
 				fnd.insert(1, student.pk)
 				marks_list.append(fnd)
 			else:
-				marks_list.append(self.empties_in_list(len(format_values), student.name))
+				fnd = self.empties_in_list(len(format_values), [student.name, student.pk])
+				marks_list.append(fnd)
 
 		if class_room.the_class.the_class.lower() == 'ss2' and exam.exam_term.lower() == 'second':
 			mark_sheet = ['Test (30)', 'Examination (70)']
@@ -487,6 +488,8 @@ class MarkJson(View):
 		return mark_sheet
 
 	def empties_in_list(self, num, insert_before=None):
+		if isinstance(insert_before, (list, tuple, set)):
+			return [*insert_before, *['']*num]
 		return [insert_before, *['']*num]
 
 
