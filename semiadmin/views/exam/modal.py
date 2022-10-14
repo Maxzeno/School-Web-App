@@ -81,19 +81,24 @@ class MarkExcelCreate(View):
 		sheet = help_tool.read_excel(excel_file.read())
 		val = list(sheet)
 		print(val)
-		print(val)
 		first_row = val[0]
+		stop = len(first_row)
+		if first_row[-1] == "dateformat":
+			first_row = val[1][:-2]
+			stop = len(first_row)
+			val = val[1:]
+
 		head, head_valid_len = self.map_head(first_row[2:])
 
 		for student_data in val[1:]:
-			update_data = self.wrap(head, student_data[2:])
+			print(student_data[2:stop])
+			update_data = self.wrap(head, student_data[2:stop])
 			if update_data:
 				student = student_model.Student.objects.filter(pk=student_data[1]).first()
 				semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
 				.update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject,
 						'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
-							self.total(student_data[2:]))}, **update_data)
-
+							self.total(student_data[2:stop]))}, **update_data)
 
 		return JsonResponse({"status": True, "notification": "Marked Successfully"})
 		# except:
