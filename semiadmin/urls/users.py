@@ -16,12 +16,13 @@ from ..views import (
     AccountantDelete, AccountantFilter, AccountantEdit, AccountantCreate,
     LibrarianDelete, LibrarianFilter, LibrarianEdit, LibrarianCreate,
     PermissionFilter, PermissionSet, 
-    MarksheetFilter, ResultFilter
+    MarksheetFilter, ResultFilter, ResultBulk,
     )
 
 login_url = '/portal/login/'
 
 other = [
+    path('portal/admin/student/result_bulk/filter/<str:class_id>/<str:section_id>/<int:exam>', semiadmin_required(ResultBulk.as_view(), login_url=login_url), name='result_bulk'),
     path('portal/admin/student/result/filter/<str:id>/<int:exam>', semiadmin_required(ResultFilter.as_view(), login_url=login_url), name='result_filter'),
     path('portal/admin/student/marksheet/filter/<str:id>/<int:session>', semiadmin_required(MarksheetFilter.as_view(), login_url=login_url), name='marksheet_filter'),
     

@@ -136,7 +136,7 @@
 </div>
 
 
-<a onclick="PrintElem('#print')" class="btn btn-warning btn-icon icon-left hidden-print">
+<a onclick="PrintElemDirect('#print')" class="btn btn-warning btn-icon icon-left hidden-print">
         Print
     <i class="entypo-doc-text"></i>
 </a>
@@ -149,6 +149,12 @@ $('document').ready(function(){
 
     function PrintElem(elem)
     {
+        Popup($(elem).html());
+    }
+
+    function PrintElemDirect(elem)
+    {
+        var elem = $(elem);
         Popup($(elem).html());
     }
 

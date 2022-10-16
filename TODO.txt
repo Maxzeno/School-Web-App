@@ -5,24 +5,21 @@ school pass=Command2019.
 
 #### NEEDS COMPLETION
 
-**** I added logical mark formart for ss2 ss3/ jss3 on mark end point it remains marksheet and result
+**** tabulation_sheet_print_view endpoint may have issue have to checkout the original
 
-
-1. i need to work on tabulation sheet bulk and export tabulation sheet etc --- i think export doesn't work and bulk never really loaded  	so i haven't cloned it
+1. i need to work on tabulation sheet bulk and export tabulation sheet etc --- i think export doesn't work and bulk never really loaded so i didn't cloned it
 
 2. http://127.0.0.1:8000/portal/admin/invoice the export eg pdf, print
 
 3. the noticeboard tinycms not working fine --- so i removed it 
    it said not found http://127.0.0.1:8000/static/portal/resources/tinymce/themes/modern/theme.min.js
 
-4. student marksheet chart not showing --- but the the data for it is from the cloned templated i didn't add it dynamically
+4. student marksheet chart not showing --- but the data for it is from the cloned templated i didn't add it dynamically
 
 
 ##### NOT WORKING IN THERE SITE
-** tabulation_sheet_print_view endpoint style not working
-http://127.0.0.1:8000/portal/admin/invoice the export csv
-
+**http://127.0.0.1:8000/portal/admin/invoice the export csv
 
 #### NOTES 
 http://127.0.0.1:8000/portal/admin/invoice the export pdf --- brings on save as in 'windows save file location opens' 
-http://127.0.0.1:8000/portal/admin/invoice the export print --- takes to a page to print but is a pdf page
+http://127.0.0.1:8000/portal/admin/invoice the export print --- takes to a page to print. Is a pdf page

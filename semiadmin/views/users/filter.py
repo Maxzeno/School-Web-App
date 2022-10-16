@@ -18,7 +18,6 @@ import io
 import mimetypes
 import os
 
-# students = student_model.Student.objects.extra()
 
 class ResultFilter(View):
 	def get(self, request, id, exam):
@@ -31,6 +30,10 @@ class ResultFilter(View):
 			return HttpResponse(html)
 
 	def get_annual(self, request, id, exam):
+		html = render(request, 'semiadmin/users/filter/result_annual.html', self.get_annual_heavy(request, id, exam))
+		return html
+
+	def get_annual_heavy(self, request, id, exam):
 		school_setting = semiadmin_model.SchoolSettings.objects.last()
 		the_exam = student_model.Exam.objects.filter(pk=exam).first()
 		student = student_model.Student.objects.filter(pk=id.replace('-', '/')).first()
@@ -84,11 +87,11 @@ class ResultFilter(View):
 		num_subjects = len(mat2d)
 		class_student_avg_total_pos_annual = self.get_class_student_avg_total_pos_annual(student.student_class_room, 
 			exam.exam_session, student, num_subjects)
-		html = render(request, 'semiadmin/users/filter/result_annual.html', {'mat2d': mat2d,
+
+		return {'mat2d': mat2d,
 			'class_student_avg_total_pos_annual': class_student_avg_total_pos_annual,
 			'student_domain': student_domain, 'school_setting': school_setting,
-			'class_count': class_count, 'student': student, 'exam': the_exam, 'codes': self.get_code(the_exam.exam_session, student)})
-		return html
+			'class_count': class_count, 'student': student, 'exam': the_exam, 'codes': self.get_code(the_exam.exam_session, student)}
 
 	def get_code(self, exam_session, student):
 		exams = student_model.Exam.objects.filter(exam_session=exam_session)
@@ -105,8 +108,6 @@ class ResultFilter(View):
 				teacher_code = domain.teacher_code.code_description
 
 		return principal_code, teacher_code
-
-
 
 	def get_domain_annual(self, exam_session, student, num_domain_types=13):
 		exams = student_model.Exam.objects.filter(exam_session=exam_session)
@@ -144,8 +145,6 @@ class ResultFilter(View):
 		for i in range(len(name_domains)):
 			data[name_domains[i]] = new[i]
 		return data
-
-
 
 	def get_class_student_avg_total_pos_annual(self, class_room, exam_session, the_student, num_subjects):
 		students = student_model.Student.objects.filter(student_class_room=class_room)
@@ -255,6 +254,10 @@ class ResultFilter(View):
 
 
 	def get_term(self, request, id, exam):
+		html = render(request, 'semiadmin/users/filter/result_term.html', self.get_term_heavy(request, id, exam))
+		return html
+
+	def get_term_heavy(self, request, id, exam):
 		school_setting = semiadmin_model.SchoolSettings.objects.last()
 
 		exam = student_model.Exam.objects.filter(pk=exam).first()
@@ -338,20 +341,18 @@ class ResultFilter(View):
 				data_keys = ['subject_id', 'test30', 'exam70']
 				theads = ['Subject', 'Test (30)', 'Exam.']
 
-
-
 		marks = student.mark_set.filter(exam=exam).values_list(*data_keys)
 		marks = self.get_tot_grade_term(marks, exam, student)
 
-		html = render(request, 'semiadmin/users/filter/result_term.html', {'marks': marks,
+		return {'marks': marks,
 			'theads': theads, 'student_and_exam': [student,  exam],
 			'school_setting': school_setting, 'student': student, 'exam': exam, 'class_count': class_count,
 			'subject_count': len(marks), 'student_domain': student_domain, 
 			'class_attendance': (attended/attendance)*100 if attendance > 0 else 0,
 			'mark_obtained': mark_obtained, 'mark_obtainable': mark_obtainable, 'student_avg': student_avg,
 			'class_avg': all_total/class_count if class_count > 0 else 0,
-			'pass_or_fail': pass_or_fail, 'class_position': f"{self.pos_th(class_pos.index(mark_obtained)+1)}",})
-		return html
+			'pass_or_fail': pass_or_fail, 'class_position': f"{self.pos_th(class_pos.index(mark_obtained)+1)}"}
+		
 
 	def get_tot_grade_term(self, marks, exam, student):
 		marks = list(marks)
@@ -500,6 +501,32 @@ class ResultFilter(View):
 		return [exam.pk, exam.exam_term.lower(), exam], theads, marks
 
 
+class ResultBulk(ResultFilter):
+	def get(self, request, class_id, section_id, exam):
+		the_exam = student_model.Exam.objects.filter(pk=exam).first()
+		term = the_exam.exam_term.lower()
+		
+		just_class = student_model.JustClass.objects.filter(pk=class_id).first()
+		the_class = student_model.Class.objects.filter(the_class=just_class, the_section=section_id).first()
+
+		students = student_model.Student.objects.filter(student_class_room=the_class)
+		heavy = []
+		for student in students:
+			if term == 'annual':
+				data = self.get_annual_heavy(request, student.pk, exam)
+				heavy.append(data)
+			else:
+				data = self.get_term_heavy(request, student.pk, exam)
+				heavy.append(data)
+		print(heavy)
+
+		if term == 'annual':
+			template = 'result_bulk_annual.html'
+		else:
+			template = 'result_bulk_term.html'
+		html = render(request, f'semiadmin/users/{template}', {'heavy': heavy})
+		return html
+				
 
 class MarksheetFilter(ResultFilter):
 	def get(self, request, id, session):

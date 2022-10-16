@@ -130,7 +130,6 @@ class BookIssue(models.Model):
 		return ''
 	
 	
-
 class Grade(models.Model):
 	grade = models.CharField(max_length=255, blank=True)
 	grade_point = models.CharField(max_length=255, blank=True)

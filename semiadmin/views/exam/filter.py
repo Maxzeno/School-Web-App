@@ -16,9 +16,7 @@ import io
 import mimetypes
 import os
 from collections import defaultdict
-# from openpyxl import Workbook, load_workbook
-# from xlwt import Workbook
-from excel_response import ExcelResponse
+# from excel_response import ExcelResponse
 
 from openpyxl import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
@@ -406,19 +404,16 @@ class MarkJson(View):
 		worksheet = workbook.active
 		worksheet.append(theads)
 
-		print(marks_list)
-
 		for mark in marks_list:
 			worksheet.append(mark)
 
 		worksheet.column_dimensions['A'].width = 30
 		A = ord('A')
 		for i in range(1, len(theads)): 
-			print(chr(A+i))
 			worksheet.column_dimensions[chr(A+i)].width = 20
 
 		response = HttpResponse(content=save_virtual_workbook(workbook), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-		response['Content-Disposition'] = 'attachment; filename=student_grade_data.xlsx'
+		response['Content-Disposition'] = f'attachment; filename={class_id}_{section_id}_{subject_id}.xlsx'
 		return response
 
 		# # book = Workbook(encoding='utf-8')

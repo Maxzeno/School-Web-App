@@ -16,8 +16,6 @@ import mimetypes
 import os
 import datetime
 from datetime import date
-# import openpyxl
-# import xlrd
 
 """  MarkExcel SECTION """
 
@@ -53,59 +51,46 @@ class MarkExcelCreate(View):
 
 		excel_file = request.FILES["excel_file"]
 
-		# try:
-		# 	book = xlrd.open_workbook(excel_file.name, file_contents=excel_file.read())
+		try:
+			sheet = help_tool.read_excel(excel_file.read())
+			val = list(sheet)
+			first_row = val[0]
+			head, head_valid_len = self.map_head(first_row[2:])
 
-		# 	if excel_file:
-		# 		sh = book.sheet_by_index(0)
+			for student_data in val[1:]:
+				update_data = self.wrap(head, student_data[2:])
+				if update_data:
+					student = student_model.Student.objects.filter(pk=student_data[1]).first()
+					found = semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)
+					if found:
+						self.valued_empty_zero(found, update_data, head)
+						found.update(**update_data)
+					else:
+						semiadmin_model.Mark.objects.create(student=student, exam=exam, class_room=class_room, subject=subject,
+							mark_sheet_format=mark_sheet_format, comment=GetGradeRemark().get_grade_remark(
+								self.total(student_data[2:])))
 
-		# 		# Iterate through rows, returning each as a list that you can index:
-		# 		first_row = sh.row_values(0)
-		# 		head, head_valid_len = self.map_head(first_row[1:])
+					# semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
+					# .update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject,
+					# 		'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
+					# 			self.total(student_data[2:]))}, **update_data)
 
-		# 		for rownum in range(1, sh.nrows):
-		# 			student_data = sh.row_values(rownum)
-		# 			update_data = self.wrap(head, student_data[1:])
-		# 			if update_data:
-		# 				student = student_model.Student.objects.filter(name=student_data[0]).first()
-		# 				semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
-		# 				.update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject, 
-		# 					'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
-		# 						self.total(student_data[1:]))}, **update_data)
+			return JsonResponse({"status": True, "notification": "Marked Successfully"})
+		except:
+			return JsonResponse({"status": False, "notification": "Either excel didn't match student format or something is empty"})
 
-		# except:
-		# book = openpyxl.load_workbook(excel_file)
-		# sheet = book.active
-		########################
 
-		sheet = help_tool.read_excel(excel_file.read())
-		val = list(sheet)
-		print(val)
-		# aaaaaaaaaaaaaaaaaaaa
-		first_row = val[0]
-
-		head, head_valid_len = self.map_head(first_row[2:])
-
-		for student_data in val[1:]:
-			update_data = self.wrap(head, student_data[2:])
-			if update_data:
-				student = student_model.Student.objects.filter(pk=student_data[1]).first()
-				found = semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)
-				if found:
-					found.update(**update_data)
-				else:
-					semiadmin_model.Mark.objects.create(student=student, exam=exam, class_room=class_room, subject=subject,
-						mark_sheet_format=mark_sheet_format, comment=GetGradeRemark().get_grade_remark(
-							self.total(student_data[2:])))
-
-				# semiadmin_model.Mark.objects.filter(student=student, exam=exam, class_room=class_room, subject=subject)\
-				# .update_or_create(defaults={'student': student, 'exam': exam, 'class_room': class_room, 'subject': subject,
-				# 		'mark_sheet_format': mark_sheet_format, 'comment': GetGradeRemark().get_grade_remark(
-				# 			self.total(student_data[2:]))}, **update_data)
-
-		return JsonResponse({"status": True, "notification": "Marked Successfully"})
-		# except:
-		# 	return JsonResponse({"status": False, "notification": "Either excel didn't match student format or something is empty"})
+	def valued_empty_zero(self, data, update, mark_sheet_format):
+		""" replaces '' with zero if there was a value there before"""
+		data = data.values()[0]
+		has_to_have_val = {}
+		for mark_sheet in mark_sheet_format:
+			if data[mark_sheet] == '' or data[mark_sheet] == None:
+				pass
+			else:
+				if update.get(mark_sheet) == '' or update.get(mark_sheet) == None:
+					update[mark_sheet] = 0
+		return update
 
 
 	def total(self, arr):
@@ -120,8 +105,6 @@ class MarkExcelCreate(View):
 
 	def map_head(self, head):
 		len_head = len(head)
-		# if head[-2].lower() == 'optional':
-		# 	len_head-2
 
 		if len_head == 5:
 			mark_sheet = ['resumption_test10', 'mid_test10', 'project10', 'assignment10', 'exam60']
