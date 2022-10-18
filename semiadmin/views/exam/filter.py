@@ -87,7 +87,7 @@ class ManageCognitiveDomainScoreFilter(View):
 
 class TabulationSheetFilter(View):
 	extra_context = {}
-	def tot_per_pos_re(self, data, exact_class, index_prime_subjects):
+	def tot_per_pos_re(self, data, exact_class, index_prime_subjects, ret_pass='PASS', ret_fail='FAIL'):
 		row = 0
 		scores = set()
 		while row < len(data):
@@ -107,7 +107,7 @@ class TabulationSheetFilter(View):
 
 		while row < len(data):
 			promote_repeat = help_tools.pass_or_fail(data[row][1:-2], subjects_to_pass, index_prime_subjects=index_prime_subjects, 
-				pass_mark=50, ret_pass='PROMOTE', ret_fail='NOT PROMOTE')
+				pass_mark=50, ret_pass=ret_pass, ret_fail=ret_fail)
 			position = help_tools.pos_th(scores_list.index(data[row][-2])+1)
 			data[row].append(position)
 			data[row].append(promote_repeat)
@@ -162,7 +162,8 @@ class TabulationSheetFilter(View):
 			head_data[1].append(low if low < 101 else 0)
 			head_data[2].append(avg)
 
-		return {'head_table': head_table, 'head_data': head_data, 'data': self.tot_per_pos_re(data, exact_class, index_prime_subjects)}
+		return {'head_table': head_table, 'head_data': head_data, 'data': self.tot_per_pos_re(data, exact_class, index_prime_subjects,
+		 'PROMOTED', 'NOT PROMOTED')}
 
 
 	def post_term(self, request, exam, exact_class):
@@ -232,6 +233,13 @@ class TabulationSheetFilter(View):
 			data = self.post_term(request, exam, exact_class) 
 			marks_obtainable = 100
 
+		print({'class_id':class_id, 
+			'section_id': section_id, 'exam_id': exam_id,
+			'exact_class': exact_class,
+			'data': data, 'marks_obtainable': marks_obtainable,
+			'exam': exam, 'session_slash': exam.exam_session.session.replace('-', '/'),
+			**self.extra_context,
+			})
 
 		html = render(request, f'semiadmin/exam{template_path}', {'class_id':class_id, 
 			'section_id': section_id, 'exam_id': exam_id,
