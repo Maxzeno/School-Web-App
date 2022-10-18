@@ -107,7 +107,7 @@ class TabulationSheetFilter(View):
 
 		while row < len(data):
 			promote_repeat = help_tools.pass_or_fail(data[row][1:-2], subjects_to_pass, index_prime_subjects=index_prime_subjects, 
-				pass_mark=50, ret_pass='PROMOTE', ret_fail='REPEAT')
+				pass_mark=50, ret_pass='PROMOTE', ret_fail='NOT PROMOTE')
 			position = help_tools.pos_th(scores_list.index(data[row][-2])+1)
 			data[row].append(position)
 			data[row].append(promote_repeat)

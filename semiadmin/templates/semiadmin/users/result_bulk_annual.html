@@ -4,87 +4,91 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <script src="./student result_files/jquery.min.js.download"></script>
   <style>
-    #results {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size:11px;
-      border-collapse: collapse;
-      width: 100%;
-    }
+    div.pagebreak {
+            page-break-after: always;
+        }
 
-    #results td, #results th {
-      border: 0px solid #ddd;
-      padding: 1px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size:11px;
-    }
+        #results {
+          font-family: Arial, Helvetica, sans-serif;
+          font-size:11px;
+          border-collapse: collapse;
+          width: 100%;
+        }
 
-    #results tr:nth-child(even){background-color: #fff;}
+        #results td, #results th {
+          border: 0px solid #ddd;
+          padding: 1px;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size:11px;
+        }
 
-    .header_color{background-color: #000; color:#fff; font-weight:bold;}
+        #results tr:nth-child(even){background-color: #fff;}
 
-    #results {border: 3px solid #07a701;}
+        .header_color{background-color: #000; color:#fff; font-weight:bold;}
 
-    #profile {
-      border: 2px solid #07a701;
-    }
+        #results {border: 3px solid #07a701;}
 
-    #profile, #performance_info, #domain_1, #domain_2, #domain_3, #comment, $subject {
-        border-collapse: collapse;
-    }
+        #profile {
+            border: 2px solid #07a701;
+        }
 
-    #profile tr, #profile td, #performance_info tr, #performance_info td, #domain_1 tr, #domain_1 td, #domain_2 tr, #domain_2 td, #domain_3 tr, #domain_3 td, #coment tr, #comment td, #subject tr, #subject td {
-      border: 1px solid #07a701;
-        border-collapse: collapse;
-    }
+        #profile, #performance_info, #domain_1, #domain_2, #domain_3, #comment, $subject {
+            border-collapse: collapse;
+        }
 
-    #coment tr, #comment td {
-      border: 3px solid #07a701;
-      padding:2px;
-    }
+        #profile tr, #profile td, #performance_info tr, #performance_info td, #domain_1 tr, #domain_1 td, #domain_2 tr, #domain_2 td, #domain_3 tr, #domain_3 td, #coment tr, #comment td, #subject tr, #subject td {
+            border: 1px solid #07a701;
+            border-collapse: collapse;
+        }
 
-    #results tr:hover {background-color: #ddd;}
+        #coment tr, #comment td {
+            border: 3px solid #07a701;
+            padding:2px;
+        }
 
-    #results th {
-      padding-top: 0px;
-      padding-bottom: 0px;
-      text-align: left;
-      background-color: #4CAF50;
-      color: white;
-    }
+        #results tr:hover {background-color: #ddd;}
 
-    /*bodyx, htmlx {
-      /* The image used */
-    /*  background-image: url('');
+        #results th {
+          padding-top: 0px;
+          padding-bottom: 0px;
+          text-align: left;
+          background-color: #4CAF50;
+          color: white;
+        }
 
-      /* Full height */
-     /* height: 100%;
+        /*bodyx, htmlx {
+          /* The image used */
+        /*  background-image: url('');
 
-      /* Center and scale the image nicely */
-     /* background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-    */
-    .hero {
-        position: relative; 
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+          /* Full height */
+         /* height: 100%;
 
-    .hero::before {    
-          content: "";
-          background-image: url('https://cdssenugu.org/portal/uploads/system/logo/logo-background.png');
-          background-repeat: repeat;
+          /* Center and scale the image nicely */
+         /* background-position: center;
+          background-repeat: no-repeat;
           background-size: cover;
-          position: absolute;
-          top: -350px;
-          right: 0px;
-          bottom: 0px;
-          left: 0px;
-          opacity: 0.05;
-    }
+        }
+        */
+        .hero {
+            position: relative; 
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero::before {    
+              content: "";
+              background-image: url("{% static 'images/logo-background.png' %}");
+              background-repeat: repeat;
+              background-size: cover;
+              position: absolute;
+              top: -350px;
+              right: 0px;
+              bottom: 0px;
+              left: 0px;
+              opacity: 0.05;
+        }
     </style>
 </head>
 <body>
@@ -302,11 +306,7 @@
 </tbody></table>
 <p>&nbsp;</p>
 </div>
-<br>
-<br>
-<br>
-<br>
-<br>
+<div class="pagebreak"><p>&nbsp;</p></div>
 
 
 {% endfor %}
