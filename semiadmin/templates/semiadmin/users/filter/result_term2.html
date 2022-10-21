@@ -1,0 +1,612 @@
+{% load static replacefilter %}
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="{% static 'portal/assets/backend/bootstrap-4.6.2-dist/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="{% static 'portal/assets/backend/icons-1.5.0/font/bootstrap-icons.css' %}">
+
+  <script src="{% static 'portal/assets/backend/jquery-3.6.1.min.css' %}"></script>
+</head>
+<body style="box-sizing: border-box; margin: 0; padding: 0;">
+<!-- <a href="javascript:void(0)" id="download_report"><button class="btn btn-blue" type="button"> <i class="fa fa-download"></i> PDF</button></a> -->
+<div class="container-fluid p-0 m-0">
+    <div style="display: flex; justify-content: center;">
+        <div style="margin-right: auto;">
+            <img src="https://s3-eu-west-1.amazonaws.com/schooltry.live/school/logo/62306aeb15268165c5258ac6/cdss enugu logo1647372870.png" alt="brand">
+        </div>
+        <div  style="margin-right: auto; text-align: center;">
+            <div style="font-size: 2rem; font-weight: bold; color: rgb(72 174 234); line-height: 1.4em">{{ school_setting.school_name|title }}</div>
+            <div style="color: #000; font-size: 1.2rem">{{ school_setting.address|title }} </div>
+            <div style="color: #000; font-size: 1.2rem">   {{ school_setting.phone }}</div>
+
+            <div style="color: #000; font-size: 1.2rem; font-weight: bold;">{{ exam.exam_session.session }}</div>
+        </div>
+        <div  style="margin-right: auto;"></div>
+    </div>
+
+<table width="100%" cellpadding="0" cellspacing="0" style="border:0;">
+
+        <tbody>
+                                        <tr>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Student Name : </strong>
+                                {{ student.name|upper }}
+                            </span>
+                        </td>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Class : </strong>
+                                {{ student.student_class_room.the_class.the_class|upper }} {{ student.student_class_room.the_section|upper }}
+                            </span>
+                        </td>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Number of students in class : </strong>
+                                {{ class_count }}
+                            </span>
+                        </td>
+                                                                                </tr>
+                                        <tr>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Class Average Score : </strong>
+                                {{ class_avg|floatformat:2 }}
+                            </span>
+                        </td>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Term : </strong>
+                                {{ exam.exam_term|upper }} TERM
+                            </span>
+                        </td>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>No of times School opened : </strong>
+                                -
+                            </span>
+                        </td>
+                                                                                </tr>
+                                        <tr>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Times Present : </strong>
+                                -
+                            </span>
+                        </td>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Times Absent : </strong>
+                                
+                            </span>
+                        </td>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Total Marks Obtainable : </strong>
+                                {{ mark_obtainable }}
+                            </span>
+                        </td>
+                                                                                </tr>
+                                        <tr>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Total Marks Obtained : </strong>
+                                {{ mark_obtained }}
+                            </span>
+                        </td>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Overall Performance : </strong>
+                                {{ student_avg|floatformat:2 }}
+                            </span>
+                        </td>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Position In class : </strong>
+                                {{ class_position|slice_str_start:"-2" }}<sup>{{ class_position|slice_str_end:"-2"}}</sup>
+                            </span>
+                        </td>
+                                                                                </tr>
+                                        <tr>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>NEXT RESUMPTION DATE : </strong>
+                                {{ exam.next_term_begins_dash|date_strformat }}
+                            </span>
+                        </td>
+                                                        <td style="border:1px solid #555; padding:5px 15px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Hostel Name : </strong>
+                                
+                            </span>
+                        </td>
+                                                                                        <td style="border:1px solid #555; padding:5px 15px;"></td>
+                                                </tr>
+                                </tbody>
+    </table>
+
+
+    <h4 style="font-size: 1.2rem; font-weight: bold; margin: 0.5rem 0; color: #000; text-transform: uppercase; text-align: center;">
+        Cognitive report (subject performance)
+    </h4>
+
+<table width="100%" cellpadding="0" cellspacing="0" style="border:0;">
+<thead>
+<tr>
+{% for thead in theads %}
+<th rowspan="2" style="background-color:rgb(240 249 252); border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+<strong>{{ thead }}</strong>
+</span>
+</th>
+{% endfor %}
+
+<th rowspan="2" style="background-color:rgb(240 249 252); border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+<strong> Total Mark </strong>
+</span>
+</th>
+<th rowspan="2" style="background-color:rgb(240 249 252); border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+<strong>Highest in class</strong>
+</span>
+</th>
+<th rowspan="2" style="background-color:rgb(240 249 252); border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+<strong>Lowest in class</strong>
+</span>
+</th>
+<th rowspan="2" style="background-color:rgb(240 249 252); border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+<strong> Position in Subject  </strong>
+</span>
+</th>
+<th rowspan="2" style="background-color:rgb(240 249 252); border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+<strong> Grade  </strong>
+</span>
+</th>
+<th rowspan="2" style="background-color:rgb(240 249 252); border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+<strong> Remark  </strong>
+</span>
+</th>
+</tr>
+</thead>
+
+<tbody>
+<!-- <tr>
+<td style="border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+ENGLISH LANGUAGE
+</span>
+</td>
+<td style="border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+7
+</span>
+</td>
+<td style="border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+7
+</span>
+</td>
+<td style="border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+10
+</span>
+</td>
+<td style="border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+8
+</span>
+</td>
+<td style="border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+41
+</span>
+</td>
+<td style="border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+73
+</span>
+</td>
+<td style="border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+B2
+</span>
+</td>
+<td style="border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: uppercase; color: #000; font-size: 15px;">
+
+</span>
+</td>
+<td style="border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: lowercase; color: #000; font-size: 15px;">
+90
+</span>
+</td>
+<td style="border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: lowercase; color: #000; font-size: 15px;">
+49
+</span>
+</td>
+<td style="border:1px solid #555; padding:5px 15px;">
+<span style="text-transform: lowercase; color: #000; font-size: 15px;">
+17<sup>th</sup>
+</span>
+</td>
+</tr> -->
+
+ {% for data in marks %}
+    <tr>
+      {% for i in data %}
+        <td style="border:1px solid #555; padding:5px 15px;">
+            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+            {{ i|none_empty }}
+            </span>
+        </td>
+      {% endfor %}
+      </tr>
+    {% endfor %}
+
+</tbody>
+</table>
+
+<div class="mt-4" style="display: flex">
+<table width="40%" cellpadding="0" cellspacing="0" style="border:0;">
+    <thead>
+        <tr>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">
+                PSYCHOMOTOR SKILLS
+            </th>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">1</th>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">2</th>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">3</th>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">4</th>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">5</th>
+        </tr>
+        
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px;">Punctuality</td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.punctuality == 1 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.punctuality == 2 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.punctuality == 3 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.punctuality == 4 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.punctuality == 5 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px;">Handwriting</td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.handwriting == 1 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.handwriting == 2 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.handwriting == 3 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.handwriting == 4 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.handwriting == 5 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>        
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px;">Drawing and Painting</td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.drawing_and_painting == 1 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.drawing_and_painting == 2 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.drawing_and_painting == 3 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.drawing_and_painting == 4 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.drawing_and_painting == 5 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px;">Drama and Dance</td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.drama_and_dance == 1 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.drama_and_dance == 2 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.drama_and_dance == 3 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.drama_and_dance == 4 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.drama_and_dance == 5 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px;">Fluency</td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.fluency == 1 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.fluency == 2 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.fluency == 3 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.fluency == 4 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.fluency == 5 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px;">Sport and Gymnastics</td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.sport_and_gymnastics == 1 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.sport_and_gymnastics == 2 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.sport_and_gymnastics == 3 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.sport_and_gymnastics == 4 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.sport_and_gymnastics == 5 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+<table width="20%" cellpadding="0" cellspacing="0" style="border:0; margin: 0 1rem">
+    <thead>
+        <tr>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">
+                SCALE
+            </th>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">
+                GRADE
+            </th>
+        </tr>
+        
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">75-100</td>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">A1</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">70-74</td>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">B2</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">65-69 </td>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">B3</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">60-64 </td>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">C4</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">55-59 </td>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">C5</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">50-54 </td>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">C6</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">45-49 </td>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">D7</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">40-44</td>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">E8</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">0-39 </td>
+            <td style="border:1px solid #555; padding:5px 15px; text-align: center;">F9</td>
+        </tr>
+        
+    </tbody>
+</table>
+ 
+<table width="40%" cellpadding="0" cellspacing="0" style="border:0;">
+    <thead>
+        <tr>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">
+                AFFECTIVE AREA
+            </th>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">1</th>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">2</th>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">3</th>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">4</th>
+            <th style="border:1px solid #555; padding:5px 15px; text-align: center;">5</th>
+        </tr>
+        
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px;">Honesty</td>
+                        <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.honesty == 1 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.honesty == 2 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.honesty == 3 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.honesty == 4 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.honesty == 5 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px;">Relationship with Others</td>
+                        <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.organizational_ability == 1 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.organizational_ability == 2 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.organizational_ability == 3 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.organizational_ability == 4 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.organizational_ability == 5 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px;">Punctuality</td>
+                        <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.punctuality == 1 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.punctuality == 2 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.punctuality == 3 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.punctuality == 4 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.punctuality == 5 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px;">Politeness</td>
+                        <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.politeness == 1 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.politeness == 2 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.politeness == 3 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.politeness == 4 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.politeness == 5 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #555; padding:5px 15px;">Neatness</td>
+                        <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.neatness == 1 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.neatness == 2 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.neatness == 3 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.neatness == 4 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+            <td style="border:1px solid #555; padding:5px 15px;">
+                {% if student_domain.neatness == 5 %} 
+                <i class="bi bi-check-lg text-success"></i> {% endif %}
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+</div>
+
+<div class="mt-2"><b>Key:</b> 5 = Excellent, 4 = V.Good, 3 = Good, 2 = Fair & 1 = Poor</div>
+
+</div>
+</div>
+</div>
+
+<script type="text/javascript" src="{% static 'portal/assets/backend/bootstrap-4.6.2-dist/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
