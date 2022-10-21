@@ -64,7 +64,7 @@ def total_by_index(value, index):
 
 @register.filter
 def none_dash(value):
-	if value:
+	if value != None and value != '':
 		return value
 	return '-'
 

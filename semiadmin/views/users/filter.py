@@ -254,6 +254,7 @@ class ResultFilter(View):
 
 
 	def get_term(self, request, id, exam):
+		print(self.get_term_heavy(request, id, exam))
 		html = render(request, 'semiadmin/users/filter/result_term.html', self.get_term_heavy(request, id, exam))
 		return html
 
@@ -365,13 +366,14 @@ class ResultFilter(View):
 				if isinstance(i, int):
 					mark_sum += i
 
-			marks[index].extend([mark_sum, *self.get_high_low_pos_term(exam, subject_id, mark_sum), 
+			marks[index].extend([mark_sum, *self.get_high_low_pos_term(exam, subject_id, student, mark_sum), 
 				GetGrade().get_grade(mark_sum), GetGradeRemark().get_grade_remark(mark_sum)])
 
 		return marks
 
-	def get_high_low_pos_term(self, exam, subject, student_score):
-		marks = semiadmin_model.Mark.objects.filter(exam=exam, subject=subject)
+	def get_high_low_pos_term(self, exam, subject, student, student_score):
+		marks = semiadmin_model.Mark.objects.filter(exam=exam, subject=subject, class_room=student.student_class_room)
+		print(marks, 'emnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')
 		high = 0
 		low = 100
 		scores = set()
