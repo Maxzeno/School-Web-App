@@ -19,11 +19,6 @@ import mimetypes
 import os
 
 
-class ResultFilter2(View):
-	def get(self, request):
-		return render(request, 'semiadmin/users/filter/result_term2.html', {})
-
-
 class ResultFilter(View):
 	def get(self, request, id, exam):
 		the_exam = student_model.Exam.objects.filter(pk=exam).first()
@@ -260,7 +255,7 @@ class ResultFilter(View):
 
 	def get_term(self, request, id, exam):
 		print(self.get_term_heavy(request, id, exam))
-		html = render(request, 'semiadmin/users/filter/result_term2.html', self.get_term_heavy(request, id, exam))
+		html = render(request, 'semiadmin/users/filter/result_term.html', self.get_term_heavy(request, id, exam))
 		return html
 
 	def get_term_heavy(self, request, id, exam):
@@ -373,10 +368,12 @@ class ResultFilter(View):
 
 			marks[index].extend([mark_sum, *self.get_high_low_pos_term(exam, subject_id, student, mark_sum), 
 				GetGrade().get_grade(mark_sum), GetGradeRemark().get_grade_remark(mark_sum)])
+
 		return marks
 
 	def get_high_low_pos_term(self, exam, subject, student, student_score):
 		marks = semiadmin_model.Mark.objects.filter(exam=exam, subject=subject, class_room=student.student_class_room)
+		print(marks, 'emnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')
 		high = 0
 		low = 100
 		scores = set()
@@ -390,6 +387,7 @@ class ResultFilter(View):
 		scores_list.reverse()
 		position = self.pos_th(scores_list.index(student_score)+1)
 		return [high, low, position]
+
 
 	def get_annual_light(self, request, id, the_exam):
 		student = student_model.Student.objects.filter(pk=id.replace('-', '/')).first()

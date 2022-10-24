@@ -5,27 +5,9 @@ from management import models as user_model
 from student import models as student_model
 from teacher import models as teacher_model
 from .. import models as semiadmin_model
-from datetime import datetime, date
+from datetime import datetime
 
 register = template.Library()
-
-
-@register.filter
-def date_strformat(value):
-	d, m, y = value.split('-')
-	return date(day=int(d), month=int(m), year=int(y)).strftime('%B %d, %Y')
-	
-
-@register.filter
-def slice_str_end(value, index):
-	i = int(index)
-	return value[i:]
-
-
-@register.filter
-def slice_str_start(value, index):
-	i = int(index)
-	return value[:i]
 
 
 @register.filter
@@ -78,13 +60,6 @@ def total_by_index(value, index):
 	for i in value:
 		total += i[index]
 	return total
-
-
-@register.filter
-def none_empty(value):
-	if value != None:
-		return value
-	return ''
 
 
 @register.filter
