@@ -130,6 +130,7 @@ class AdmissionExcel(View):
 
 			for row in reader:
 				vals = list(row.values())
+				print(vals)
 				data = {
 					'name':vals[0],
 					# 'email':vals[1],
@@ -146,12 +147,13 @@ class AdmissionExcel(View):
 					the_section=student_class_room).first()
 				if class_room:
 					data['student_class_room'] = class_room
-
-				parent = student_model.Parent.objects.filter(pk=vals[4]).first()
-				if parent:
-					data['parent'] = parent
+				if vals[4]:
+					parent = student_model.Parent.objects.filter(pk=vals[4]).first()
+					if parent:
+						data['parent'] = parent
 
 				user = user_model.User(is_student=True, email=vals[1], password=vals[2])
+				user.save()
 				student = student_model.Student.objects.create(user=user, **data)
 			return JsonResponse({"status":True,"notification":"Student added successfully"})
 		except:
@@ -181,22 +183,22 @@ class AdmissionBulk(View):
 			class_room = student_model.Class.objects.filter(the_class=student_class, 
 				the_section=student_class_room).first()
 
-
 			for i in range(len(names)):
-				user = user_model.User.objects.create(email=emails[i], password=passwords[i], is_student=True)
+				if student_ids[i]:
+					user = user_model.User.objects.create(email=emails[i], password=passwords[i], is_student=True)
 
-				if class_room:
-					student = student_model.Student(user=user, name=names[i], student_id=student_ids[i].upper(),
-						gender=genders[i], student_class_room=class_room)
-				else:
-					student = student_model.Student(user=user, name=names[i], student_id=student_ids[i].upper(),
-					 gender=genders[i])
+					if class_room:
+						student = student_model.Student(user=user, name=names[i], student_id=student_ids[i].upper(),
+							gender=genders[i], student_class_room=class_room)
+					else:
+						student = student_model.Student(user=user, name=names[i], student_id=student_ids[i].upper(),
+						 gender=genders[i])
 
-				if parent_ids[i]:
-					parent = student_model.Parent.objects.filter(pk=parent_ids[i]).first()
-					if parent:
-						student.parent = parent
-				student.save()
+					if parent_ids[i]:
+						parent = student_model.Parent.objects.filter(pk=parent_ids[i]).first()
+						if parent:
+							student.parent = parent
+					student.save()
 			return JsonResponse({"status":True,"notification":"Students added Successfully"})
 		except:
 			return JsonResponse({"status":False,"notification":"Students Not added"})
