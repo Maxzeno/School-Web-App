@@ -29,9 +29,15 @@ class Teacher(models.Model):
 	# subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True, blank=True)
 	management_team = models.BooleanField(default=False)
 
-
 	def __str__(self):
 		return self.name
+
+	# def get_photo(self):
+	# 	"""should reture student passport or placeholder image"""
+	# 	if hasattr(self.image, 'url'):
+	# 		return self.image.url
+	# 	return '/static/portal/uploads/users/placeholder.jpg'
+
 
 
 class FormTeacher(models.Model):

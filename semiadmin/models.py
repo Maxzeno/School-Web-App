@@ -377,7 +377,6 @@ class Mark(models.Model):
 		return f"{self.exam.exam_session.session} {self.exam.exam_term} {self.class_room.the_class} {self.total_mark()}"
 
 
-
 class SemiAdmin(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='semiadmin')
 	profile_image = models.ImageField(upload_to='images/', blank=True, null=True)
@@ -393,8 +392,8 @@ class SemiAdmin(models.Model):
 		return '/static/portal/uploads/users/placeholder.jpg'
 
 
-
-	
+	def __str__(self):
+		return f'Name: <{self.name}>  Email: <{self.user.email}>'
 
 
 class Accountant(models.Model):

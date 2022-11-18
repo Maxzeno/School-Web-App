@@ -22,3 +22,4 @@ urllib3==1.26.9
 whitenoise==6.2.0
 openpyxl==2.4.11
 django-excel-response==2.0.5
+python-decouple==3.6

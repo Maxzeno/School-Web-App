@@ -8,7 +8,6 @@ def error_400(request, exception):
 def error_403(request, exception):
     return render(request,'management/403.html', {})
 
-
 def error_404(request, exception):
     return render(request,'management/404.html', {})
 

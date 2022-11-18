@@ -9,33 +9,9 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
+from decouple import config
 
 import os
-try:
-    from .secret_data import SecretData # this is were i set important keys
-except ImportError:
-    class SecretData:
-        DATABASE = {
-            'ENGINE': '',
-            'NAME': '',
-            'HOST': '',
-            'PORT': '',
-            'USER': '',
-            'PASSWORD': '',
-        }
-
-        CLOUDINARY_STORAGE = {
-            'CLOUD_NAME': '',
-            'API_KEY': '',
-            'API_SECRET': ''
-        }
-
-        EMAIL = {
-            'EMAIL_HOST_USER': '',
-            'EMAIL_HOST_PASSWORD': ''
-        }
-
-        SECRET_KEY = 'nbcsnmcsmnscmnsmnsmnsdmnsdnmm2j23'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,13 +21,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SecretData.SECRET_KEY
+SECRET_KEY = config('SECRET_KEY')
 
 # WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # This makes the app to use local db eg sqlite instead of production postgresql created by me
-DEV_MODE_SET_ = True
+DEV_MODE_SET_ = False
 
 # Upload local create be me
 TRY_LOCAL_ = True
@@ -131,22 +107,20 @@ if DEV_MODE_SET_:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-            # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3-2'),
-            # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3-3'),
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3-4'),
+            # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3-5'),
         }
     }
 
 else:
     DATABASES = {
         'default': {
-            'ENGINE': SecretData.DATABASE.get('ENGINE') or '',
-            'NAME': SecretData.DATABASE.get('NAME') or '',
-            'HOST': SecretData.DATABASE.get('HOST') or '',
-            'PORT': SecretData.DATABASE.get('PORT') or '',
-            'USER': SecretData.DATABASE.get('USER') or '',
-            'PASSWORD': SecretData.DATABASE.get('PASSWORD') or ''
+            'ENGINE': config('DATABASES_DEFAULT_ENGINE'),
+            'NAME': config('DATABASES_DEFAULT_NAME'),
+            'HOST': config('DATABASES_DEFAULT_HOST'),
+            'PORT': int(config('DATABASES_DEFAULT_PORT')),
+            'USER': config('DATABASES_DEFAULT_USER'),
+            'PASSWORD': config('DATABASES_DEFAULT_PASSWORD'),
         }
     }
 
@@ -210,9 +184,9 @@ if not TRY_LOCAL_:
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
     CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': SecretData.CLOUDINARY_STORAGE.get('CLOUD_NAME') or '',
-        'API_KEY': SecretData.CLOUDINARY_STORAGE.get('API_KEY') or '',
-        'API_SECRET': SecretData.CLOUDINARY_STORAGE.get('API_SECRET') or ''
+        'CLOUD_NAME': config('CLOUDINARY_STORAGE_CLOUD_NAME'),
+        'API_KEY': config('CLOUDINARY_STORAGE_API_KEY'),
+        'API_SECRET': config('CLOUDINARY_STORAGE_API_SECRET')
     }
 
 
@@ -226,11 +200,11 @@ if TRY_LOCAL_:
 
 ###PRODUCTION
 else:
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_HOST_USER = SecretData.EMAIL.get('EMAIL_HOST_USER') or ''
-    EMAIL_HOST_PASSWORD = SecretData.EMAIL.get('EMAIL_HOST_PASSWORD') or ''
-    EMAIL_PORT = '587'
-    EMAIL_USE_TLS = True
+    EMAIL_HOST = config('EMAIL_HOST')
+    EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+    EMAIL_PORT = config('EMAIL_PORT')
+    EMAIL_USE_TLS = bool(config('EMAIL_USE_TLS'))
 
 AUTH_USER_MODEL = 'management.User'
 

@@ -1,3 +1,4 @@
+import django
 from django.shortcuts import render, redirect
 from django.views import View
 from django.urls import reverse
@@ -121,13 +122,13 @@ class AdmissionExcel(View):
 
 
 	def post(self, request):
-		try:
-			myfile = request.FILES['csv_file']
-			file = myfile.read().decode('utf-8')
-			reader = csv.DictReader(io.StringIO(file))
-			class_id = request.POST.get('class_id').upper()
-			section_id = request.POST.get('section_id').upper()
+		myfile = request.FILES['csv_file']
+		file = myfile.read().decode('utf-8')
+		reader = csv.DictReader(io.StringIO(file))
+		class_id = request.POST.get('class_id').upper()
+		section_id = request.POST.get('section_id').upper()
 
+		try:
 			for row in reader:
 				vals = list(row.values())
 				print(vals)
@@ -155,9 +156,19 @@ class AdmissionExcel(View):
 				user = user_model.User(is_student=True, email=vals[1], password=vals[2])
 				user.save()
 				student = student_model.Student.objects.create(user=user, **data)
-			return JsonResponse({"status":True,"notification":"Student added successfully"})
+		except django.db.utils.IntegrityError as e:
+			try:
+				user.delete()
+			except:
+				pass
+			return JsonResponse({"status":False,"notification": f"Student {str(e).split('.')[-1].replace('_', ' ')} exists"})
+
 		except:
-			return JsonResponse({"status":False,"notification":"Student not added"})
+			try:
+				user.delete()
+			except:
+				pass
+			return JsonResponse({"status":False,"notification":"Students Not added"})
 
 
 class AdmissionBulk(View):
@@ -169,29 +180,30 @@ class AdmissionBulk(View):
 			'new_id': new_id})
 
 	def post(self, request):
+		
+		student_class = request.POST.get('class_id').upper()
+		student_class_room = request.POST.get('section_id').upper()
+
+		names = request.POST.getlist('name[]')
+		emails = request.POST.getlist('email[]')
+		student_ids = request.POST.getlist('student_id[]')
+		passwords = request.POST.getlist('password[]')
+		genders = request.POST.getlist('gender[]')
+		parent_ids = request.POST.getlist('parent_id[]')
+
+		class_room = student_model.Class.objects.filter(the_class=student_class, 
+			the_section=student_class_room).first()
+
 		try:
-			student_class = request.POST.get('class_id').upper()
-			student_class_room = request.POST.get('section_id').upper()
-
-			names = request.POST.getlist('name[]')
-			emails = request.POST.getlist('email[]')
-			student_ids = request.POST.getlist('student_id[]')
-			passwords = request.POST.getlist('password[]')
-			genders = request.POST.getlist('gender[]')
-			parent_ids = request.POST.getlist('parent_id[]')
-
-			class_room = student_model.Class.objects.filter(the_class=student_class, 
-				the_section=student_class_room).first()
-
 			for i in range(len(names)):
 				if student_ids[i]:
 					user = user_model.User.objects.create(email=emails[i], password=passwords[i], is_student=True)
 
 					if class_room:
-						student = student_model.Student(user=user, name=names[i], student_id=student_ids[i].upper(),
+						student = student_model.Student.objects.create(user=user, name=names[i], student_id=student_ids[i].upper(),
 							gender=genders[i], student_class_room=class_room)
 					else:
-						student = student_model.Student(user=user, name=names[i], student_id=student_ids[i].upper(),
+						student = student_model.Student.objects.create(user=user, name=names[i], student_id=student_ids[i].upper(),
 						 gender=genders[i])
 
 					if parent_ids[i]:
@@ -200,9 +212,20 @@ class AdmissionBulk(View):
 							student.parent = parent
 					student.save()
 			return JsonResponse({"status":True,"notification":"Students added Successfully"})
-		except:
-			return JsonResponse({"status":False,"notification":"Students Not added"})
 
+		except django.db.utils.IntegrityError as e:
+			try:
+				user.delete()
+			except:
+				pass
+			return JsonResponse({"status":False,"notification": f"Student {str(e).split('.')[-1].replace('_', ' ')} exists"})
+
+		except:
+			try:
+				user.delete()
+			except:
+				pass
+			return JsonResponse({"status":False,"notification":"Students Not added"})
 
 
 class Admission(View):
@@ -214,38 +237,46 @@ class Admission(View):
 			'new_id': new_id})
 
 	def post(self, request):
+		data = {
+			'name':request.POST.get('name'),
+			# 'email':request.POST.get('email'),
+			'student_id':request.POST.get('student_id').upper(),
+			'birthday':request.POST.get('birthday'),
+			'gender':request.POST.get('gender'),
+			'blood_group':request.POST.get('blood_group'),
+			'phone':request.POST.get('phone'),
+			'address':request.POST.get('address'),
+			'passport_photo':request.FILES.get('student_image')
+		}
+
+		student_class = request.POST.get('class_id').upper()
+		student_class_room = request.POST.get('section_id').upper()
+		class_room = student_model.Class.objects.filter(the_class=student_class, 
+			the_section=student_class_room).first()
+		if class_room:
+			data['student_class_room'] = class_room
+
+		if request.POST.get('parent_id'):
+			parent = student_model.Parent.objects.filter(pk=request.POST.get('parent_id')).first()
+			if parent:
+				data['parent'] = parent
+
 		try:
-			data = {
-				'name':request.POST.get('name'),
-				# 'email':request.POST.get('email'),
-				'student_id':request.POST.get('student_id').upper(),
-				'birthday':request.POST.get('birthday'),
-				'gender':request.POST.get('gender'),
-				'blood_group':request.POST.get('blood_group'),
-				'phone':request.POST.get('phone'),
-				'address':request.POST.get('address'),
-				'passport_photo':request.FILES.get('student_image')
-			}
-
-			student_class = request.POST.get('class_id').upper()
-			student_class_room = request.POST.get('section_id').upper()
-			class_room = student_model.Class.objects.filter(the_class=student_class, 
-				the_section=student_class_room).first()
-			if class_room:
-				data['student_class_room'] = class_room
-
-			if request.POST.get('parent_id'):
-				parent = student_model.Parent.objects.filter(pk=request.POST.get('parent_id')).first()
-				if parent:
-					data['parent'] = parent
-
 			user = user_model.User.objects.create(email=request.POST.get('email'), password=request.POST.get('password'), is_student=True)
-			print(data)
-
 			student = student_model.Student.objects.create(user=user, **data)
 			return JsonResponse({"status":True,"notification":"Student added successfully"})
+		except django.db.utils.IntegrityError as e:
+			try:
+				user.delete()
+			except:
+				pass
+			return JsonResponse({"status":False,"notification": f"Student {str(e).split('.')[-1].replace('_', ' ')} exists"})
 		except:
-			return JsonResponse({"status":False,"notification":"Student not added"})
+			try:
+				user.delete()
+			except:
+				pass
+			return JsonResponse({"status":False,"notification": f"Student not added"})
 
 
 class Student(View):
