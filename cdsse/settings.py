@@ -24,15 +24,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # This makes the app to use local db eg sqlite instead of production postgresql created by me
-DEV_MODE_SET_ = False
 
 # Upload local create be me
-TRY_LOCAL_ = True
+_TRY_LOCAL_DB = False
+_TRY_LOCAL_STORAGE = True
+_TRY_LOCAL_EMAIL = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cdsse.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cdsse.herokuapp.com', config('ALLOWED_HOST', '')]
 
 
 # Application definition
@@ -55,7 +56,7 @@ INSTALLED_APPS = [
     'teacher',
 ]
 
-if not TRY_LOCAL_:
+if not _TRY_LOCAL_STORAGE:
     INSTALLED_APPS.append('cloudinary')
     INSTALLED_APPS.append('cloudinary_storage')
 
@@ -103,7 +104,7 @@ WSGI_APPLICATION = 'cdsse.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if DEV_MODE_SET_:
+if _TRY_LOCAL_DB:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -179,7 +180,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ##### DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
-if not TRY_LOCAL_:
+if not _TRY_LOCAL_STORAGE:
 
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
@@ -194,7 +195,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 ###DEVELOPMENT
-if TRY_LOCAL_:
+if _TRY_LOCAL_EMAIL:
     EMAIL_HOST = 'localhost'
     EMAIL_PORT = '1025'
 
