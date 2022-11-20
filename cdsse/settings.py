@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # This makes the app to use local db eg sqlite instead of production postgresql created by me
 
@@ -33,7 +33,7 @@ _TRY_LOCAL_DB = False
 _TRY_LOCAL_STORAGE = True
 _TRY_LOCAL_EMAIL = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cdsse.herokuapp.com', config('ALLOWED_HOST', '')]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cdsse.herokuapp.com', 'cdsse.onrender.com']
 
 
 # Application definition
