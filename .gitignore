@@ -4,6 +4,5 @@ __pycache__
 env/
 media/
 cdsse/secret_data.py
-
-
+db.sqlite3
 

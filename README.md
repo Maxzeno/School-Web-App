@@ -1,6 +1,5 @@
 *Command Day Secondary School Website*
 
-Login to admin http://cdsse.herokuapp.com/portal/login/
+Home http://cdsse.onrender.com/
+Login to admin http://cdsse.onrender.com/portal/login/
 
-email: qw1@gmail.com
-password: emmanueZ@9

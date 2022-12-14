@@ -24,17 +24,21 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(config('DEBUG', 0)))
+_DEPLOY = True
 
 # This makes the app to use local db eg sqlite instead of production postgresql created by me
 
-# Upload local create be me
-_TRY_LOCAL_DB = False
-_TRY_LOCAL_STORAGE = True
-_TRY_LOCAL_EMAIL = False
+# use local db, storage, email config create be me
+_TRY_LOCAL_DB = bool(int(config('_TRY_LOCAL_DB', 0)))
+_TRY_LOCAL_STORAGE = bool(int(config('_TRY_LOCAL_STORAGE', 0)))
+_TRY_LOCAL_EMAIL = bool(int(config('_TRY_LOCAL_EMAIL', 0)))
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cdsse.herokuapp.com', 'cdsse.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cdsse.onrender.com']
 
+_ALLOWED_HOST = config('ALLOWED_HOST')
+if _ALLOWED_HOST:
+    ALLOWED_HOSTS.append(_ALLOWED_HOST)
 
 # Application definition
 
@@ -108,7 +112,7 @@ if _TRY_LOCAL_DB:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3-4'),
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
             # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3-5'),
         }
     }
@@ -205,7 +209,7 @@ else:
     EMAIL_HOST_USER = config('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
     EMAIL_PORT = config('EMAIL_PORT')
-    EMAIL_USE_TLS = bool(config('EMAIL_USE_TLS'))
+    EMAIL_USE_TLS = bool(int(config('EMAIL_USE_TLS')))
 
 AUTH_USER_MODEL = 'management.User'
 
