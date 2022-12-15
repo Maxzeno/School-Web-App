@@ -33,7 +33,7 @@ _TRY_LOCAL_DB = False
 _TRY_LOCAL_STORAGE = True
 _TRY_LOCAL_EMAIL = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cdssenugu.onrender.com' 'cdsse.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cdssenugu.onrender.com', 'cdsse.onrender.com']
 
 
 # Application definition
