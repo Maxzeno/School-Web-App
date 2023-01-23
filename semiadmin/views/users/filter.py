@@ -373,7 +373,6 @@ class ResultFilter(View):
 
 	def get_high_low_pos_term(self, exam, subject, student, student_score):
 		marks = semiadmin_model.Mark.objects.filter(exam=exam, subject=subject, class_room=student.student_class_room)
-		print(marks, 'emnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')
 		high = 0
 		low = 100
 		scores = set()

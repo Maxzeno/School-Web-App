@@ -29,7 +29,7 @@ DEBUG = True
 # This makes the app to use local db eg sqlite instead of production postgresql created by me
 
 # Upload local create be me
-_TRY_LOCAL_DB = False
+_TRY_LOCAL_DB = True
 _TRY_LOCAL_STORAGE = True
 _TRY_LOCAL_EMAIL = False
 

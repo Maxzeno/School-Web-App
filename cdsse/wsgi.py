@@ -10,11 +10,14 @@ https://docs.djangoproject.com/en/3.0/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
+from django.conf import settings 
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cdsse.settings')
 
-os.system('python manage.py makemigrations')
-os.system('python manage.py migrate')
-os.system('python manage.py collectstatic')
+if not settings.DEBUG:
+	os.system('python manage.py makemigrations --noinput')
+	os.system('python manage.py migrate --noinput')
+	os.system('python manage.py collectstatic --noinput')
 
 application = get_wsgi_application()

@@ -39,13 +39,3 @@ def semiadmin_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, l
 		return actual_decorator(function)
 	return actual_decorator
 
-
-
-# def admin_required(f):
-# 	def check(request, *args, **kwargs):
-# 		if request.user.admin and request.user.is_authenticated:
-# 			return f(request, *args, **kwargs)
-# 		else:
-# 			messages.error(request, "Login as student to access that page.")
-# 			return redirect('registration:portal_login')
-# 	return check
