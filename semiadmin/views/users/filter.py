@@ -434,7 +434,7 @@ class ResultFilter(View):
 			elif mark.mark_sheet_format.mark_format == 'four_column_format':
 				data.extend(mark.ca30_exam70())
 			else:
-				data.extend(mark.total_mark())
+				data.extend([mark.total_mark()])
 			data.append(mark.total_mark())
 			data.append(mark.get_grade().upper())
 			data.append('')
