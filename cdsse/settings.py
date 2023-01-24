@@ -24,17 +24,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(config('DEBUG', 0)))
 
 # This makes the app to use local db eg sqlite instead of production postgresql created by me
 
 # Upload local create be me
-_TRY_LOCAL_DB = False
-_TRY_LOCAL_STORAGE = True
-_TRY_LOCAL_EMAIL = False
+_TRY_LOCAL_DB = bool(int(config('_TRY_LOCAL_DB', 0)))
+_TRY_LOCAL_STORAGE = bool(int(config('_TRY_LOCAL_STORAGE', 0)))
+_TRY_LOCAL_EMAIL = bool(int(config('_TRY_LOCAL_EMAIL', 0)))
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cdssenugu.onrender.com', 'cdsse.onrender.com']
 
+_ALLOWED_HOST = config('ALLOWED_HOST')
+if _ALLOWED_HOST:
+    ALLOWED_HOSTS.append(_ALLOWED_HOST)
 
 # Application definition
 
