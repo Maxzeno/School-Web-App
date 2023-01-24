@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <style>
             .img-bg-light {
-            background-image: url('output-onlinepngtools (2).png');
+            background-image: url("{% static 'output-onlinepngtools (2).png' %}");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
@@ -70,8 +70,7 @@
                         <td style="border:0.1px solid #555; padding: 1px 5px;">
                             <span style="text-transform: uppercase; color: #000; font-size: 15px;">
                             <strong>Class : </strong>
-                            {{ student.student_class_room.the_class.the_class|upper }} {{ student.student_class_room.the_section|upper }}
-                            </span>
+                            {{ student.student_class_room|student_class }}
                         </td>
                         <td style="border:0.1px solid #555; padding: 1px 5px;">
                             <span style="text-transform: uppercase; color: #000; font-size: 15px;">
@@ -135,7 +134,7 @@
                         <td style="border:0.1px solid #555; padding: 1px 5px;">
                             <span style="text-transform: uppercase; color: #000; font-size: 15px;">
                             <strong>Position In class : </strong>
-                            <!-- 48<sup>th</sup>  -->{{ class_position }}
+                            <!-- 48<sup>th</sup>  -->{{ class_position|safe }}
                             </span>
                         </td>
                     </tr>
@@ -174,16 +173,13 @@
                                 <strong>Subjects </strong>
                                 </span>
                             </td>
+                            {% for i in theads %}
                             <td style="border:1px solid #555; padding: 1px 3px; text-align:center; width: 10%;" class="bg-lightblue">
                                 <span style="text-transform: uppercase; color: #000; font-size: 15px;">
-                                <strong>CA [40%]</strong>
+                                <strong>{{ i }}</strong>
                                 </span>
                             </td>
-                            <td style="border:1px solid #555; padding: 1px 3px; text-align:center; width: 10%;" class="bg-lightblue">
-                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
-                                <strong>Exam [60%]</strong>
-                                </span>
-                            </td>
+                            {% endfor %}
                             <td style="border:1px solid #555; padding: 1px 3px; text-align:center; width: 13%;" class="bg-lightblue">
                                 <span style="text-transform: uppercase; color: #000; font-size: 15px;">
                                 <strong> Total Marks [100%] </strong>
@@ -215,52 +211,23 @@
                                 </span>
                             </td>
                         </tr>
+                        {% for row in result_data %}
                         <tr>
-                            <td style="border:1px solid #555; padding: 1px 5px;">
+                            {% for i in row %}
+                            <td style="border:1px solid #555; padding: 1px 5px; {% if not forloop.first %} text-align:center; {% endif %}">
                                 <span style="text-transform: uppercase; color: #000; font-size: 15px;">
-                                ENGLISH LANGUAGE 
+                                {{ i|safe }} 
                                 </span>
                             </td>
-                            <td style="border:1px solid #555; padding: 1px 15px; text-align:center;">
+                            {% endfor %}
+
+              <!--               <td style="border:1px solid #555; padding: 1px 15px;">
                                 <span style="text-transform: uppercase; color: #000; font-size: 15px;">
                                 20
                                 </span>
-                            </td>
-                            <td style="border:1px solid #555; padding: 1px 15px; text-align:center;">
-                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
-                                18
-                                </span>
-                            </td>
-                            <td style="border:1px solid #555; padding: 1px 15px; text-align:center;">
-                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
-                                38
-                                </span>
-                            </td>
-                            <td style="border:1px solid #555; padding: 1px 15px; text-align:center;">
-                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
-                                F9
-                                </span>
-                            </td>
-                            <td style="border:1px solid #555; padding: 1px 15px; text-align:center;">
-                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
-                                </span>
-                            </td>
-                            <td style="border:1px solid #555; padding: 1px 15px; text-align:center;">
-                                <span style="text-transform: lowercase; color: #000; font-size: 15px;">
-                                87
-                                </span>
-                            </td>
-                            <td style="border:1px solid #555; padding: 1px 15px; text-align:center;">
-                                <span style="text-transform: lowercase; color: #000; font-size: 15px;">
-                                17
-                                </span>
-                            </td>
-                            <td style="border:1px solid #555; padding: 1px 15px; text-align:center;">
-                                <span style="text-transform: lowercase; color: #000; font-size: 15px;">
-                                40<sup>th</sup>
-                                </span>
-                            </td>
+                            </td> -->
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
                 <div class="table-other-container">
@@ -448,7 +415,7 @@
         <script>
             $(document).ready(function(){
                 var chartData = {
-                    labels: ["ENGLISH LANGUAGE","MATHEMATICS","C R S","CIVIC EDUCATION","BUSINESS STUDIES","HISTORY","BASIC SCIENCE","C.C.A","IGBO","AGRIC SCIENCE","FRENCH","HOME ECONOMIC","COMPUTER","BASIC TECH","SOCIAL STUDIES"],
+                    labels: {{ chart_data.0|safe }},
                     autoSkip: false,
                     datasets: [{
                         type: 'line',
@@ -456,26 +423,26 @@
                         borderColor: '#2574f5',
                         borderWidth: 2,
                         fill: false,
-                        data: [88,87,100,94,97,92,94,84,80,91,93,87,98,99,95]
+                        data: {{ chart_data.1|safe }}
                     },{
                         type: 'line',
                         label: 'Lowest',
                         borderColor: "#055805",
                         borderWidth: 2,
                         fill: false,
-                        data: [31,17,51,29,28,42,55,45,31,16,18,26,37,42,41]
+                        data: {{ chart_data.2|safe }}
                     },{
                         type: 'line',
                         label: 'Average',
                         borderColor: "#eccd5b",
                         borderWidth: 2,
                         fill: false,
-                        data: [70,55,86,71,75,73,81,68,49,53,68,70,74,80,77]
+                        data: {{ chart_data.3|safe }}
                     },{
                         type: 'bar',
                         label: 'Student Score',
                         backgroundColor: "#a5d6a5",
-                        data: [69,38,51,36,45,64,75,55,38,27,41,59,67,77,60],
+                        data: {{ chart_data.4|safe }},
                         borderColor: 'white',
                         borderWidth: 2
                     }]

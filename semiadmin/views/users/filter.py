@@ -24,7 +24,8 @@ class ResultFilter(View):
 		the_exam = student_model.Exam.objects.filter(pk=exam).first()
 		if the_exam.exam_term.lower() == 'annual':
 			html = self.get_annual(request, id, exam)
-			return HttpResponse(html)
+			# return HttpResponse(html)
+			return HttpResponse("Not Done")
 		else:
 			html = self.get_term(request, id, exam)
 			return HttpResponse(html)
@@ -244,19 +245,141 @@ class ResultFilter(View):
 
 	def pos_th(self, val):
 		if val == 1:
-			return f'{val}st'
+			return f'{val}<sup>st</sup>'
 		elif val == 2:
-			return f'{val}nd'
+			return f'{val}<sup>nd</sup>'
 		elif val == 3:
-			return f'{val}rd'
+			return f'{val}<sup>rd</sup>'
 		else:
-			return f'{val}th'
+			return f'{val}<sup>th</sup>'
 
 
 	def get_term(self, request, id, exam):
 		print(self.get_term_heavy(request, id, exam))
 		html = render(request, 'semiadmin/users/filter/result_term.html', self.get_term_heavy(request, id, exam))
 		return html
+
+
+	# def get_term_heavy(self, request, id, exam):
+	# 	school_setting = semiadmin_model.SchoolSettings.objects.last()
+
+	# 	exam = student_model.Exam.objects.filter(pk=exam).first()
+	# 	student = student_model.Student.objects.filter(pk=id.replace('-', '/')).first()
+	# 	students = student_model.Student.objects.filter(student_class_room=student.student_class_room.pk)
+	# 	class_count = students.count()
+	# 	student_domain = semiadmin_model.StudentDomainScore.objects.filter(exam=exam, student=student).first()
+
+	# 	attended = semiadmin_model.Attendance.objects.filter(the_class=student.student_class_room, 
+	# 		student=student, attended=True).count()
+	# 	attendance = semiadmin_model.Attendance.objects.filter(the_class=student.student_class_room).count()
+
+	# 	student_mark = student.mark_set.filter(exam=exam)
+	# 	mark_obtained = 0
+	# 	count = 0
+	# 	for one_mark in student_mark:
+	# 		mark_obtained += one_mark.total_mark()
+	# 		count += 1
+
+	# 	student_avg = mark_obtained/count if count > 0 else 0
+	# 	mark_obtainable = count * 100
+
+	# 	all_total = 0
+	# 	all_total_list = []
+	# 	for i in students:
+	# 		all_subject_mark = semiadmin_model.Mark.objects.filter(exam=exam, class_room=student.student_class_room.pk, student=i)
+	# 		subject_total = 0
+	# 		for j in all_subject_mark:
+	# 			subject_total += j.total_mark()
+	# 		all_total += subject_total
+	# 		all_total_list.append(subject_total)
+
+	# 	class_pos = list(set(all_total_list))
+	# 	class_pos.sort()
+	# 	class_pos.reverse()
+
+	# 	mark_format = semiadmin_model.MarkSheetFormat.objects.filter(session=exam.exam_session, 
+	# 		category=student.student_class_room.the_class.the_class[:-1]).first().mark_format
+
+	# 	if student.student_class_room.the_class.the_class[:-1].lower().startswith('ss'):
+	# 		subjects_to_pass = 6
+	# 	elif student.student_class_room.the_class.the_class[:-1].lower().startswith('js'):
+	# 		subjects_to_pass = 7
+
+	# 	student_subjects_marks = student.mark_set.filter(exam=exam)
+	# 	arr_mark = []
+	# 	index_prime_subjects = []
+	# 	for index, i in enumerate(student_subjects_marks):
+	# 		arr_mark.append(i.total_mark())
+	# 		if i.subject.name.lower() in help_tools.prime_subjects():
+	# 			index_prime_subjects.append(index)
+
+	# 	pass_or_fail = help_tools.pass_or_fail(arr_mark, subjects_to_pass, index_prime_subjects)
+
+
+
+	# 	""" ADDED LOGIC TO SS2 SS3/JSS3"""
+
+	# 	if student.student_class_room.the_class.the_class.lower() == 'ss2' and exam.exam_term.lower() == 'second':
+	# 		data_keys = ['subject_id', 'test30', 'exam70']
+	# 		theads = ['Subject', 'Test (30)', 'Exam.']
+
+	# 	elif student.student_class_room.the_class.the_class.lower() in {'ss3', 'jss3', 'js3'} and exam.exam_term.lower() == 'third':
+	# 		data_keys = ['subject_id', 'exam100']
+	# 		theads = ['Subject', 'Exam.']
+
+	# 	else:
+	# 		if mark_format == 'five_column_format':
+	# 			data_keys = ['subject_id', 'resumption_test10', 'mid_test10', 'project10', 'assignment10', 'exam60']
+	# 			theads = ['Subject', 'Resumption Test (10)', 'Mid-Term Test (10)', 'Project (10)', 'Assignment (10)', 'Exam.']
+
+	# 		elif mark_format == 'four_column_format':
+	# 			data_keys = ['subject_id', 'resumption_test10', 'mid_test10', 'project10', 'exam70']
+	# 			theads = ['Subject', 'Resumption Test (10)', 'Mid-Term Test (10)', 'Project (10)', 'Exam.']
+
+	# 		elif mark_format == 'three_column_format':
+	# 			data_keys = ['subject_id', 'resumption_test15', 'mid_test15', 'exam70']
+	# 			theads = ['Subject', 'Resumption Test (15)', 'Mid-Term Test (15)', 'Exam.']
+
+	# 		elif mark_format == 'two_column_format':
+	# 			data_keys = ['subject_id', 'test30', 'exam70']
+	# 			theads = ['Subject', 'Test (30)', 'Exam.']
+
+
+	# 	marks = student.mark_set.filter(exam=exam).values_list(*data_keys)
+	# 	marks = self.get_tot_grade_term(marks, exam, student)
+
+	# 	return {'marks': marks,
+	# 		'theads': theads, 'student_and_exam': [student,  exam],
+	# 		'school_setting': school_setting, 'student': student, 'exam': exam, 'class_count': class_count,
+	# 		'subject_count': len(marks), 'student_domain': student_domain, 
+	# 		'class_attendance': (attended/attendance)*100 if attendance > 0 else 0,
+	# 		'mark_obtained': mark_obtained, 'mark_obtainable': mark_obtainable, 'student_avg': student_avg,
+	# 		'class_avg': all_total/class_count if class_count > 0 else 0,
+	# 		'pass_or_fail': pass_or_fail, 'class_position': f"{self.pos_th(class_pos.index(mark_obtained)+1)}"}
+		
+
+
+	# def get_high_low_pos_term(self, exam, subject, student, student_score):
+	# 	marks = semiadmin_model.Mark.objects.filter(exam=exam, subject=subject, class_room=student.student_class_room)
+	# 	high = 0
+	# 	low = 100
+	# 	scores = set()
+	# 	total = 0
+	# 	for mark in marks:
+	# 		total += mark.total_mark()
+	# 		high = max(high, mark.total_mark())
+	# 		low = min(low, mark.total_mark())
+	# 		scores.add(mark.total_mark())
+
+	# 	scores_list = list(scores)
+	# 	scores_list.sort()
+	# 	scores_list.reverse()
+	# 	position = self.pos_th(scores_list.index(student_score)+1)
+	# 	return [high, low, position], total
+
+
+
+
 
 	def get_term_heavy(self, request, id, exam):
 		school_setting = semiadmin_model.SchoolSettings.objects.last()
@@ -265,12 +388,9 @@ class ResultFilter(View):
 		student = student_model.Student.objects.filter(pk=id.replace('-', '/')).first()
 		students = student_model.Student.objects.filter(student_class_room=student.student_class_room.pk)
 		class_count = students.count()
-		student_domain = semiadmin_model.StudentDomainScore.objects.filter(exam=exam, student=student).first()
+		# student_domain = semiadmin_model.StudentDomainScore.objects.filter(exam=exam, student=student).first()
 
-		attended = semiadmin_model.Attendance.objects.filter(the_class=student.student_class_room, 
-			student=student, attended=True).count()
-		attendance = semiadmin_model.Attendance.objects.filter(the_class=student.student_class_room).count()
-
+		#get the marks obtained and mark_obtainable
 		student_mark = student.mark_set.filter(exam=exam)
 		mark_obtained = 0
 		count = 0
@@ -280,6 +400,7 @@ class ResultFilter(View):
 
 		student_avg = mark_obtained/count if count > 0 else 0
 		mark_obtainable = count * 100
+
 
 		all_total = 0
 		all_total_list = []
@@ -294,66 +415,62 @@ class ResultFilter(View):
 		class_pos = list(set(all_total_list))
 		class_pos.sort()
 		class_pos.reverse()
+		class_position = self.pos_th(class_pos.index(mark_obtained)+1)
+
+		class_avg = all_total/class_count if class_count > 0 else 0
+
 
 		mark_format = semiadmin_model.MarkSheetFormat.objects.filter(session=exam.exam_session, 
 			category=student.student_class_room.the_class.the_class[:-1]).first().mark_format
 
-		if student.student_class_room.the_class.the_class[:-1].lower().startswith('ss'):
-			subjects_to_pass = 6
-		elif student.student_class_room.the_class.the_class[:-1].lower().startswith('js'):
-			subjects_to_pass = 7
 
-		student_subjects_marks = student.mark_set.filter(exam=exam)
-		arr_mark = []
-		index_prime_subjects = []
-		for index, i in enumerate(student_subjects_marks):
-			arr_mark.append(i.total_mark())
-			if i.subject.name.lower() in help_tools.prime_subjects():
-				index_prime_subjects.append(index)
+		result_data = []
+		result_avg = []
+		for mark in student_mark:
+			data = []
+			data.append(mark.subject.name.upper())
+			if mark.mark_sheet_format.mark_format == 'five_column_format':
+				data.extend(mark.ca40_exam60())
+			elif mark.mark_sheet_format.mark_format == 'four_column_format':
+				data.extend(mark.ca30_exam70())
+			else:
+				data.extend(mark.total_mark())
+			data.append(mark.total_mark())
+			data.append(mark.get_grade().upper())
+			data.append('')
+			high_low_pos, avg = self.get_high_low_pos_term(exam, mark.subject, student, mark.total_mark())
+			data.extend(high_low_pos)
+			result_avg.append(avg)
+			result_data.append(data)
 
-		pass_or_fail = help_tools.pass_or_fail(arr_mark, subjects_to_pass, index_prime_subjects)
+		theads = ['EXAM [100%]']
+		if mark_format == 'five_column_format':
+			theads = ['CA [40%]', 'EXAM [60%]']
 
+		elif mark_format == 'four_column_format':
+			theads = ['CA [30%]', 'EXAM [70%]']
 
+		data_len = len(result_data)
+		indices = [0, -2, -3, -6]
+		chart_data = []
+		for index in indices:
+			new = []
+			for i in range(data_len):
+				new.append(result_data[i][index])
+			chart_data.append(new)
 
-		""" ADDED LOGIC TO SS2 SS3/JSS3"""
+		chart_data.insert(3, result_avg)
 
-		if student.student_class_room.the_class.the_class.lower() == 'ss2' and exam.exam_term.lower() == 'second':
-			data_keys = ['subject_id', 'test30', 'exam70']
-			theads = ['Subject', 'Test (30)', 'Exam.']
-
-		elif student.student_class_room.the_class.the_class.lower() in {'ss3', 'jss3', 'js3'} and exam.exam_term.lower() == 'third':
-			data_keys = ['subject_id', 'exam100']
-			theads = ['Subject', 'Exam.']
-
-		else:
-			if mark_format == 'five_column_format':
-				data_keys = ['subject_id', 'resumption_test10', 'mid_test10', 'project10', 'assignment10', 'exam60']
-				theads = ['Subject', 'Resumption Test (10)', 'Mid-Term Test (10)', 'Project (10)', 'Assignment (10)', 'Exam.']
-
-			elif mark_format == 'four_column_format':
-				data_keys = ['subject_id', 'resumption_test10', 'mid_test10', 'project10', 'exam70']
-				theads = ['Subject', 'Resumption Test (10)', 'Mid-Term Test (10)', 'Project (10)', 'Exam.']
-
-			elif mark_format == 'three_column_format':
-				data_keys = ['subject_id', 'resumption_test15', 'mid_test15', 'exam70']
-				theads = ['Subject', 'Resumption Test (15)', 'Mid-Term Test (15)', 'Exam.']
-
-			elif mark_format == 'two_column_format':
-				data_keys = ['subject_id', 'test30', 'exam70']
-				theads = ['Subject', 'Test (30)', 'Exam.']
-
-		marks = student.mark_set.filter(exam=exam).values_list(*data_keys)
-		marks = self.get_tot_grade_term(marks, exam, student)
-
-		return {'marks': marks,
-			'theads': theads, 'student_and_exam': [student,  exam],
+		return {
+			'theads': theads,
+			'result_data': result_data, 'chart_data': chart_data,
 			'school_setting': school_setting, 'student': student, 'exam': exam, 'class_count': class_count,
-			'subject_count': len(marks), 'student_domain': student_domain, 
-			'class_attendance': (attended/attendance)*100 if attendance > 0 else 0,
 			'mark_obtained': mark_obtained, 'mark_obtainable': mark_obtainable, 'student_avg': student_avg,
 			'class_avg': all_total/class_count if class_count > 0 else 0,
-			'pass_or_fail': pass_or_fail, 'class_position': f"{self.pos_th(class_pos.index(mark_obtained)+1)}"}
+			'class_position': class_position}
 		
+
+
 
 	def get_tot_grade_term(self, marks, exam, student):
 		marks = list(marks)
@@ -376,7 +493,11 @@ class ResultFilter(View):
 		high = 0
 		low = 100
 		scores = set()
+		total = 0
+		count = 0
 		for mark in marks:
+			count += 1
+			total += mark.total_mark()
 			high = max(high, mark.total_mark())
 			low = min(low, mark.total_mark())
 			scores.add(mark.total_mark())
@@ -385,7 +506,7 @@ class ResultFilter(View):
 		scores_list.sort()
 		scores_list.reverse()
 		position = self.pos_th(scores_list.index(student_score)+1)
-		return [high, low, position]
+		return [high, low, position], total/count if count != 0 else total
 
 
 	def get_annual_light(self, request, id, the_exam):
@@ -512,6 +633,10 @@ class ResultBulk(ResultFilter):
 
 		students = student_model.Student.objects.filter(student_class_room=the_class)
 		heavy = []
+		
+		if term == 'annual':
+			return HttpResponse("Not Done")
+
 		for student in students:
 			if term == 'annual':
 				data = self.get_annual_heavy(request, student.pk, exam)
@@ -519,7 +644,6 @@ class ResultBulk(ResultFilter):
 			else:
 				data = self.get_term_heavy(request, student.pk, exam)
 				heavy.append(data)
-		print(heavy)
 
 		if term == 'annual':
 			template = 'result_bulk_annual.html'

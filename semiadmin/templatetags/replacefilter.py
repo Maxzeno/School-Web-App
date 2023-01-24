@@ -10,6 +10,17 @@ from datetime import datetime
 register = template.Library()
 
 
+
+@register.filter
+def student_class(value):
+	if not value:
+		return ''
+
+	class_str = value.the_class.the_class + value.the_section
+
+	return 'SS '.join(class_str.upper().split('SS'))
+
+
 @register.filter
 def if_image(value):
 	""" Checks if value has attribute url, then return url or default """

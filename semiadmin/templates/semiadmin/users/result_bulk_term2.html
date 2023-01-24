@@ -1,0 +1,304 @@
+{% load replacefilter static %}
+
+
+<!-- saved from url=(0079)https://cdssenugu.org/portal/admin/student_marksheet/marksheet_print_view/925/2 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src="./student result termly not annual_files/jquery.min.js.download"></script>
+  <style>
+     div.pagebreak {
+            page-break-after: always;
+        }
+
+        #results {
+          font-family: Arial, Helvetica, sans-serif;
+          font-size:11px;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        #results td, #results th {
+          border: 0px solid #ddd;
+          padding: 1px;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size:11px;
+        }
+
+        #results tr:nth-child(even){background-color: #fff;}
+
+        .header_color{background-color: #000; color:#fff; font-weight:bold;}
+
+        #results {border: 3px solid #07a701;}
+
+        #profile {
+            border: 2px solid #07a701;
+        }
+
+        #profile, #performance_info, #domain_1, #domain_2, #domain_3, #comment, $subject {
+            border-collapse: collapse;
+        }
+
+        #profile tr, #profile td, #performance_info tr, #performance_info td, #domain_1 tr, #domain_1 td, #domain_2 tr, #domain_2 td, #domain_3 tr, #domain_3 td, #coment tr, #comment td, #subject tr, #subject td {
+            border: 1px solid #07a701;
+            border-collapse: collapse;
+        }
+
+        #coment tr, #comment td {
+            border: 3px solid #07a701;
+            padding:2px;
+        }
+
+        #results tr:hover {background-color: #ddd;}
+
+        #results th {
+          padding-top: 0px;
+          padding-bottom: 0px;
+          text-align: left;
+          background-color: #4CAF50;
+          color: white;
+        }
+
+        /*bodyx, htmlx {
+          /* The image used */
+        /*  background-image: url('');
+
+          /* Full height */
+         /* height: 100%;
+
+          /* Center and scale the image nicely */
+         /* background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+        */
+        .hero {
+            position: relative; 
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero::before {    
+              content: "";
+              background-image: url("{% static 'images/logo-background.png' %}");
+              background-repeat: repeat;
+              background-size: cover;
+              position: absolute;
+              top: -350px;
+              right: 0px;
+              bottom: 0px;
+              left: 0px;
+              opacity: 0.05;
+        }
+    </style>
+</head>
+<body>
+
+{% for data in heavy %}
+
+    <div class="hero">
+<table id="results" width="100%" border="1" cellpadding="5" cellspacing="5">
+  <tbody><tr>
+    <td width="100%">
+      <table width="100%" border="0">
+        <tbody><tr>
+          <td width="10%" align="center"><div><img src="{% static 'images/logo-dark.png' %}" alt="logo" style="max-height : 100px;"></div></td>
+          <td width="60%" align="center"><h2>{{ data.school_setting.school_name|title }}</h2>
+            <p></p><h3>{{ data.school_setting.address|title }} </h3><p></p>
+
+                          <h3>
+                <il>TERMLY ASSESSMENT DOSSIER</il>
+                <br>
+              {{ data.exam.exam_term|upper }} TERM, {{ data.exam.exam_session.session }} Academic Session</h3>
+                      </td>
+          <td width="10%" align="center"><div align="center"><img src="{% if data.student.passport_photo %}{{ data.student.passport_photo.url }}{% else %}{% static 'images/placeholder.jpg' %}{% endif %}" class="img-circle" width="60"></div></td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  <tr>
+    <td><table id="profile" width="100%">
+      <tbody><tr>
+        <td width="33%">NAME: <strong>{{ data.student.name|upper }}</strong></td>
+        <td width="33%">SEX: 
+          &nbsp;{{ data.student.gender|title }}</td>
+        <td width="34%">STUDENT ID: {{ data.student.student_id|upper }}</td>
+      </tr>
+      <tr>
+        <td>CLASS: {{ data.student.student_class_room.the_class.the_class|upper }} {{ data.student.student_class_room.the_section|upper }}</td>
+        <td>NO. IN CLASS: {{ data.class_count }}</td>
+        <td>NEXT TERM BEGINS: {{ data.exam.next_term_begins_dash }}</td>
+      </tr>
+    </tbody></table></td>
+  </tr>
+  <tr>
+    <td>
+    
+<table id="subject" width="100%" class="table table-bordered">
+   <thead>
+    <tr class="header_color">
+      {% for thead in data.theads %}
+        {% if forloop.first %}<td width="20%" style="text-align: left;"><strong>{{ thead }}</strong></td>
+        {% elif forloop.last %}<td width="7%" style="text-align: center;"><strong>{{ thead }}</strong></td>
+        {% else %}<td width="5%" style="text-align: center;"><strong>{{ thead }}</strong></td>{% endif %}
+      {% endfor %}
+        <td width="9%" style="text-align: center;"><strong>TOTAL</strong></td>
+        <td width="13%" style="text-align: center;"><strong>HIGHEST</strong></td>
+        <td width="11%" style="text-align: center;"><strong>LOWEST</strong></td>
+        <td width="5%" style="text-align: center;"><strong>POSITION</strong></td>
+        <td width="5%" style="text-align: center;"><strong>GRADE</strong></td>
+        <td width="10%" style="text-align: left;"><strong>REMARK</strong></td>
+    </tr>
+</thead>
+<tbody>
+    {% for data in data.marks %}
+    <tr>
+      {% for i in data %}
+      {% if forloop.first %}
+        <td style="text-align: left;">{{ i|title }}</td>
+      {% elif forloop.last %}
+        <td style="text-align: left;">{{ i }}</td>
+      {% else %}
+        <td style="text-align: center;">{{ i|none_dash }}</td>
+      {% endif %}
+      {% endfor %}
+      </tr>
+    {% endfor %}
+ </tbody>
+</table>	
+</td>
+  </tr>
+  <tr>
+    <td><table id="performance_info" width="100%" border="0">
+      <tbody><tr class="header_color">
+        <td>NUMBER OF SUBJECTS</td>
+        <td>POSITION IN CLASS</td>
+        <td>MARKS OBTAINED</td>
+        <td>STUDENT'S AVERAGE</td>
+        <td>CLASS AVERAGE</td>
+      </tr>
+      <tr>
+        <td><strong>{{ data.subject_count }}</strong></td>
+        <td><strong>{{ data.class_position }}</strong></td>
+        <td><strong>{{ data.mark_obtained }} / {{ data.mark_obtainable }}</strong></td>
+        <td><strong><span style="text-align: center;">{{ data.student_avg|floatformat:2 }}</span></strong></td>
+        <td><strong><span style="text-align: center;">{{ data.class_avg|floatformat:2 }}</span></strong></td>
+      </tr>
+    </tbody></table></td>
+  </tr>
+  <tr>
+    <td><table id="domain_1" width="100%" border="0">
+      <tbody><tr>
+        <td colspan="6" class="header_color">AFFECTIVE DOMAIN (Scores are based on incidences in school. View incidences online)</td>
+        </tr>
+      <tr>
+        <td width="24%">Class attendance</td>
+        <td width="6%">{{ data.class_attendance|floatformat }}%</td>
+        <td width="23%">Honesty</td>
+        <td width="11%">{{ data.student_domain.honesty|rate_domain }}</td>
+        <td width="19%">Neatness</td>
+        <td width="17%">{{ data.student_domain.neatness|rate_domain }}</td>
+      </tr>
+      <tr>
+        <td>Politeness</td>
+        <td>-</td>
+        <td>Punctuality</td>
+        <td>{{ data.student_domain.punctuality|rate_domain }}</td>
+        <td>Relationship with others</td>
+        <td>-</td>
+      </tr>
+    </tbody></table></td>
+  </tr>
+  <tr>
+    <td><table id="domain_2" width="100%" border="0">
+      <tbody><tr>
+        <td colspan="6" class="header_color">COGNITIVE DOMAIN (Scores are based on incidences in school. View incidences online)</td>
+      </tr>
+      <tr>
+        <td width="24%">Attentiveness in class</td>
+        <td width="6%">{{ data.student_domain.attentiveness_in_class|rate_domain }}</td>
+        <td width="23%">Organizational ability</td>
+        <td width="11%">{{ data.student_domain.organizational_ability|rate_domain }}</td>
+        <td width="19%">Perseverance</td>
+        <td width="17%">{{ data.student_domain.perseverance|rate_domain }}</td>
+      </tr>
+      <tr>
+        <td>Self control</td>
+        <td>{{ data.student_domain.self_control|rate_domain }}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody></table></td>
+  </tr>
+  <tr>
+    <td><table id="domain_3" width="100%" border="0">
+      <tbody><tr>
+        <td colspan="6" class="header_color">PSYCHOMOTOR DOMAIN (Scores are based on incidences in school. View incidences online)</td>
+      </tr>
+      <tr>
+        <td width="24%">Arts and crafts</td>
+        <td width="6%">{{ data.student_domain.arts_and_crafts|rate_domain }}</td>
+        <td width="23%">Drawing and painting</td>
+        <td width="11%">{{ data.student_domain.drawing_and_painting|rate_domain }}</td>
+        <td width="19%">Drama and dance</td>
+        <td width="17%">-</td>
+      </tr>
+      <tr>
+        <td>Fluency</td>
+        <td>{{ data.student_domain.fluency|rate_domain }}</td>
+        <td>Sport and gymnastics</td>
+        <td>{{ data.student_domain.sport_and_gymnastics|rate_domain }}</td>
+        <td>Handwriting</td>
+        <td>{{ data.student_domain.handwriting|rate_domain }}</td>
+      </tr>
+    </tbody></table></td>
+  </tr>
+  <tr>
+    <td><table id="comment" width="100%" border="0">
+      <tbody><tr>
+        <td width="24%">Form Teacher remarks</td>
+        <td width="76%">{{ data.student_domain.teacher_code.code_description|none_dash }}</td>
+      </tr>
+      <!--
+      <tr>
+        <td>House master remarks (Hostel)</td>
+        <td></td>
+      </tr>-->
+      <tr>
+        <td>Commandant's remarks</td>
+        <td>{{ data.student_domain.principal_code.code_description|none_dash }}</td>
+      </tr>
+    </tbody></table></td>
+  </tr>
+  <tr>
+    <td valign="">
+      <table width="100%">
+        <tbody><tr>
+          <td width="70%">
+            <p>KEYS TO DOMAIN SCORES:1=Poor,2=Fair,3=Good,4=Very good,5=Excellent<br>
+        GRADE KEY: F9(0 - 39.9), E8(40 - 44.9), D7(45 - 49.9), C6(50 - 59.9), C5(60 - 64.9), C4(65 - 69.9), B3(70 - 74.9), B2(75 - 79.9), A1(80 - 100)</p>
+          </td>
+          <td width="10%">
+            <strong style="font-size: 17px; text-decoration: underline;">
+              {{ data.pass_or_fail|upper }}            
+            </strong>
+          </td>
+          <td width="20%" align="center">
+            <p><img src="./student result termly not annual_files/principal_sign.png" alt="" name=""></p>
+          </td>
+        </tr>
+      </tbody></table>
+      
+      </td>
+  </tr>
+
+</tbody></table>
+<p>&nbsp;</p>
+</div>
+<div class="pagebreak"><p>&nbsp;</p></div>
+
+{% endfor %}
+
+</body></html>

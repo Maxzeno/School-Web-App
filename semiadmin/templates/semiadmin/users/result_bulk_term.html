@@ -1,304 +1,501 @@
 {% load replacefilter static %}
-
-
-<!-- saved from url=(0079)https://cdssenugu.org/portal/admin/student_marksheet/marksheet_print_view/925/2 -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <script src="./student result termly not annual_files/jquery.min.js.download"></script>
-  <style>
-     div.pagebreak {
-            page-break-after: always;
-        }
-
-        #results {
-          font-family: Arial, Helvetica, sans-serif;
-          font-size:11px;
-          border-collapse: collapse;
-          width: 100%;
-        }
-
-        #results td, #results th {
-          border: 0px solid #ddd;
-          padding: 1px;
-          font-family: Arial, Helvetica, sans-serif;
-          font-size:11px;
-        }
-
-        #results tr:nth-child(even){background-color: #fff;}
-
-        .header_color{background-color: #000; color:#fff; font-weight:bold;}
-
-        #results {border: 3px solid #07a701;}
-
-        #profile {
-            border: 2px solid #07a701;
-        }
-
-        #profile, #performance_info, #domain_1, #domain_2, #domain_3, #comment, $subject {
-            border-collapse: collapse;
-        }
-
-        #profile tr, #profile td, #performance_info tr, #performance_info td, #domain_1 tr, #domain_1 td, #domain_2 tr, #domain_2 td, #domain_3 tr, #domain_3 td, #coment tr, #comment td, #subject tr, #subject td {
-            border: 1px solid #07a701;
-            border-collapse: collapse;
-        }
-
-        #coment tr, #comment td {
-            border: 3px solid #07a701;
-            padding:2px;
-        }
-
-        #results tr:hover {background-color: #ddd;}
-
-        #results th {
-          padding-top: 0px;
-          padding-bottom: 0px;
-          text-align: left;
-          background-color: #4CAF50;
-          color: white;
-        }
-
-        /*bodyx, htmlx {
-          /* The image used */
-        /*  background-image: url('');
-
-          /* Full height */
-         /* height: 100%;
-
-          /* Center and scale the image nicely */
-         /* background-position: center;
-          background-repeat: no-repeat;
-          background-size: cover;
-        }
-        */
-        .hero {
-            position: relative; 
-            width: 100%;
+<!DOCTYPE html>
+<!-- saved from url=(0056)https://cdsse.schooltry.com/admin/getStudentReportResult -->
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            .img-bg-light {
+            background-image: url("{% static 'output-onlinepngtools (2).png' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-image: visible;
+            }
+            .table-other-container{
             display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero::before {    
-              content: "";
-              background-image: url("{% static 'images/logo-background.png' %}");
-              background-repeat: repeat;
-              background-size: cover;
-              position: absolute;
-              top: -350px;
-              right: 0px;
-              bottom: 0px;
-              left: 0px;
-              opacity: 0.05;
-        }
-    </style>
-</head>
+            }
+            .table-other-1 {
+            width: calc(calc(100% - 20px) *  (2 / 5));
+            margin-top: 20px;
+            }
+            .table-other-2 {
+            width: calc(calc(100% - 20px) *  (1 / 5));
+            margin-top: 20px;
+            margin-left: 10px;
+            }
+            .table-other-3 {
+            width: calc(calc(100% - 20px) *  (2 / 5));
+            margin-top: 20px;
+            margin-left: 10px;
+            }
+            .table-other-container > div > table {
+            width: 100%
+            }
+            .bg-lightblue {
+            background-color: #add8e642;
+            }
+        </style>
+        <script src="{% static './result/jquery.min.js' %}"></script>
+        <script src="{% static './result/Chart.min.js' %}"></script>
+    </head>
 <body>
 
 {% for data in heavy %}
+   <div style="margin: 30px 5px; page-break-before: always; page-break-after: always;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="border:0;">
+                <thead>
+                    <tr>
+                        <td style="border:0; width: 25%">
+                            <img class="brand-img-logo pdf_logo mr-10" src="{% static './result/cdss enugu logo1647372870.png' %}" alt="brand">
+                        </td>
+                        <td style="border:0; width: 50%">
+                            <h4 style="font-size: 33px; color: #418beccc; text-align: center; margin: 0 0 10px 0">{{ data.school_setting.school_name|title }}</h4>
+                            <div style="color: #000; text-align: center; font-size: 26px">{{ data.school_setting.address|title }}</div>
+                            <div style="color: #000; text-align: center; font-size: 26px">08066116618</div>
+                            <!-- <p style="color: #000;font-size: 18px;font-weight: 600; margin-top: 2px;">2022-2023</p> -->
+                        </td>
+                        <td style="width: 25%"></td>
+                    </tr>
+                </thead>
+            </table>
+            <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #555;">
+                <tbody>
+                    <tr>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>Student Name : </strong>
+                            {{ data.student.name|upper }}
+                            </span>
+                        </td>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>Class : </strong>
+                            {{ data.student.student_class_room|student_class }}
+                        </td>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>Number of students in class : </strong>
+                            {{ data.class_count }}</
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>Class Average Score : </strong>
+                            {{ data.class_avg|floatformat:2 }}
+                            </span>
+                        </td>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>Term : </strong>
+                            {{ data.exam.exam_term|upper }} TERM
+                            </span>
+                        </td>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>No of times School opened : </strong>
+                            -
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>Times Present : </strong>
+                            -
+                            </span>
+                        </td>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>Times Absent : </strong>
+                            </span>
+                        </td>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>Total Marks Obtainable : </strong>
+                            {{ data.mark_obtainable }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>Total Marks Obtained : </strong>
+                            {{ data.mark_obtained }}
+                            </span>
+                        </td>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>Overall Performance : </strong>
+                            {{ data.student_avg|floatformat:2 }}
+                            </span>
+                        </td>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>Position In class : </strong>
+                            <!-- 48<sup>th</sup>  -->{{ data.class_position|safe }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>NEXT RESUMPTION DATE : </strong>
+                            </span>
+                        </td>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;">
+                            <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                            <strong>Hostel Name : </strong>
+                            </span>
+                        </td>
+                        <td style="border:0.1px solid #555; padding: 1px 5px;"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table width="100%" cellpadding="0" cellspacing="0" style="border:0;">
+                <tbody>
+                    <tr align="center">
+                        <td colspan="12" style="border:0;">
+                            <h4 style="font-size: 22px; color: #000; text-transform: uppercase; margin: 10px 0 7px 0">
+                                Cognitive report (subject performance)
+                            </h4>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="img-bg-light">
+                <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #555;">
+                    <tbody>
+                        <tr>
+                            <td style="border:1px solid #555; padding: 1px 5px; width: 17%;" class="bg-lightblue">
+                                <span style="text-transform: uppercase; color: #000; font-size: 14px;">
+                                <strong>Subjects </strong>
+                                </span>
+                            </td>
+                            {% for i in data.theads %}
+                            <td style="border:1px solid #555; padding: 1px 3px; text-align:center; width: 10%;" class="bg-lightblue">
+                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>{{ i }}</strong>
+                                </span>
+                            </td>
+                            {% endfor %}
+                            <td style="border:1px solid #555; padding: 1px 3px; text-align:center; width: 13%;" class="bg-lightblue">
+                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong> Total Marks [100%] </strong>
+                                </span>
+                            </td>
+                            <td style="border:1px solid #555; padding: 1px 3px; text-align:center; width: 8%;" class="bg-lightblue">
+                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong> Grade  </strong>
+                                </span>
+                            </td>
+                            <td style="border:1px solid #555; padding: 1px 3px; text-align:center; width: 12%;" class="bg-lightblue">
+                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong> Remark  </strong>
+                                </span>
+                            </td>
+                            <td style="border:1px solid #555; padding: 1px 3px; text-align:center; width: 11%;" class="bg-lightblue">
+                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Highest in class</strong>
+                                </span>
+                            </td>
+                            <td style="border:1px solid #555; padding: 1px 3px; text-align:center; width: 11%;" class="bg-lightblue">
+                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong>Lowest in class</strong>
+                                </span>
+                            </td>
+                            <td style="border:1px solid #555; padding: 1px 3px; text-align:center; width: 12%;" class="bg-lightblue">
+                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                <strong> Position in Subject  </strong>
+                                </span>
+                            </td>
+                        </tr>
+                        {% for row in data.result_data %}
+                        <tr>
+                            {% for i in row %}
+                            <td style="border:1px solid #555; padding: 1px 5px; {% if not forloop.first %} text-align:center; {% endif %}">
+                                <span style="text-transform: uppercase; color: #000; font-size: 15px;">
+                                {{ i|safe }} 
+                                </span>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+                <div class="table-other-container">
+                    <div class="table-other-1">
+                        <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #555;">
+                            <thead>
+                                <tr>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>PSYCHOMOTOR SKILLS</strong></td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>1</strong></td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>2</strong></td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>3</strong></td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>4</strong></td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>5</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding: 1px 5px;">Punctuality</td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding: 1px 5px;">Arts and Crafts</td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding: 1px 5px;">Handwriting</td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding: 1px 5px;">Drawing and Painting</td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding: 1px 5px;">Drama and Dance</td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding: 1px 5px;">Fluency</td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding: 1px 5px;">Sport and Gymnastics</td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="table-other-2">
+                        <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #555;">
+                            <thead>
+                                <tr>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>SCALE</strong></td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>GRADE</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">75-100</td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">A1</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">70-74</td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">B2</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">65-69</td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">B3</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">60-64</td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">C4</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">55-59</td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">C5</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">50-54</td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">C6</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">45-49</td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">D7</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">40-44</td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">E8</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">0-39</td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;">F9</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="table-other-3">
+                        <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #555;">
+                            <thead>
+                                <tr>
+                                    <td style="border:1px solid #555; text-align: center; padding: 1px 5px;"><strong>AFFECTIVE AREA</strong></td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>1</strong></td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>2</strong></td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>3</strong></td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>4</strong></td>
+                                    <td style="border:1px solid #555; padding:5px 15px; text-align: center;"><strong>5</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding: 1px 5px;">Honesty</td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding: 1px 5px;">Relationship with Others</td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding: 1px 5px;">Punctuality</td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding: 1px 5px;">Politeness</td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #555; padding: 1px 5px;">Neatness</td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                    <td style="border:1px solid #555;"></td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div><strong>Key:</strong> 5 = Excellent, 4 = V.Good, 3 = Good, 2 = Fair & 1 = Poor</div>
 
-    <div class="hero">
-<table id="results" width="100%" border="1" cellpadding="5" cellspacing="5">
-  <tbody><tr>
-    <td width="100%">
-      <table width="100%" border="0">
-        <tbody><tr>
-          <td width="10%" align="center"><div><img src="{% static 'images/logo-dark.png' %}" alt="logo" style="max-height : 100px;"></div></td>
-          <td width="60%" align="center"><h2>{{ data.school_setting.school_name|title }}</h2>
-            <p></p><h3>{{ data.school_setting.address|title }} </h3><p></p>
-
-                          <h3>
-                <il>TERMLY ASSESSMENT DOSSIER</il>
-                <br>
-              {{ data.exam.exam_term|upper }} TERM, {{ data.exam.exam_session.session }} Academic Session</h3>
-                      </td>
-          <td width="10%" align="center"><div align="center"><img src="{% if data.student.passport_photo %}{{ data.student.passport_photo.url }}{% else %}{% static 'images/placeholder.jpg' %}{% endif %}" class="img-circle" width="60"></div></td>
-        </tr>
-      </tbody></table>
-    </td>
-  </tr>
-  <tr>
-    <td><table id="profile" width="100%">
-      <tbody><tr>
-        <td width="33%">NAME: <strong>{{ data.student.name|upper }}</strong></td>
-        <td width="33%">SEX: 
-          &nbsp;{{ data.student.gender|title }}</td>
-        <td width="34%">STUDENT ID: {{ data.student.student_id|upper }}</td>
-      </tr>
-      <tr>
-        <td>CLASS: {{ data.student.student_class_room.the_class.the_class|upper }} {{ data.student.student_class_room.the_section|upper }}</td>
-        <td>NO. IN CLASS: {{ data.class_count }}</td>
-        <td>NEXT TERM BEGINS: {{ data.exam.next_term_begins_dash }}</td>
-      </tr>
-    </tbody></table></td>
-  </tr>
-  <tr>
-    <td>
-    
-<table id="subject" width="100%" class="table table-bordered">
-   <thead>
-    <tr class="header_color">
-      {% for thead in data.theads %}
-        {% if forloop.first %}<td width="20%" style="text-align: left;"><strong>{{ thead }}</strong></td>
-        {% elif forloop.last %}<td width="7%" style="text-align: center;"><strong>{{ thead }}</strong></td>
-        {% else %}<td width="5%" style="text-align: center;"><strong>{{ thead }}</strong></td>{% endif %}
-      {% endfor %}
-        <td width="9%" style="text-align: center;"><strong>TOTAL</strong></td>
-        <td width="13%" style="text-align: center;"><strong>HIGHEST</strong></td>
-        <td width="11%" style="text-align: center;"><strong>LOWEST</strong></td>
-        <td width="5%" style="text-align: center;"><strong>POSITION</strong></td>
-        <td width="5%" style="text-align: center;"><strong>GRADE</strong></td>
-        <td width="10%" style="text-align: left;"><strong>REMARK</strong></td>
-    </tr>
-</thead>
-<tbody>
-    {% for data in data.marks %}
-    <tr>
-      {% for i in data %}
-      {% if forloop.first %}
-        <td style="text-align: left;">{{ i|title }}</td>
-      {% elif forloop.last %}
-        <td style="text-align: left;">{{ i }}</td>
-      {% else %}
-        <td style="text-align: center;">{{ i|none_dash }}</td>
-      {% endif %}
-      {% endfor %}
-      </tr>
-    {% endfor %}
- </tbody>
-</table>	
-</td>
-  </tr>
-  <tr>
-    <td><table id="performance_info" width="100%" border="0">
-      <tbody><tr class="header_color">
-        <td>NUMBER OF SUBJECTS</td>
-        <td>POSITION IN CLASS</td>
-        <td>MARKS OBTAINED</td>
-        <td>STUDENT'S AVERAGE</td>
-        <td>CLASS AVERAGE</td>
-      </tr>
-      <tr>
-        <td><strong>{{ data.subject_count }}</strong></td>
-        <td><strong>{{ data.class_position }}</strong></td>
-        <td><strong>{{ data.mark_obtained }} / {{ data.mark_obtainable }}</strong></td>
-        <td><strong><span style="text-align: center;">{{ data.student_avg|floatformat:2 }}</span></strong></td>
-        <td><strong><span style="text-align: center;">{{ data.class_avg|floatformat:2 }}</span></strong></td>
-      </tr>
-    </tbody></table></td>
-  </tr>
-  <tr>
-    <td><table id="domain_1" width="100%" border="0">
-      <tbody><tr>
-        <td colspan="6" class="header_color">AFFECTIVE DOMAIN (Scores are based on incidences in school. View incidences online)</td>
-        </tr>
-      <tr>
-        <td width="24%">Class attendance</td>
-        <td width="6%">{{ data.class_attendance|floatformat }}%</td>
-        <td width="23%">Honesty</td>
-        <td width="11%">{{ data.student_domain.honesty|rate_domain }}</td>
-        <td width="19%">Neatness</td>
-        <td width="17%">{{ data.student_domain.neatness|rate_domain }}</td>
-      </tr>
-      <tr>
-        <td>Politeness</td>
-        <td>-</td>
-        <td>Punctuality</td>
-        <td>{{ data.student_domain.punctuality|rate_domain }}</td>
-        <td>Relationship with others</td>
-        <td>-</td>
-      </tr>
-    </tbody></table></td>
-  </tr>
-  <tr>
-    <td><table id="domain_2" width="100%" border="0">
-      <tbody><tr>
-        <td colspan="6" class="header_color">COGNITIVE DOMAIN (Scores are based on incidences in school. View incidences online)</td>
-      </tr>
-      <tr>
-        <td width="24%">Attentiveness in class</td>
-        <td width="6%">{{ data.student_domain.attentiveness_in_class|rate_domain }}</td>
-        <td width="23%">Organizational ability</td>
-        <td width="11%">{{ data.student_domain.organizational_ability|rate_domain }}</td>
-        <td width="19%">Perseverance</td>
-        <td width="17%">{{ data.student_domain.perseverance|rate_domain }}</td>
-      </tr>
-      <tr>
-        <td>Self control</td>
-        <td>{{ data.student_domain.self_control|rate_domain }}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </tbody></table></td>
-  </tr>
-  <tr>
-    <td><table id="domain_3" width="100%" border="0">
-      <tbody><tr>
-        <td colspan="6" class="header_color">PSYCHOMOTOR DOMAIN (Scores are based on incidences in school. View incidences online)</td>
-      </tr>
-      <tr>
-        <td width="24%">Arts and crafts</td>
-        <td width="6%">{{ data.student_domain.arts_and_crafts|rate_domain }}</td>
-        <td width="23%">Drawing and painting</td>
-        <td width="11%">{{ data.student_domain.drawing_and_painting|rate_domain }}</td>
-        <td width="19%">Drama and dance</td>
-        <td width="17%">-</td>
-      </tr>
-      <tr>
-        <td>Fluency</td>
-        <td>{{ data.student_domain.fluency|rate_domain }}</td>
-        <td>Sport and gymnastics</td>
-        <td>{{ data.student_domain.sport_and_gymnastics|rate_domain }}</td>
-        <td>Handwriting</td>
-        <td>{{ data.student_domain.handwriting|rate_domain }}</td>
-      </tr>
-    </tbody></table></td>
-  </tr>
-  <tr>
-    <td><table id="comment" width="100%" border="0">
-      <tbody><tr>
-        <td width="24%">Form Teacher remarks</td>
-        <td width="76%">{{ data.student_domain.teacher_code.code_description|none_dash }}</td>
-      </tr>
-      <!--
-      <tr>
-        <td>House master remarks (Hostel)</td>
-        <td></td>
-      </tr>-->
-      <tr>
-        <td>Commandant's remarks</td>
-        <td>{{ data.student_domain.principal_code.code_description|none_dash }}</td>
-      </tr>
-    </tbody></table></td>
-  </tr>
-  <tr>
-    <td valign="">
-      <table width="100%">
-        <tbody><tr>
-          <td width="70%">
-            <p>KEYS TO DOMAIN SCORES:1=Poor,2=Fair,3=Good,4=Very good,5=Excellent<br>
-        GRADE KEY: F9(0 - 39.9), E8(40 - 44.9), D7(45 - 49.9), C6(50 - 59.9), C5(60 - 64.9), C4(65 - 69.9), B3(70 - 74.9), B2(75 - 79.9), A1(80 - 100)</p>
-          </td>
-          <td width="10%">
-            <strong style="font-size: 17px; text-decoration: underline;">
-              {{ data.pass_or_fail|upper }}            
-            </strong>
-          </td>
-          <td width="20%" align="center">
-            <p><img src="./student result termly not annual_files/principal_sign.png" alt="" name=""></p>
-          </td>
-        </tr>
-      </tbody></table>
-      
-      </td>
-  </tr>
-
-</tbody></table>
-<p>&nbsp;</p>
-</div>
-<div class="pagebreak"><p>&nbsp;</p></div>
+                <div style="width: 90%; height: 400px;">
+                    <!-- <iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; inset: 0px;" src="./result/saved_resource.html"></iframe> -->
+                    <!-- <img id="graph_image"  src=""/> -->
+                    <canvas id="canvas{{ forloop.counter }}"></canvas>
+                </div>
+                <div style="position: absolute; right: 10px; padding-bottom: 25px"><span>SIGNATURE</span></div>
+            </div>
+        </div>
+<!-- <br>
+<br>
+<br> -->
 
 {% endfor %}
+
+        <script>
+
+              $(function () {
+              {% for data in heavy %}
+
+                chartData = {
+                    labels: {{ data.chart_data.0|safe }},
+                    autoSkip: false,
+                    datasets: [{
+                        type: 'line',
+                        label: 'Highest',
+                        borderColor: '#2574f5',
+                        borderWidth: 2,
+                        fill: false,
+                        data: {{ data.chart_data.1|safe }}
+                    },{
+                        type: 'line',
+                        label: 'Lowest',
+                        borderColor: "#055805",
+                        borderWidth: 2,
+                        fill: false,
+                        data: {{ data.chart_data.2|safe }}
+                    },{
+                        type: 'line',
+                        label: 'Average',
+                        borderColor: "#eccd5b",
+                        borderWidth: 2,
+                        fill: false,
+                        data: {{ data.chart_data.3|safe }}
+                    },{
+                        type: 'bar',
+                        label: 'Student Score',
+                        backgroundColor: "#a5d6a5",
+                        data: {{ data.chart_data.4|safe }},
+                        borderColor: 'white',
+                        borderWidth: 2
+                    }]
+            
+                };
+
+                    ctx = document.getElementById('canvas{{ forloop.counter }}').getContext('2d');
+                    myMixedChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: chartData,
+                        options: {
+                            animation: false,
+                            responsive: true,
+                            maintainAspectRatio : false,
+                            title: {
+                                display: true,
+                                text: 'Subject Performance Summary'
+                            },
+                            tooltips: {
+                                enabled: false
+                            },
+                            scales: {
+                                xAxes: [{
+                                    ticks:{
+                                        autoSkip:false,
+                                        fontSize: window.screen.width >= 320 && window.screen.width < 567 ? 5 : 15
+                                    }
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        suggestedMin: 0,
+                                        suggestedMax: 100,
+            
+                                    }
+                                }]
+                            },
+                            legend: {
+                                labels: {
+                                    // This more specific font property overrides the global property
+                                    fontColor: 'black'
+                                }
+                            }
+                        }
+                    });
+               {% endfor %} 
+            });
+        
+        </script>
+
 
 </body></html>

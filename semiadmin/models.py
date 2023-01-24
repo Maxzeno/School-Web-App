@@ -274,14 +274,14 @@ class Mark(models.Model):
 		ca40 += self.mid_test10 if self.mid_test10 else 0
 		ca40 += self.project10 if self.project10 else 0
 		ca40 += self.assignment10 if self.assignment10 else 0
-		return ca40, self.exam60
+		return [ca40, self.exam60 if self.exam60 != None else '']
 
 	def ca30_exam70(self):
 		total = 0
 		total += self.resumption_test10 if self.resumption_test10 else 0
 		total += self.mid_test10 if self.mid_test10 else 0
 		ca30 += self.project10 if self.project10 else 0
-		return ca30, self.exam70
+		return [ca30, self.exam70 if self.exam70 != None else '']
 
 	def total_mark(self):
 		total = 0
