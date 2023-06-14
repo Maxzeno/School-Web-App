@@ -29,9 +29,9 @@ DEBUG = bool(int(config('DEBUG', 0)))
 # This makes the app to use local db eg sqlite instead of production postgresql created by me
 
 # Upload local create be me
-_TRY_LOCAL_DB = bool(int(config('_TRY_LOCAL_DB', 0)))
-_TRY_LOCAL_STORAGE = bool(int(config('_TRY_LOCAL_STORAGE', 0)))
-_TRY_LOCAL_EMAIL = bool(int(config('_TRY_LOCAL_EMAIL', 0)))
+TRY_LOCAL_DB = bool(int(config('TRY_LOCAL_DB', 0)))
+TRY_LOCAL_STORAGE = bool(int(config('TRY_LOCAL_STORAGE', 0)))
+TRY_LOCAL_EMAIL = bool(int(config('TRY_LOCAL_EMAIL', 0)))
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cdssenugu.onrender.com', 'cdsse.onrender.com']
 
@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'teacher',
 ]
 
-if not _TRY_LOCAL_STORAGE:
+if not TRY_LOCAL_STORAGE:
     INSTALLED_APPS.append('cloudinary')
     INSTALLED_APPS.append('cloudinary_storage')
 
@@ -107,7 +107,7 @@ WSGI_APPLICATION = 'cdsse.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if _TRY_LOCAL_DB:
+if TRY_LOCAL_DB:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -183,7 +183,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ##### DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
-if not _TRY_LOCAL_STORAGE:
+if not TRY_LOCAL_STORAGE:
 
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
@@ -198,7 +198,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 ###DEVELOPMENT
-if _TRY_LOCAL_EMAIL:
+if TRY_LOCAL_EMAIL:
     EMAIL_HOST = 'localhost'
     EMAIL_PORT = '1025'
 
