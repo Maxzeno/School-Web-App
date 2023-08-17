@@ -10,7 +10,6 @@ from student.models import (
 	)
 
 # Create your views here.
-# request.META.get('HTTP_REFERER')
 
 class Index(View):
 	def get(self, request):
@@ -32,6 +31,7 @@ class Admissions(View):
 		return render(request, 'main/admissions.html', {})
 
 	def post(self, request):
+		# doesn't save the data
 		data = dict(request.POST)
 		data.pop('csrfmiddlewaretoken', None)
 		data = {k: v[0] for k, v in data.items()}

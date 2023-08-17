@@ -34,20 +34,22 @@ class PortalLogin(View):
 				# if user.is_active and not user.confirmed_email:
 				# 	return redirect(reverse("registration:confirm-token", kwargs={"user_id": user.id}))
 
-				## Student not implemented so no need.
-				# if user.is_active and user.is_student:
-				# 	return redirect(next_url or '/portal/student/dashboard')
-
-				if user.is_active and user.is_teacher and hasattr(user, 'teacher'):
-					login(request, user)
-					return redirect(next_url or '/portal/teacher/dashboard')
-
-				elif user.is_active and user.is_semiadmin and hasattr(user, 'semiadmin'):
+				if user.is_active and user.is_semiadmin and hasattr(user, 'semiadmin'):
 					login(request, user)
 					return redirect(next_url or '/portal/admin/dashboard')
 
+				## Student not implemented so no need.
+				# elif user.is_active and user.is_student:
+				# 	return redirect(next_url or '/portal/student/dashboard')
+
+				## Teacher not completely implemented so no need.
+				# elif user.is_active and user.is_teacher and hasattr(user, 'teacher'):
+				# 	login(request, user)
+				# 	return redirect(next_url or '/portal/teacher/dashboard')
+
+
 				elif user.is_active:
-					invalid_login_msg = 'User not teacher or admin'
+					invalid_login_msg = 'User not portal admin'
 
 				else:
 					invalid_login_msg = 'User Deactivated'
