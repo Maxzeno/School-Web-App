@@ -1,7 +1,7 @@
 *Command Day Secondary School Website*
 
-Home http://cdssenugu.onrender.com/
-Login to admin http://cdssenugu.onrender.com/portal/login/
+Home https://cdsse.vercel.app/
+Login to admin https://cdsse.vercel.app/portal/login/
 
 email=portal@gmail.com
 password=password1
